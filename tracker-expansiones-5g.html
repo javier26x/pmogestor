@@ -38,7 +38,7 @@
 .FI{background:var(--c);border:1px solid var(--bd);color:var(--t);padding:6px 8px;border-radius:6px;font-family:inherit;font-size:11px;min-width:125px;outline:none}
 .FR{background:none;border:1px solid var(--bd);color:var(--td);padding:6px 10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:11px}.FR:hover{border-color:var(--r);color:var(--r)}
 /* Multi-select */
-.ms-wrap{position:relative}.ms-btn{background:var(--c);border:1px solid var(--bd);color:var(--t);padding:6px 8px;border-radius:6px;font-size:11px;min-width:120px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}.ms-btn.open{border-color:var(--r)}.ms-btn.active{background:#FFF3E0;border-color:#E65100;color:#E65100;font-weight:600}.ms-btn .ms-cnt{background:#E65100;color:#fff;border-radius:10px;padding:0 6px;font-size:9px;font-weight:700;margin-left:auto}.ms-btn.active::after{content:'\u25be';margin-left:4px;font-size:10px}
+.ms-wrap{position:relative}.ms-btn{background:var(--c);border:1px solid var(--bd);color:var(--t);padding:6px 8px;border-radius:6px;font-size:11px;min-width:120px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}.ms-btn.open{border-color:var(--r)}.ms-btn.active{background:#FFF3E0;border-color:#E65100;color:#E65100;font-weight:600}.ms-btn .ms-cnt{background:#E65100;color:#fff;border-radius:10px;padding:0 6px;font-size:9px;font-weight:700;margin-left:auto}.ms-btn.active::after{content:'\25be';margin-left:4px;font-size:10px}
 .ms-dd{display:none;position:absolute;top:100%;left:0;min-width:200px;max-height:280px;overflow-y:auto;background:var(--c);border:1px solid var(--bd);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:50;margin-top:2px;padding:4px}.ms-dd.show{display:block}
 .ms-opt{display:flex;align-items:center;gap:6px;padding:5px 8px;font-size:11px;cursor:pointer;border-radius:4px}.ms-opt:hover{background:var(--h)}.ms-opt.sel{background:#E3F2FD;color:var(--bl);font-weight:600}.ms-opt.dis{opacity:.38;cursor:not-allowed}.ms-opt.dis:hover{background:transparent}.ms-opt .cnt{margin-left:auto;color:var(--tm);font-size:9px;font-family:'JetBrains Mono',monospace}
 .ms-opt .ck{width:14px;height:14px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--b2);border-radius:3px;font-size:9px}.ms-opt.sel .ck{background:var(--bl);border-color:var(--bl);color:#fff}
@@ -1398,10 +1398,11 @@ h+=`<div class="TS" style="border-left:3px solid #C62828;margin-bottom:14px"><di
 }
 
 // Filterable sortable table
-const inconIds=new Set(incon.map(x=>x.r._id));
-window._implAll=implScope.filter(r=>!inconIds.has(r._id));
+const inconMap=new Map(incon.map(x=>[x.r._id,x.issues]));
+implScope.forEach(r=>{r._implIncon=inconMap.get(r._id)||null});
+window._implAll=implScope;
 const tblTitle=window._implFSt.size?'\ud83d\ude80 Implementaci\u00f3n (filtrados)':'\ud83d\ude80 Detalle Implementaci\u00f3n';
-h+=`<div class="TS"><div class="TH"><h3>${tblTitle} \u2014 <span id="implCnt">${implScope.length-incon.length}</span></h3><button class="btn-exp" onclick="expT('implDT')">\ud83d\udce5</button></div>
+h+=`<div class="TS"><div class="TH"><h3>${tblTitle} \u2014 <span id="implCnt">${implScope.length}</span></h3><button class="btn-exp" onclick="expT('implDT')">\ud83d\udce5</button></div>
 <div class="TW" style="max-height:500px"><table class="DT" id="implDT"><thead><tr>
 <th onclick="sortImpl('_id')">ID</th><th onclick="sortImpl('_nombre')">Nombre</th><th onclick="sortImpl('_regionName')">Regi\u00f3n</th><th onclick="sortImpl('_clasif')">Clasif.</th><th onclick="sortImpl('_contratista')">Contrat.</th>
 <th onclick="sortImpl('_estatusImplFinal')">ESTATUS IMPLE</th>
@@ -1435,8 +1436,8 @@ srtA(filtered,sc,sd)
 const cnt=document.getElementById('implCnt');if(cnt)cnt.textContent=filtered.length;
 const tb=document.getElementById('implTB');if(!tb)return;
 tb.innerHTML=filtered.map(r=>{
-const stBdg=r._estatusINT?`<span class="bg_ bg_g">\ud83d\udfe2 ${esc(r._estatusINT)}</span>`:'\u2014';
-return`<tr><td style="font-weight:600">${esc(r._id)}</td><td>${esc(r._nombre)}</td><td>${esc(r._regionName)}</td><td style="font-size:9px">${esc(r._clasif)}</td><td>${esc(r._contratista)}</td>
+const stBdg=r._onAir?`<span class="bg_ bg_g">\ud83d\udfe2 ${esc(r._estatusINT)}</span>`:r._estatusINT?`<span class="bg_ bg_o">${esc(r._estatusINT)}</span>`:'\u2014';
+return`<tr><td style="font-weight:600">${esc(r._id)}${r._implIncon?` <span title="\u26a0 ${esc(r._implIncon.join(' \u00b7 '))}" style="cursor:help">\u26a0\ufe0f</span>`:''}</td><td>${esc(r._nombre)}</td><td>${esc(r._regionName)}</td><td style="font-size:9px">${esc(r._clasif)}</td><td>${esc(r._contratista)}</td>
 <td>${r._estatusImplFinal?bdg('impl',r._estatusImplFinal):'\u2014'}</td>
 <td>${fD(r._fechaPlanImpl)}</td><td>${fD(r._fechaRealImpl)}</td>
 <td>${stBdg}</td></tr>`}).join('')}
