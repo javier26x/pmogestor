@@ -1,0 +1,2499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PMO Tracker — Expansiones 5G Sitios Existentes</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--r:#DA291C;--rd:#B71C1C;--bg:#F5F6FA;--c:#FFF;--h:#F0F1F5;--e:#EEF0F4;--bd:#E0E3EA;--b2:#D0D4DC;--t:#1A1D23;--td:#5A6270;--tm:#8B929E;--g:#1B8C42;--y:#E6A800;--o:#E65100;--bl:#1565C0;--p:#6A1B9A;--cy:#00838F}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:3px}
+.hdr{background:linear-gradient(135deg,var(--r),var(--rd));padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.12)}
+.hdr-l{display:flex;align-items:center;gap:12px}.logo{font-size:11px;font-weight:600;background:rgba(255,255,255,.2);padding:4px 9px;border-radius:4px;letter-spacing:2px;color:#fff}
+.hdr h1{font-size:15px;font-weight:700;color:#fff}.hdr-r{display:flex;align-items:center;gap:8px}
+.badge-h{background:rgba(255,255,255,.15);padding:3px 9px;border-radius:16px;font-size:10px;color:#fff}
+.btn-s{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.4);color:#fff;padding:5px 10px;border-radius:6px;cursor:pointer;font-size:11px;font-family:inherit}.btn-s:hover{background:rgba(255,255,255,.2)}
+/* Upload */
+.uz{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 56px);padding:32px;animation:fi .5s}
+@keyframes fi{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.ub{border:2px dashed var(--b2);border-radius:18px;padding:48px;text-align:center;cursor:pointer;transition:all .3s;background:var(--c);max-width:540px;width:100%}
+.ub:hover,.ub.dg{border-color:var(--r);background:var(--h);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.ub .ic{font-size:46px;display:block;margin-bottom:10px}.ub .tt{font-size:18px;font-weight:700;margin-bottom:4px}.ub .st{color:var(--td);font-size:12px;margin-bottom:16px}
+.ubtn{background:var(--r);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.lo{position:fixed;inset:0;background:rgba(11,14,17,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:200}
+.sp{width:40px;height:40px;border:3px solid var(--bd);border-top-color:var(--r);border-radius:50%;animation:spn .7s linear infinite}
+@keyframes spn{to{transform:rotate(360deg)}}.lo-t{margin-top:12px;color:var(--td);font-size:12px}.hidden{display:none!important}
+/* Main */
+.D{display:none;padding:16px 20px;max-width:1640px;margin:0 auto;animation:fi .4s}
+/* Strip */
+.SS{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px}
+.SC{background:var(--c);border:1px solid var(--bd);border-radius:9px;padding:11px 13px;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.SC .ab{position:absolute;top:0;left:0;right:0;height:3px}.SC .lb{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--tm);margin-bottom:2px}
+.SC .vl{font-family:'JetBrains Mono',monospace;font-size:23px;font-weight:700}.SC .su{font-size:10px;color:var(--td);margin-top:1px}
+/* Filters */
+.FB{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;align-items:flex-end}
+.FG{display:flex;flex-direction:column;gap:2px}.FG label{font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--tm)}
+.FI{background:var(--c);border:1px solid var(--bd);color:var(--t);padding:6px 8px;border-radius:6px;font-family:inherit;font-size:11px;min-width:125px;outline:none}
+.FR{background:none;border:1px solid var(--bd);color:var(--td);padding:6px 10px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:11px}.FR:hover{border-color:var(--r);color:var(--r)}
+/* Multi-select */
+.ms-wrap{position:relative}.ms-btn{background:var(--c);border:1px solid var(--bd);color:var(--t);padding:6px 8px;border-radius:6px;font-size:11px;min-width:120px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:6px}.ms-btn.open{border-color:var(--r)}.ms-btn.active{background:#FFF3E0;border-color:#E65100;color:#E65100;font-weight:600}.ms-btn .ms-cnt{background:#E65100;color:#fff;border-radius:10px;padding:0 6px;font-size:9px;font-weight:700;margin-left:auto}.ms-btn.active::after{content:'\u25be';margin-left:4px;font-size:10px}
+.ms-dd{display:none;position:absolute;top:100%;left:0;min-width:200px;max-height:280px;overflow-y:auto;background:var(--c);border:1px solid var(--bd);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:50;margin-top:2px;padding:4px}.ms-dd.show{display:block}
+.ms-opt{display:flex;align-items:center;gap:6px;padding:5px 8px;font-size:11px;cursor:pointer;border-radius:4px}.ms-opt:hover{background:var(--h)}.ms-opt.sel{background:#E3F2FD;color:var(--bl);font-weight:600}.ms-opt.dis{opacity:.38;cursor:not-allowed}.ms-opt.dis:hover{background:transparent}.ms-opt .cnt{margin-left:auto;color:var(--tm);font-size:9px;font-family:'JetBrains Mono',monospace}
+.ms-opt .ck{width:14px;height:14px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--b2);border-radius:3px;font-size:9px}.ms-opt.sel .ck{background:var(--bl);border-color:var(--bl);color:#fff}
+.ms-search{width:calc(100% - 8px);margin:2px 4px 4px;padding:4px 6px;border:1px solid var(--bd);border-radius:4px;font-size:11px;box-sizing:border-box}
+.ms-clear{font-size:10px;color:#C62828;padding:5px 8px;cursor:pointer;border-radius:4px;text-align:center;font-weight:600}.ms-clear:hover{background:#FFEBEE}
+.ms-hint{font-size:9px;color:var(--tm);padding:4px 8px;font-style:italic;border-bottom:1px solid var(--h);margin-bottom:2px}
+/* Tabs */
+.TB{display:flex;gap:2px;margin-bottom:12px;overflow-x:auto;border-bottom:2px solid var(--bd)}.T{background:none;border:none;color:var(--td);padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}.T:hover{color:var(--t)}.T.a{color:var(--r);border-bottom-color:var(--r)}.TC{animation:fi .3s}
+/* Cards */
+.DG{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:14px}
+.DC{background:var(--c);border:1px solid var(--bd);border-radius:9px;padding:12px 14px;border-left:4px solid var(--g);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.DC .dn{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--tm);margin-bottom:6px}
+.DC .dr{display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:12px}
+.DC .db{height:5px;background:var(--e);border-radius:3px;overflow:hidden}.DC .dbs{height:100%}
+/* Tables */
+.TS{background:var(--c);border:1px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.TH{padding:14px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}.TH h3{font-size:13px;font-weight:700}
+.TW{overflow:auto}.DT{width:100%;border-collapse:collapse;font-size:11px;table-layout:auto}.DT thead{position:sticky;top:0;z-index:5}
+.DT th{background:var(--e);padding:8px 10px;text-align:left;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--tm);white-space:nowrap;border-bottom:1px solid var(--bd);cursor:pointer;vertical-align:middle}
+.DT th:hover{color:var(--t)}.DT td{padding:7px 10px;border-bottom:1px solid var(--e);font-size:11px;white-space:nowrap;vertical-align:middle}.DT tbody tr:hover{background:var(--h)}
+.DT th.srt-a,.DT th.srt-d{color:var(--bl);background:color-mix(in srgb,var(--bl) 10%,var(--e))}.DT th.srt-a::after{content:" \25B2";font-size:7px}.DT th.srt-d::after{content:" \25BC";font-size:7px}
+.DT.compact{font-size:10px}.DT.compact th{padding:6px 6px;font-size:8px;letter-spacing:.3px}.DT.compact td{padding:5px 6px;font-size:10px}.DT.compact .bg_{padding:1px 5px;font-size:8px}.DT.compact td.wrap{white-space:normal;line-height:1.25;max-width:140px;overflow-wrap:break-word}
+/* Badges */
+.bg_{display:inline-block;padding:2px 7px;border-radius:10px;font-size:9px;font-weight:600;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.bg_g{background:#E8F5E9;color:#1B8C42}.bg_y{background:#FFF8E1;color:#E6A800}.bg_r{background:#FFEBEE;color:#C62828}.bg_b{background:#E3F2FD;color:#1565C0}.bg_p{background:#F3E5F5;color:#6A1B9A}.bg_x{background:var(--e);color:var(--tm)}.bg_o{background:#FFF3E0;color:#E65100}.bg_bl{background:#E3F2FD;color:#0D47A1}
+.pbar{height:6px;background:var(--e);border-radius:3px;overflow:hidden}.pbar-f{height:100%;border-radius:3px}
+/* Track bars */
+/* Disc cards */
+.disc-card{background:var(--c);border:1px solid var(--bd);border-radius:9px;padding:14px;border-top:3px solid var(--bl)}
+.disc-card h4{font-size:11px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.disc-row{display:flex;justify-content:space-between;margin-bottom:3px;font-size:11px}
+.disc-row .lbl{color:var(--tm);font-size:10px}.disc-row .val{font-family:'JetBrains Mono',monospace;font-weight:600}
+/* Time badge */
+.t-badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.t-g{background:#E8F5E9;color:#1B8C42}.t-y{background:#FFF8E1;color:#E6A800}.t-r{background:#FFEBEE;color:#C62828}.t-x{background:var(--e);color:var(--tm)}
+/* Help tooltip */
+.hlp{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:var(--bd);color:var(--tm);font-size:9px;font-weight:700;cursor:pointer;margin-left:4px;position:relative;vertical-align:middle;border:1px solid var(--b2);transition:all .2s;line-height:1;flex-shrink:0}.hlp:hover{background:var(--bl);color:#fff;border-color:var(--bl)}
+.hlp-pop{display:none;position:fixed;z-index:999;background:#1A1D23;color:#E0E3EA;border-radius:10px;padding:14px 16px;font-size:11px;line-height:1.6;max-width:420px;min-width:260px;box-shadow:0 12px 40px rgba(0,0,0,.35);border:1px solid #333}
+.hlp-pop.show{display:block;animation:hfi .15s ease-out}@keyframes hfi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.hlp-pop .hp-title{font-size:12px;font-weight:700;color:#fff;margin-bottom:6px}.hlp-pop .hp-close{position:absolute;top:8px;right:10px;cursor:pointer;color:#8B929E;font-size:14px;line-height:1}.hlp-pop .hp-close:hover{color:#fff}
+.hp-col{color:#64B5F6;font-family:'JetBrains Mono',monospace;font-size:10px;background:rgba(100,181,246,.12);padding:1px 4px;border-radius:3px}
+.hp-formula{background:#263238;padding:6px 10px;border-radius:6px;margin:6px 0;font-family:'JetBrains Mono',monospace;font-size:10px;color:#80CBC4;white-space:pre-wrap;line-height:1.5}
+.hp-note{font-size:10px;color:#90A4AE;margin-top:4px;border-top:1px solid #333;padding-top:4px}
+.btn-exp{background:var(--c);border:1px solid var(--bd);color:var(--td);padding:5px 10px;border-radius:6px;cursor:pointer;font-size:10px;font-family:inherit}.btn-exp:hover{border-color:var(--r);color:var(--r)}
+/* WAHA Modal */
+.wm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;display:flex;align-items:center;justify-content:center;animation:fi .2s}
+.wm{background:var(--c);border-radius:14px;width:95%;max-width:680px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.wm-hdr{background:linear-gradient(135deg,#25D366,#128C7E);padding:16px 20px;border-radius:14px 14px 0 0;display:flex;align-items:center;justify-content:space-between}
+.wm-hdr h2{color:#fff;font-size:15px;font-weight:700}.wm-close{color:#fff;font-size:20px;cursor:pointer;background:none;border:none;opacity:.7}.wm-close:hover{opacity:1}
+.wm-body{padding:20px}.wm-section{margin-bottom:16px}.wm-section h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--tm);margin-bottom:8px}
+.wm-input{flex:1;background:var(--bg);border:1px solid var(--bd);color:var(--t);padding:8px 10px;border-radius:6px;font-family:inherit;font-size:12px;outline:none}.wm-input:focus{border-color:var(--bl)}
+.wm-preview{background:#0B141A;border-radius:10px;padding:14px 16px;font-size:12px;line-height:1.7;color:#E9EDEF;white-space:pre-wrap;word-break:break-word;max-height:300px;overflow-y:auto;border:1px solid #1F2C33}
+.wm-preview .wm-bubble{background:#005C4B;border-radius:0 8px 8px 8px;padding:8px 12px;display:inline-block;max-width:100%}
+.wm-actions{display:flex;gap:8px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--bd)}
+.wm-btn{padding:8px 18px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;border:none;transition:all .2s}
+.wm-btn-send{background:#25D366;color:#fff}.wm-btn-send:hover{background:#1DA851}.wm-btn-send:disabled{opacity:.5;cursor:not-allowed}
+.wm-btn-copy{background:var(--bg);color:var(--t);border:1px solid var(--bd)}.wm-btn-copy:hover{border-color:var(--bl)}
+.wm-btn-cancel{background:none;color:var(--td);border:1px solid var(--bd)}.wm-btn-cancel:hover{color:var(--r)}
+.wm-status{font-size:11px;padding:6px 10px;border-radius:6px;margin-top:8px;display:none}
+.wm-status.ok{display:block;background:#E8F5E9;color:#1B8C42}.wm-status.err{display:block;background:#FFEBEE;color:#C62828}.wm-status.sending{display:block;background:#E3F2FD;color:#1565C0}
+.wm-chips{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.wm-chip{background:var(--bg);border:1px solid var(--bd);padding:4px 10px;border-radius:16px;font-size:10px;cursor:pointer;transition:all .2s}.wm-chip:hover,.wm-chip.sel{background:var(--bl);color:#fff;border-color:var(--bl)}
+@media(max-width:768px){.hdr h1{font-size:12px}.D{padding:10px}.SS{grid-template-columns:repeat(3,1fr)}.DG{grid-template-columns:1fr 1fr}.hlp-pop{max-width:90vw}}
+</style>
+</head>
+<body>
+<div class="hdr"><div class="hdr-l"><span class="logo">CLARO</span><h1>PMO Tracker — Expansiones 5G Sitios Existentes</h1></div>
+<div class="hdr-r"><span id="fInfo" class="badge-h">Sin archivo</span><span id="syncBadge" class="badge-h" style="display:none"></span><button class="btn-s" onclick="openCfg()" title="Configurar integraciones (sync, WhatsApp, PocketBase)">⚙️</button><button class="btn-s" id="btnWaha" style="display:none" onclick="openWaha()">📲 WhatsApp</button><button class="btn-s" id="btnN" style="display:none" onclick="location.reload()">📂 Nuevo</button></div></div>
+<div class="uz" id="uz"><div class="ub" id="ub"><span class="ic">📡</span><div class="tt">Carga tu Tracker Expansiones 5G</div><div class="st">Arrastra el Excel o haz clic para seleccionar</div>
+<button class="ubtn" onclick="document.getElementById('fi').click()">Seleccionar archivo</button><input type="file" id="fi" accept=".xlsx,.xls" style="display:none"></div></div>
+<div class="lo hidden" id="lo"><div class="sp"></div><div class="lo-t">Procesando…</div></div>
+<div class="D" id="D">
+<div class="SS" id="strip"></div>
+<div class="FB">
+  <div class="FG"><label>Región</label><div class="ms-wrap" id="fReg"></div></div>
+  <div class="FG"><label>Contratista</label><div class="ms-wrap" id="fCont"></div></div>
+  <div class="FG"><label>Tipo Proyecto</label><div class="ms-wrap" id="fTipo"></div></div>
+  <div class="FG"><label>Plan de Ejecución</label><div class="ms-wrap" id="fPlan"></div></div>
+  <div class="FG"><label>Estado Global</label><div class="ms-wrap" id="fEstado"></div></div>
+  <div class="FG"><label>Clasificación</label><div class="ms-wrap" id="fClasif"></div></div>
+  <div class="FG"><label>N° Prioridad</label><div class="ms-wrap" id="fPrio"></div></div>
+  <div class="FG"><label>Propietario</label><div class="ms-wrap" id="fProp"></div></div>
+  <div class="FG"><label>Buscar</label><input type="text" class="FI" id="fSrch" placeholder="Buscar sitio, contratista, región, comentario…"></div>
+  <button class="FR" onclick="resetF()">✕ Limpiar</button>
+</div>
+<div class="TB">
+  <button class="T a" data-tab="dash">📊 Dashboard</button>
+  <button class="T" data-tab="tssr">📋 TSSR</button>
+  <button class="T" data-tab="fc">🏗 FC</button>
+  <button class="T" data-tab="rfi">📄 RFI</button>
+  <button class="T" data-tab="impl">🚀 Implementación</button>
+  <button class="T" data-tab="asbuilt">📐 Asbuilt</button>
+  <button class="T" data-tab="prio">⭐ Prioridad</button>
+  <button class="T" data-tab="tabla">📄 Tabla</button>
+</div>
+<div class="TC" id="t-dash"><div id="dashC"></div></div>
+<div class="TC hidden" id="t-tssr"><div id="tssrC"></div></div>
+<div class="TC hidden" id="t-fc"><div id="fcC"></div></div>
+<div class="TC hidden" id="t-rfi"><div id="rfiC"></div></div>
+<div class="TC hidden" id="t-impl"><div id="implC"></div></div>
+<div class="TC hidden" id="t-asbuilt"><div id="asbC"></div></div>
+<div class="TC hidden" id="t-prio"><div id="prioC"></div></div>
+<div class="TC hidden" id="t-tabla"><div id="tablaC"></div></div>
+</div>
+<div id="hlpPop" class="hlp-pop"></div>
+
+<script>
+let DATA=[],FLT=[];const TODAY=new Date();TODAY.setHours(0,0,0,0);
+const RM={'1':'Tarapacá','2':'Antofagasta','3':'Atacama','4':'Coquimbo','5':'Valparaíso','6':"O'Higgins",'7':'Maule','8':'Biobío','9':'Araucanía','10':'Los Lagos','11':'Aysén','12':'Magallanes','13':'Metropolitana','14':'Los Ríos','15':'Arica y Parinacota','16':'Ñuble','23':'Ñuble','25':'Arica','28':'Los Ríos','33':'Araucanía','43':'Los Lagos'};
+function pD(v){if(!v)return null;if(v instanceof Date&&!isNaN(v))return v.getFullYear()<2000?null:v;const s=String(v);if(!s||s==='00:00:00'||s==='0'||s==='-'||s==='NA'||s==='NaN'||s==='None'||s==='PEND')return null;const d=new Date(s);return isNaN(d)||d.getFullYear()<2000?null:d}
+function fD(d){return d?d.toISOString().split('T')[0]:'—'}
+function dD(a,b){if(!a||!b)return null;let count=0;const d=new Date(a);if(isNaN(d))return null;let max=3000;while(d<b&&max-->0){const dow=d.getDay();if(dow!==0&&dow!==6)count++;d.setDate(d.getDate()+1)}return count}
+function esc(v){return v==null?'':String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')}
+function isHW(r){return(r._contratista||'').includes('HUAWEI')}
+function pct(n,t){return t?((n/t)*100).toFixed(1)+'%':'0%'}
+function avg(arr){const f=arr.filter(v=>v!==null);return f.length?Math.round(f.reduce((a,b)=>a+b,0)/f.length):null}
+function mx(arr){const f=arr.filter(v=>v!==null);return f.length?Math.max(...f):null}
+function srtA(arr,col,dir){if(!col)return;arr.sort((a,b)=>{let va=a[col],vb=b[col];if(va==null)va='';if(vb==null)vb='';if(va instanceof Date&&vb instanceof Date)return(va-vb)*dir;if(typeof va==='number'&&typeof vb==='number')return(va-vb)*dir;if(typeof va==='boolean')return((va?1:0)-(vb?1:0))*dir;return String(va).localeCompare(String(vb),'es')*dir})}
+
+// ═══ HELP SYSTEM ═══
+const HELP={
+s_total:{t:'Total Sitios',d:'Cuenta de filas con <span class="hp-col">ID_Sitio</span> ≠ vacío en hoja BASE.'},
+s_fc:{t:'FC Aprobada',d:'<span class="hp-col">ESTADO FC</span> = "APROBADO".<br>Factibilidad Constructiva aprobada por operador de torre.'},
+s_rfi:{t:'RFI Entregado',d:'<span class="hp-col">RFI ACTUAL</span> = "RFI".<br>Ready for Installation entregado al área de implementación.'},
+s_impl:{t:'Implementación',d:'FC Aprobada + TSSR Aprobado + RFI Entregado = Listo para implementación.<br>Sub-detalle: <span class="hp-col">ESTATUS INT</span> = "ON AIR".'},
+pipe:{t:'Pipeline',d:'Clasifica cada sitio por su etapa más avanzada:',f:`On Air → ESTATUS INT = "ON AIR"
+Impl Solicitada → ESTATUS IMPLE. ≠ vacío
+RFI Entregado → RFI ACTUAL = "RFI"
+Disc. Aprobadas → Fecha Apro RF + ECE + OOCC ≠ vacía
+TSSR Aprobado → ESTATUS TSSR = "APROBADO"
+En Rev. Disc. → tiene Fecha solicitud Revisión RF/ECE/OOCC
+TSSR Apro Interno → EstatusIMPL = "APROBADO"
+Priorizado → Prioridad TSSR ≠ "-" y ≠ vacío
+Sin Priorizar → todo lo demás`},
+tssr_ei:{t:'IMPL — Revisión PMO',d:'Aprobación interna del diseño TSSR por el equipo PMO.<br>Enviados: sitios con <span class="hp-col">Fecha Entrega Prioridad</span> (o <span class="hp-col">Fecha Emisión TSSR</span>) ≠ vacía.<br>Aprobados: <span class="hp-col">EstatusIMPL</span> = "APROBADO".<br>Pendientes: tiene Fecha Entrega pero sin EstatusIMPL aprobado.'},
+tssr_env:{t:'Envío Especialidades',d:'<span class="hp-col">Fecha Envío a Especialidades</span>. Fecha en que se envía TSSR a RF, ECE, OOCC.'},
+disc_rf:{t:'Disciplina RF',d:'Responsable: fila 4 de <span class="hp-col">Fecha Apro RF</span>.<br>Solicitud: <span class="hp-col">Fecha solicitud Revisión RF</span><br>Aprobado: <span class="hp-col">Fecha Apro RF</span> ≠ vacía<br>Estatus: <span class="hp-col">EstatusRF</span>'},
+disc_ece:{t:'Disciplina ECE',d:'Responsable: fila 4 de <span class="hp-col">Fecha Apro ECE</span>.<br>Solicitud: <span class="hp-col">Fecha solicitud Revisión ECE</span><br>Aprobado: <span class="hp-col">Fecha Apro ECE</span> ≠ vacía<br>Estatus: <span class="hp-col">Estatus ECE</span>'},
+disc_oocc:{t:'Disciplina OOCC',d:'Responsable: fila 4 de <span class="hp-col">Fecha Apro OOCC</span>.<br>Solicitud: <span class="hp-col">Fecha Solicitud Revisión OOCC</span><br>Aprobado: <span class="hp-col">Fecha Apro OOCC</span> ≠ vacía<br>Estatus: <span class="hp-col">Estatus OOCC</span>'},
+tssr_final:{t:'ESTATUS TSSR',d:'<span class="hp-col">ESTATUS TSSR</span>. Valores: "APROBADO", "APROBADO CON OBS", "EN REVISIÓN", "REQUIERE VISITA", "VISITADO", "RECHAZADO", "NA" o vacío. Resultado del proceso TSSR completo (4 disciplinas).'},
+fc:{t:'Factibilidad Constructiva',d:'<span class="hp-col">ESTADO FC</span>:',f:`APROBADO → aprobado por operador
+LEVANTAMIENTO ESTRUCTURAL → en proceso de LVES
+REVISIÓN DEL OPERADOR → esperando respuesta
+PENDIENTE POR EQUIPO IMPL. → bloqueado`},
+ece:{t:'ECE (Energía)',d:'<span class="hp-col">ECE</span>. Evaluación Capacidad Eléctrica.',f:`OK → sin requerimiento
+Rectificador adicional → necesita rectificador
+PCC Antigua → PCC no compatible
+Cambio PCC → requiere cambio PCC`},
+rfi_tab:{t:'RFI',d:'<span class="hp-col">RFI ACTUAL</span>: "RFI" = entregado, "PEND" = pendiente.<br><span class="hp-col">FECHA RFI</span>: fecha de entrega.<br><span class="hp-col">DETALLE RFI</span>: observaciones.<br><br>RFI se entrega cuando FC + TSSR + Disciplinas están OK.'},
+impl_tab:{t:'Implementación',d:'Listo para implementación = FC Aprobada + TSSR Aprobado + RFI Entregado.<br><span class="hp-col">ESTATUS INT</span> → "ON AIR"'},
+t_prio:{t:'Días Prioridad→Apro IMPL',d:'Días entre <span class="hp-col">Fecha Entrega Prioridad</span> (o <span class="hp-col">Fecha Emisión TSSR</span>) y <span class="hp-col">Fecha Apro IMPL</span>.',f:'Fecha Apro IMPL - Fecha Entrega Prioridad',n:'Mide cuánto tarda la revisión interna PMO'},
+t_env:{t:'Días Apro IMPL→Envío',d:'Días entre <span class="hp-col">Fecha Apro IMPL</span> y <span class="hp-col">Fecha Envío a Especialidades</span>.',f:'Fecha Envío a Especialidades - Fecha Apro IMPL'},
+t_rf:{t:'Días RF',d:'Días entre <span class="hp-col">Fecha solicitud Revisión RF</span> y <span class="hp-col">Fecha Apro RF</span>. Si pendiente: días desde solicitud hasta hoy.'},
+t_ece_d:{t:'Días ECE Rev',d:'Días entre <span class="hp-col">Fecha solicitud Revisión ECE</span> y <span class="hp-col">Fecha Apro ECE</span>.'},
+t_oocc:{t:'Días OOCC',d:'Días entre <span class="hp-col">Fecha Solicitud Revisión OOCC</span> y <span class="hp-col">Fecha Apro OOCC</span>.'}};
+function hlp(k){return`<span class="hlp" onclick="showHlp(event,'${k}')">?</span>`}
+function showHlp(e,k){e.stopPropagation();const h=HELP[k];if(!h)return;const pop=document.getElementById('hlpPop');
+let html=`<span class="hp-close" onclick="hideHlp()">✕</span><div class="hp-title">${h.t}</div><div>${h.d||''}</div>`;
+if(h.f)html+=`<div class="hp-formula">${h.f}</div>`;if(h.n)html+=`<div class="hp-note">${h.n}</div>`;
+pop.innerHTML=html;const r=e.target.getBoundingClientRect();let top=r.bottom+6,left=r.left;
+if(left+400>window.innerWidth)left=window.innerWidth-420;if(left<8)left=8;if(top+300>window.innerHeight)top=r.top-310;
+pop.style.top=top+'px';pop.style.left=left+'px';pop.classList.add('show')}
+function hideHlp(){document.getElementById('hlpPop').classList.remove('show')}
+document.addEventListener('click',e=>{if(!e.target.closest('.hlp')&&!e.target.closest('.hlp-pop'))hideHlp()});
+
+// Upload
+const ub=document.getElementById('ub'),fii=document.getElementById('fi');
+ub.addEventListener('dragover',e=>{e.preventDefault();ub.classList.add('dg')});ub.addEventListener('dragleave',()=>ub.classList.remove('dg'));
+ub.addEventListener('drop',e=>{e.preventDefault();ub.classList.remove('dg');hFile(e.dataTransfer.files[0])});
+fii.addEventListener('change',e=>{if(e.target.files[0])hFile(e.target.files[0])});
+
+function hFile(f){if(!f)return;document.getElementById('lo').classList.remove('hidden');
+const rd=new FileReader();rd.onload=function(e){try{const wb=XLSX.read(e.target.result,{type:'array',cellDates:true});
+const sn=wb.SheetNames.find(n=>n.trim().toUpperCase()==='BASE')||wb.SheetNames[0];
+parseBase(XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:null}),f.name,sn);
+}catch(err){console.error(err);alert('Error: '+err.message);document.getElementById('lo').classList.add('hidden')}};rd.readAsArrayBuffer(f)}
+
+function parseBase(rows,fname,sn){
+let hi=-1;for(let i=0;i<20;i++){if(rows[i]&&rows[i].some(c=>String(c).trim()==='ID_Sitio')){hi=i;break}}
+if(hi===-1){alert('No se encontraron encabezados');document.getElementById('lo').classList.add('hidden');return}
+const hdr=rows[hi].map(h=>h?String(h).trim():'');
+// Responsables from row above header
+const r4=rows[hi-1]||[];window.RESP={};
+['Fecha Apro RF','Fecha Apro ECE','Fecha Apro OOCC'].forEach(c=>{const i=hdr.indexOf(c);if(i>=0&&r4[i])RESP[c]=String(r4[i]).trim()});
+
+DATA=[];
+for(let i=hi+1;i<rows.length;i++){
+  const row=rows[i];if(!row)continue;
+  const o={};hdr.forEach((h,j)=>{if(h)o[h]=row[j]!=null?row[j]:null});
+  if(!o['ID_Sitio'])continue;
+  const g=k=>String(o[k]||'').trim();const gU=k=>g(k).toUpperCase();const gD=k=>pD(o[k]);
+  // Basic
+  o._id=g('ID_Sitio');o._nombre=g('Nombre');o._region=g('REGION');o._regionName=RM[o._region]||('R'+o._region);
+  o._clasif=g('CLASIFICACIÓN').replace(/^\n/,'');o._tipoProyecto=g('TIPO DE PROYECTO')||'(vacío)';o._propietario=g('Propietario Estructura');o._contratista=g('CONTRATISTA')||'(vacío)';
+  o._comentario2=g('COMENTARIO2')||g('COMENTARIO');o._comuna=g('COMUNA');
+  o._plan=gU('PLAN');
+
+  // ══ TSSR ══
+  const prioRaw=g('N°Prio.')||g('N\u00b0Prio.')||g('Prioridad TSSR')||g('N°Prio')||'';
+  o._prioTSSR=(prioRaw&&prioRaw!=='-')?prioRaw:'';
+  o._isPrio=!!o._prioTSSR;
+  o._ingTSSR=g('Ing. Asignado TSSR')||(g('Emisor TSSR')!=='-'?g('Emisor TSSR'):'');
+  o._fechaEntPrio=gD('Fecha Entrega Prioridad')||gD('Fecha Emisión TSSR');
+  o._fechaEnvEsp=gD('Fecha Envío a Especialidades');
+  o._estatusIMPL=gU('EstatusIMPL');o._implApro=o._estatusIMPL.startsWith('APROBADO');
+  o._fechaAproIMPL=gD('Fecha Apro IMPL');
+  // Disciplines
+  o._fechaSolRF=gD('Fecha solicitud Revisión RF');o._fechaAproRF=gD('Fecha Apro RF');o._estatusRF=g('EstatusRF');
+  o._fechaSolECE=gD('Fecha solicitud Revisión ECE');o._fechaAproECE=gD('Fecha Apro ECE');o._estatusECE_d=g('Estatus ECE');
+  o._fechaSolOOCC=gD('Fecha Solicitud Revisión OOCC');o._fechaAproOOCC=gD('Fecha Apro OOCC');o._estatusOOCC=g('Estatus OOCC');
+  o._estatusTSSR=g('ESTATUS TSSR');
+  // Disc computed
+  o._rfRech=gU('EstatusRF').includes('RECHAZ');o._eceRech=gU('Estatus ECE').includes('RECHAZ');o._ooccRech=gU('Estatus OOCC').includes('RECHAZ');
+  o._rfOK=(!!o._fechaAproRF||gU('EstatusRF').startsWith('APROBADO'))&&!o._rfRech;
+  o._eceRevOK=(!!o._fechaAproECE||gU('Estatus ECE').startsWith('APROBADO'))&&!o._eceRech;
+  o._ooccOK=(!!o._fechaAproOOCC||gU('Estatus OOCC').startsWith('APROBADO'))&&!o._ooccRech;
+  o._rfPend=!!o._fechaSolRF&&!o._rfOK&&!o._rfRech;o._ecePendD=!!o._fechaSolECE&&!o._eceRevOK&&!o._eceRech;o._ooccPend=!!o._fechaSolOOCC&&!o._ooccOK&&!o._ooccRech;
+  o._anyDiscSent=!!(o._fechaEnvEsp||o._fechaSolRF||o._fechaSolECE||o._fechaSolOOCC);
+  o._allDiscOK=o._implApro&&o._rfOK&&o._eceRevOK&&o._ooccOK;
+  o._anyRech=o._rfRech||o._eceRech||o._ooccRech;
+  o._discOKCount=[o._implApro,o._rfOK,o._eceRevOK,o._ooccOK].filter(Boolean).length;
+  // TSSR: use official ESTATUS TSSR column (consistent across all tabs)
+  // Aprobado = ESTATUS TSSR is APROBADO or APROBADO CON OBS
+  // Rechazado = ESTATUS TSSR RECHAZADO OR any discipline rechazada
+  // Pendiente = the rest (sin estatus, en revisión, requiere visita, visitado)
+  o._tssrAprobado=gU('ESTATUS TSSR').startsWith('APROBADO');
+  o._tssrRechazado=gU('ESTATUS TSSR').includes('RECHAZ')||o._rfRech||o._eceRech||o._ooccRech;
+  o._tssrPend=!o._tssrAprobado&&!o._tssrRechazado;
+  o._tssrEnRev=gU('ESTATUS TSSR').includes('REVISI');
+
+  // Sort helpers (precomputed)
+  o._rfSort=o._rfOK?2:o._rfRech?-1:o._rfPend?1:0;
+  o._eceSort=o._eceRevOK?2:o._eceRech?-1:o._ecePendD?1:0;
+  o._ooccSort=o._ooccOK?2:o._ooccRech?-1:o._ooccPend?1:0;
+  o._tssrSort=o._tssrAprobado?2:o._tssrRechazado?-1:0;
+
+  // ══ FC ══
+  o._fcRaw=g('ESTADO FC');
+  o._fcAprobado=gU('ESTADO FC')==='APROBADO';
+  o._fcLVES=gU('ESTADO FC').includes('LEVANTAMIENTO');
+  o._fcRev=gU('ESTADO FC').includes('REVISIÓN');
+  o._fcPend=gU('ESTADO FC').includes('PENDIENTE');
+  o._fcReqTSSR=gU('ESTADO FC').includes('REQUIERE');
+  o._fcNoFactible=gU('ESTADO FC')==='NO FACTIBLE';
+  o._fcAproRenta=gU('ESTADO FC').includes('APROBACI')&&gU('ESTADO FC').includes('RENTA');
+  o._fcNoAplica=gU('ESTADO FC')==='NO APLICA';
+  o._fcRefuerzo=gU('ESTADO FC').includes('REFUERZO');
+  o._fcSinGestion=!o._fcAprobado&&!o._fcLVES&&!o._fcRev&&!o._fcReqTSSR&&!o._fcNoFactible&&!o._fcAproRenta&&!o._fcNoAplica&&!o._fcRefuerzo;
+  o._fcStatusSort=o._fcAprobado?4:o._fcLVES?3:o._fcRev?2:o._fcReqTSSR?1:0;
+  o._fcStatus=o._fcAprobado?'Aprobado':o._fcLVES?'Lev. Estructural':o._fcRev?'Rev. Operador':o._fcReqTSSR?'Req. TSSR':o._fcNoFactible?'No Factible':o._fcAproRenta?'F. Apro. Renta':o._fcNoAplica?'No Aplica':o._fcRefuerzo?'Refuerzo':'Sin Gestión';
+  o._fechaSolFC=gD('FECHA DE SOLICITUD FC');o._fechaRespFC=gD('FECHA DE RESPUESTA FC');
+
+  // ══ ECE ══
+  o._ece=g('ECE');
+
+  // ══ RFI ══
+  o._rfiActual=gU('RFI ACTUAL');o._rfiOK=o._rfiActual==='RFI';o._rfiPend=o._rfiActual.startsWith('PEND');
+  o._fechaRFI=gD('FECHA RFI');
+
+  // ══ IMPLEMENTACIÓN ══
+  o._estatusImplFinal=g('ESTATUS IMPLE.');
+  o._fechaPlanImpl=gD('FECHA PLAN IMPL');o._fechaRealImpl=gD('FECHA REAL IMP');o._fechaINT=gD('FECHA INT');
+  o._estatusINT=g('ESTATUS INT');
+  o._onAir=gU('ESTATUS INT')==='ON AIR';
+
+  // ══ ASBUILT ══
+  o._asbRecepcion=gD('Recepcion de Asbuilt');
+  o._asbEnvEsp=gD('Envío Asbuilt a Especialidades');
+  o._asbFechaImpl=gD('Fecha Rev. Impl. Asb');o._asbEstatusImpl=gU('Estatus Asb Impl');
+  o._asbFechaRF=gD('Fecha Rev. RF. Asb');o._asbEstatusRF=gU('Estatus Asb RF');
+  o._asbFechaECE=gD('Fecha Rev. ECE Asb');o._asbEstatusECE=gU('Estatus Asb ECE');
+  o._asbFechaOOCC=gD('Fecha Rev. OOCC Asb');o._asbEstatusOOCC=gU('Estatus Asb OOCC');
+  o._asbObsOOCC=g('OBS ASB OOCC');
+  o._asbEstatus=gU('ESTATUS ASBUILT');
+  o._asbImplOK=o._asbEstatusImpl.startsWith('APROBADO');
+  o._asbRFOK=o._asbEstatusRF.startsWith('APROBADO');
+  o._asbECEOK=o._asbEstatusECE.startsWith('APROBADO');
+  o._asbOOCCOK=o._asbEstatusOOCC.startsWith('APROBADO');
+  o._asbImplPend=o._asbEstatusImpl.includes('PENDIENTE');
+  o._asbRFPend=o._asbEstatusRF.includes('PENDIENTE');
+  o._asbECEPend=o._asbEstatusECE.includes('PENDIENTE');
+  o._asbOOCCPend=o._asbEstatusOOCC.includes('PENDIENTE');
+  o._asbImplRech=o._asbEstatusImpl.includes('RECHAZ');
+  o._asbRFRech=o._asbEstatusRF.includes('RECHAZ');
+  o._asbECERech=o._asbEstatusECE.includes('RECHAZ');
+  o._asbOOCCRech=o._asbEstatusOOCC.includes('RECHAZ');
+  o._asbScope=!!(o._asbRecepcion||o._asbEnvEsp);
+  o._asbDiscOK=(o._asbImplOK?1:0)+(o._asbRFOK?1:0)+(o._asbECEOK?1:0)+(o._asbOOCCOK?1:0);
+  o._asbAprobado=o._asbEstatus==='APROBADO'||o._asbDiscOK===4;
+  o._asbEnRevision=o._asbEstatus.includes('REVISION');
+
+  // ══ TIEMPOS ══
+  o._t_prioToApro=dD(o._fechaEntPrio,o._fechaAproIMPL);
+  o._t_aproToEnv=dD(o._fechaAproIMPL,o._fechaEnvEsp);
+  o._t_rfWait=o._rfPend?dD(o._fechaSolRF,TODAY):o._rfOK?dD(o._fechaSolRF,o._fechaAproRF):null;
+  o._t_eceWait=o._ecePendD?dD(o._fechaSolECE,TODAY):o._eceRevOK?dD(o._fechaSolECE,o._fechaAproECE):null;
+  o._t_ooccWait=o._ooccPend?dD(o._fechaSolOOCC,TODAY):o._ooccOK?dD(o._fechaSolOOCC,o._fechaAproOOCC):null;
+  o._t_fcSolResp=dD(o._fechaSolFC,o._fechaRespFC);
+
+  // ══ PIPELINE ══
+  if(o._onAir){o._stage='On Air';o._stageN=9;o._stageColor='#2E7D32'}
+  else if(o._fcAprobado&&o._tssrAprobado&&o._rfiOK){o._stage='Listo Impl';o._stageN=7;o._stageColor='#0D47A1'}
+  else if(o._rfiOK){o._stage='RFI Entregado';o._stageN=6;o._stageColor='#00838F'}
+  else if(o._allDiscOK){o._stage='Disc. Aprobadas';o._stageN=5;o._stageColor='#0D47A1'}
+  else if(o._tssrAprobado){o._stage='TSSR Aprobado';o._stageN=4;o._stageColor='#2E7D32'}
+  else if(o._anyDiscSent){o._stage='En Rev. Disciplinas';o._stageN=3;o._stageColor='#F57F17'}
+  else if(o._implApro){o._stage='TSSR Apro Interno';o._stageN=2;o._stageColor='#6A1B9A'}
+  else if(o._isPrio){o._stage='Priorizado';o._stageN=1;o._stageColor='#E65100'}
+  else{o._stage='Sin Priorizar';o._stageN=0;o._stageColor='#8B929E'}
+
+  // Estado global (para filtro)
+  if(o._onAir)o._estadoGlobal='On Air';
+  else if(o._anyRech||o._tssrRechazado||o._fcNoFactible)o._estadoGlobal='Rechazado / No viable';
+  else if(o._rfiOK)o._estadoGlobal='RFI disponible';
+  else if(o._fcAprobado&&o._tssrAprobado)o._estadoGlobal='Listo para RFI';
+  else if(o._fcAprobado||o._anyDiscSent||o._tssrEnRev)o._estadoGlobal='En revisi\u00f3n';
+  else if(o._fcPend||o._fcReqTSSR||o._fcLVES||o._fcRev)o._estadoGlobal='Bloqueado / Dependencia';
+  else o._estadoGlobal='Sin gesti\u00f3n';
+
+  DATA.push(o);
+}
+document.getElementById('fInfo').textContent=`${fname} — ${sn}: ${DATA.length} sitios`;
+document.getElementById('btnN').style.display='';document.getElementById('btnWaha').style.display='';
+popFilters();applyF();
+document.getElementById('uz').style.display='none';document.getElementById('D').style.display='block';
+document.getElementById('lo').classList.add('hidden');
+syncToVPS(fname);
+setTimeout(()=>syncToPB(fname),500);
+}
+
+// ═══ MULTI-SELECT ═══
+const _ms={};
+function initMS(id,opts,al){al=al||'Todos';_ms[id]={opts,sel:new Set(),al};document.getElementById(id).innerHTML=`<div class="ms-btn" onclick="tgMS('${id}')">${al}</div><div class="ms-dd" id="${id}_dd"></div>`;rMS(id)}
+function rMS(id){
+  const s=_ms[id];if(!s)return;
+  const filter=(s.searchTerm||'').toLowerCase();
+  const counts=s.counts||new Map();
+  const enabled=s.opts.filter(v=>(counts.get(v)||0)>0 || s.sel.has(v));
+  const allSel=enabled.length>0&&enabled.every(v=>s.sel.has(v));
+  const hasSel=s.sel.size>0&&!allSel;
+  const totalOpts=s.totalOpts||s.opts.length;
+  const filteredOpts=filter?s.opts.filter(v=>String(v).toLowerCase().includes(filter)):s.opts;
+  document.getElementById(id+'_dd').innerHTML=
+    (s.opts.length>8?`<input type="text" class="ms-search" placeholder="\ud83d\udd0d Buscar..." oninput="_msSearch('${id}',this.value)" onclick="event.stopPropagation()" value="${s.searchTerm||''}"/>`:'')+
+    (totalOpts?`<div class="ms-hint">Opciones visibles \u00b7 valores sin datos quedan en gris</div>`:'')+
+    `<div class="ms-opt${allSel?' sel':''}" onclick="event.stopPropagation();tgAll('${id}')"><span class="ck">${allSel?'\u2713':''}</span><span style="font-weight:600">Seleccionar todo disponible</span><span class="cnt">${enabled.length}</span></div>`+
+    filteredOpts.map((v,i)=>{const cnt=counts.has(v)?counts.get(v):0;const dis=cnt===0&&!s.sel.has(v);return`<div class="ms-opt${s.sel.has(v)?' sel':''}${dis?' dis':''}" onclick="event.stopPropagation();tgO('${id}',${s.opts.indexOf(v)})"><span class="ck">${s.sel.has(v)?'\u2713':''}</span><span>${esc(v)}</span><span class="cnt">${cnt}</span></div>`}).join('')+
+    (filteredOpts.length===0?`<div style="padding:8px;font-size:10px;color:var(--tm);text-align:center">Sin resultados</div>`:'')+
+    ((hasSel||allSel)?`<div class="ms-clear" onclick="event.stopPropagation();clearMS('${id}')">\u2715 Limpiar selecci\u00f3n</div>`:'');
+  const b=document.getElementById(id+'_dd').previousElementSibling;
+  b.classList.toggle('active',hasSel||allSel);
+  if(hasSel||allSel){
+    b.innerHTML=`<span style="overflow:hidden;text-overflow:ellipsis">${s.sel.size===1?esc([...s.sel][0]):s.sel.size+' seleccionados'}</span><span class="ms-cnt">${s.sel.size}</span>`;
+  }else{
+    b.innerHTML=`<span>${s.al}</span>`;
+  }
+}
+function _msSearch(id,val){if(_ms[id]){_ms[id].searchTerm=val;rMS(id);const i=document.querySelector('#'+id+'_dd .ms-search');if(i){i.focus();i.setSelectionRange(val.length,val.length)}}}
+function clearMS(id){if(_ms[id]){_ms[id].sel.clear();rMS(id);applyF()}}
+function tgMS(id){document.querySelectorAll('.ms-dd.show').forEach(d=>{if(d.id!==id+'_dd')d.classList.remove('show')});document.getElementById(id+'_dd').classList.toggle('show');document.getElementById(id).querySelector('.ms-btn').classList.toggle('open')}
+function tgO(id,i){const s=_ms[id],v=s.opts[i];const cnt=s.counts?s.counts.get(v):1;if((cnt||0)===0&&!s.sel.has(v))return;s.sel.has(v)?s.sel.delete(v):s.sel.add(v);rMS(id);applyF()}
+function tgAll(id){const s=_ms[id];const enabled=s.opts.filter(v=>!s.counts||(s.counts.get(v)||0)>0);if(enabled.length&&enabled.every(v=>s.sel.has(v))){enabled.forEach(v=>s.sel.delete(v))}else{enabled.forEach(v=>s.sel.add(v))}rMS(id);applyF()}
+function gV(id){return _ms[id]?_ms[id].sel:new Set()}
+document.addEventListener('click',e=>{if(!e.target.closest('.ms-wrap')){document.querySelectorAll('.ms-dd.show').forEach(d=>d.classList.remove('show'));document.querySelectorAll('.ms-btn.open').forEach(b=>b.classList.remove('open'))}});
+
+const FIELD_MAP={fReg:'_regionName',fCont:'_contratista',fTipo:'_tipoProyecto',fPlan:'_plan',fEstado:'_estadoGlobal',fClasif:'_clasif',fPrio:'_prioTSSR',fProp:'_propietario'};
+
+function cleanOpt(v){return v!=null&&String(v).trim()!==''&&String(v).trim()!=='-'&&String(v).trim()!=='0'&&String(v).trim().toUpperCase()!=='N/A'}
+function sortOpts(a,b){
+  const sa=String(a),sb=String(b);
+  if(sa==='Sin prioridad')return 1;if(sb==='Sin prioridad')return -1;
+  return sa.localeCompare(sb,'es',{numeric:true,sensitivity:'base'});
+}
+
+function popFilters(){
+  // Inicializa con universo completo; refreshAvailable() solo deshabilita opciones sin datos
+  Object.entries(FIELD_MAP).forEach(([id,field])=>{
+    const opts=[...new Set(DATA.map(r=>r[field]).filter(cleanOpt))].sort(sortOpts);
+    initMS(id,opts);
+    _ms[id].totalOpts=opts.length;
+    _ms[id].allOpts=[...opts];
+  });
+}
+
+// Recalcula conteos disponibles para cada opci\u00f3n seg\u00fan TODOS LOS OTROS filtros activos
+function refreshAvailable(){
+  Object.entries(FIELD_MAP).forEach(([id,field])=>{
+    if(!_ms[id])return;
+    const counts=new Map();
+    (_ms[id].allOpts||_ms[id].opts).forEach(v=>counts.set(v,0));
+    DATA.forEach(r=>{
+      for(const[oid,ofield]of Object.entries(FIELD_MAP)){
+        if(oid===id)continue;
+        const sel=_ms[oid]?_ms[oid].sel:null;
+        if(sel&&sel.size&&!sel.has(r[ofield]))return;
+      }
+      const val=r[field];
+      if(cleanOpt(val))counts.set(val,(counts.get(val)||0)+1);
+    });
+    _ms[id].counts=counts;
+    _ms[id].opts=[...(_ms[id].allOpts||_ms[id].opts)];
+    rMS(id);
+  });
+}
+
+document.getElementById('fSrch').addEventListener('input',applyF);
+function resetF(){Object.keys(_ms).forEach(id=>{_ms[id].sel=new Set();_ms[id].searchTerm=''});popFilters();document.getElementById('fSrch').value='';applyF()}
+
+function rowMatchesSearch(r,s){
+  if(!s)return true;
+  const searchable=[r._id,r._nombre,r._regionName,r._comuna,r._contratista,r._propietario,r._clasif,r._tipoProyecto,r._plan,r._estadoGlobal,r._prioTSSR,r._comentario2,r._fcRaw,r._estatusTSSR,r._rfiActual,r._estatusImplFinal,r._estatusINT]
+    .map(v=>v==null?'':String(v)).join('|').toLowerCase();
+  return searchable.includes(s);
+}
+
+function applyF(){
+  refreshAvailable();
+  const f={reg:gV('fReg'),cont:gV('fCont'),tipo:gV('fTipo'),plan:gV('fPlan'),estado:gV('fEstado'),clasif:gV('fClasif'),prio:gV('fPrio'),prop:gV('fProp')};
+  const s=document.getElementById('fSrch').value.toLowerCase().trim();
+  FLT=DATA.filter(r=>{
+    if(f.reg.size&&!f.reg.has(r._regionName))return false;
+    if(f.cont.size&&!f.cont.has(r._contratista))return false;
+    if(f.tipo.size&&!f.tipo.has(r._tipoProyecto))return false;
+    if(f.plan.size&&!f.plan.has(r._plan))return false;
+    if(f.estado.size&&!f.estado.has(r._estadoGlobal))return false;
+    if(f.clasif.size&&!f.clasif.has(r._clasif))return false;
+    if(f.prio.size&&!f.prio.has(r._prioTSSR))return false;
+    if(f.prop.size&&!f.prop.has(r._propietario))return false;
+    if(!rowMatchesSearch(r,s))return false;
+    return true;
+  });
+  renderAll();
+}
+
+document.querySelectorAll('.T').forEach(b=>b.addEventListener('click',function(){document.querySelectorAll('.T').forEach(x=>x.classList.remove('a'));this.classList.add('a');document.querySelectorAll('.TC').forEach(x=>x.classList.add('hidden'));document.getElementById('t-'+this.dataset.tab).classList.remove('hidden')}));
+
+function renderAll(){const fns=[['rStrip',rStrip],['rDash',rDash],['rTSSR',rTSSR],['rFC',rFC],['rRFI',rRFI],['rImpl',rImpl],['rPrio',rPrio],['rAsbuilt',rAsbuilt],['rTabla',rTabla]];for(const[n,f]of fns){try{f()}catch(e){console.error('❌ Error in '+n+':',e)}}}
+
+// ═══ STRIP ═══
+function rStrip(){
+const d=FLT,t=d.length;
+const fcOK=d.filter(r=>r._fcAprobado).length;
+const tssrOK=d.filter(r=>r._tssrAprobado).length;
+const tssrPend=d.filter(r=>r._tssrPend).length;
+const tssrRech=d.filter(r=>r._tssrRechazado).length;
+const tssrGen=d.filter(r=>r._fechaEnvEsp).length;
+const rfiOK=d.filter(r=>r._rfiOK).length;
+const onAir=d.filter(r=>r._onAir).length;
+const cards=[
+  {l:'Total',v:t,s:'Sitios',b:'var(--r)',c:'var(--t)',h:'s_total'},
+  {l:'FC Aprobada',v:fcOK,s:pct(fcOK,t),b:'#1565C0',c:'#1565C0',h:'s_fc'},
+  {l:'TSSR Generado',v:tssrGen,s:pct(tssrGen,t),b:'#E65100',c:'#E65100',h:'tssr_env'},
+  {l:'TSSR Aprobado',v:tssrOK,s:`Pend: ${tssrPend}${tssrRech?' · Rech: '+tssrRech:''}`,b:'#6A1B9A',c:'#6A1B9A',h:'tssr_final'},
+  {l:'RFI Entregado',v:rfiOK,s:`On Air: ${onAir} · Disp: ${rfiOK-onAir}`,b:'#0D47A1',c:'#0D47A1',h:'s_rfi'},
+  {l:'On Air',v:onAir,s:pct(onAir,t),b:'#2E7D32',c:'#2E7D32',h:'s_impl'},
+];
+document.getElementById('strip').innerHTML=cards.map(c=>`<div class="SC"><div class="ab" style="background:${c.b}"></div><div class="lb">${c.l} ${hlp(c.h)}</div><div class="vl" style="color:${c.c}">${c.v}</div><div class="su">${c.s}</div></div>`).join('');
+}
+// ═══ DASHBOARD ═══
+function rDash(){
+const d=FLT,t=d.length;let h='';
+
+// === Vista Ejecutiva: Pipeline por Etapa ===
+// FC breakdown — matches pestaña FC cards exactly
+const fcAprob=d.filter(r=>r._fcAprobado).length;
+const fcLVES=d.filter(r=>r._fcLVES).length;
+const fcRev=d.filter(r=>r._fcRev).length;
+const fcReqT=d.filter(r=>r._fcReqTSSR).length;
+const fcAproRenta=d.filter(r=>r._fcAproRenta).length;
+const fcNoFact=d.filter(r=>r._fcNoFactible).length;
+const fcNoApl=d.filter(r=>r._fcNoAplica).length;
+const fcRef=d.filter(r=>r._fcRefuerzo).length;
+const fcSinG=d.filter(r=>r._fcSinGestion).length;
+const fcEnProc=fcLVES+fcRev+fcReqT+fcAproRenta;
+const fcDescart=fcNoFact+fcNoApl+fcRef;
+
+// TSSR breakdown — matches pestaña TSSR cards
+const eU=r=>(r._estatusTSSR||'').toUpperCase();
+const tssrApro=d.filter(r=>eU(r)==='APROBADO').length;
+const tssrAproObs=d.filter(r=>eU(r)==='APROBADO CON OBS').length;
+const tssrAprob=tssrApro+tssrAproObs;
+const tssrEnRev=d.filter(r=>eU(r).includes('REVISI')).length;
+const tssrReqVis=d.filter(r=>eU(r).includes('REQUIERE')||eU(r)==='VISITADO').length;
+const tssrRech=d.filter(r=>r._tssrRechazado).length;
+const tssrSinE=d.filter(r=>!r._estatusTSSR||eU(r)==='NA').length;
+const tssrEnRevTotal=tssrEnRev+tssrReqVis;
+
+// RFI breakdown — matches pestaña RFI cards
+const rfiOA=d.filter(r=>r._onAir).length;
+const rfiEnt=d.filter(r=>r._rfiOK).length;
+const rfiDisp=rfiEnt-rfiOA;
+const rfiDispHW=d.filter(r=>r._rfiOK&&!r._onAir&&isHW(r)).length;
+const rfiDispIH=d.filter(r=>r._rfiOK&&!r._onAir&&r._contratista==='INHOUSE').length;
+const rfiOaHW=d.filter(r=>r._onAir&&isHW(r)).length;
+const rfiOaIH=d.filter(r=>r._onAir&&r._contratista==='INHOUSE').length;
+const rfiListo=d.filter(r=>!r._rfiOK&&r._fcAprobado&&r._tssrAprobado).length;
+const rfiBloq=d.filter(r=>!r._rfiOK&&(!r._fcAprobado||!r._tssrAprobado)).length;
+const rfiPend=rfiListo+rfiBloq;
+
+const arrow=`<div style="font-size:20px;color:#bbb;align-self:center;padding:0 6px">\u25b6</div>`;
+
+// Step card: count + % + optional sub-badges + description + clickable preset
+const mkStep=(emoji,label,count,desc,color,bg,subBadges,preset)=>{
+  const sub=subBadges?`<div style="display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-top:8px">${subBadges.map(b=>`<span style="background:${b.bg};color:${b.fg||'#fff'};padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;white-space:nowrap;${b.preset?'cursor:pointer':''}" ${b.preset?`onclick="event.stopPropagation();showVeSites('${b.preset}')"`:''}>${b.label} ${b.count}</span>`).join('')}</div>`:'';
+  const clickAttr=preset?`onclick="showVeSites('${preset}')"`:'';
+  const hoverAttr=preset?`onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.12)'" onmouseout="this.style.boxShadow=''"`:'';
+  return `<div ${clickAttr} ${hoverAttr} style="flex:1;text-align:center;padding:12px 8px;background:${bg};border-radius:8px;border-top:3px solid ${color};min-width:0;${preset?'cursor:pointer;transition:box-shadow .2s':''}">
+<div style="font-size:10px;font-weight:600;color:var(--tm);text-transform:uppercase;letter-spacing:.3px">${emoji} ${label}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:${color};margin-top:4px;line-height:1.1">${count}</div>
+<div style="font-size:10px;color:var(--tm)">${t?(count/t*100).toFixed(1):'0'}%</div>
+<div style="font-size:9px;color:var(--tm);margin-top:4px;font-style:italic;min-height:24px;line-height:1.2">${desc}</div>
+${sub}
+</div>`;
+};
+
+const sectionTitle=(emoji,title,subtitle,color)=>`<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed ${color}33">
+<div style="font-size:12px;font-weight:700;color:${color};text-transform:uppercase;letter-spacing:.5px">${emoji} ${title}</div>
+<div style="font-size:10px;color:var(--tm);font-style:italic">${subtitle}</div>
+</div>`;
+
+h+=`<div class="TS" style="margin-bottom:16px;border-top:3px solid var(--r)">
+<div class="TH"><h3>\u2728 Vista Ejecutiva \u2014 Pipeline por Etapa</h3><span style="font-size:11px;color:var(--tm)">Total: <b style="color:var(--t)">${t}</b> sitios \u00b7 Cada etapa corresponde a las cards de su pesta\u00f1a</span></div>
+
+<div style="padding:14px 16px">
+
+${sectionTitle('\ud83c\udfd7','FC \u2014 Factibilidad Constructiva','Aprobaci\u00f3n del propietario de la torre para instalar','#1565C0')}
+<div style="display:flex;gap:6px;margin-bottom:20px">
+${mkStep('\u2b1c','Sin Gesti\u00f3n',fcSinG,'A\u00fan no se solicita FC al propietario','#9E9E9E','#FAFAFA',null,'FC_SIN')}
+${arrow}
+${mkStep('\ud83d\udd04','En Proceso',fcEnProc,'Solicitud activa o requiere acci\u00f3n',
+  '#E65100','#FFF8E1',
+  [
+    {label:'\ud83d\udd0d LVES',count:fcLVES,bg:'#1565C0',preset:'FC_LVES'},
+    {label:'\ud83d\udc41 Rev.Op',count:fcRev,bg:'#E6A800',fg:'#333',preset:'FC_REV'},
+    {label:'\ud83d\udccb Req.TSSR',count:fcReqT,bg:'#6A1B9A',preset:'FC_REQT'},
+    {label:'\ud83c\udfe0 F.Renta',count:fcAproRenta,bg:'#00838F',preset:'FC_RENTA'}
+  ],'FC_PROC')}
+${arrow}
+${mkStep('\ud83d\udeab','No Viable',fcDescart,'No factible / No aplica / Refuerzo',
+  '#C62828','#FFEBEE',
+  [
+    {label:'\ud83d\udeab No Fact',count:fcNoFact,bg:'#C62828',preset:'FC_NOFACT'},
+    {label:'\u26d4 No Aplica',count:fcNoApl,bg:'#880E4F',preset:'FC_NOAPL'},
+    {label:'\ud83d\udee0 Refuerzo',count:fcRef,bg:'#5D4037',preset:'FC_REFZ'}
+  ],'FC_NOVIA')}
+${arrow}
+${mkStep('\u2705','Aprobado',fcAprob,'FC aprobada por el propietario','#2E7D32','#E8F5E9',null,'FC_APRO')}
+</div>
+
+${sectionTitle('\ud83d\udccb','TSSR \u2014 Telecom Site Survey Report','Validaci\u00f3n t\u00e9cnica por las 4 disciplinas (IMPL+RF+ECE+OOCC)','#6A1B9A')}
+<div style="display:flex;gap:6px;margin-bottom:20px">
+${mkStep('\u23f3','Sin Enviar',tssrSinE,'No enviado a especialidades a\u00fan','#9E9E9E','#FAFAFA',null,'TSSR_SIN')}
+${arrow}
+${mkStep('\ud83d\udce8','En Revisi\u00f3n',tssrEnRevTotal,'Disciplinas revisando o requieren visita',
+  '#1565C0','#E3F2FD',
+  [
+    {label:'\ud83d\udd04 Revisi\u00f3n',count:tssrEnRev,bg:'#1565C0',preset:'TSSR_REV'},
+    {label:'\ud83d\udc41 Visita',count:tssrReqVis,bg:'#F57F17',fg:'#333',preset:'TSSR_VIS'},
+    {label:'\u274c Rechaz.',count:tssrRech,bg:'#C62828',preset:'TSSR_RECH'}
+  ],'TSSR_REV_ALL')}
+${arrow}
+${mkStep('\u2705','Aprobado',tssrAprob,'ESTATUS TSSR APROBADO (con o sin obs)',
+  '#2E7D32','#E8F5E9',
+  [
+    {label:'\ud83c\udfc6 Aprob.',count:tssrApro,bg:'#2E7D32',preset:'TSSR_APRO'},
+    {label:'\ud83d\udcdd c/Obs.',count:tssrAproObs,bg:'#1B8C42',preset:'TSSR_OBS'}
+  ],'TSSR_APRO_ALL')}
+</div>
+
+${sectionTitle('\ud83d\udcc4','RFI \u2014 Ready for Installation','Carta formal que autoriza la instalaci\u00f3n del sitio','#00695C')}
+<div style="display:flex;gap:6px">
+${mkStep('\u23f3','Pendiente',rfiPend,'A\u00fan sin RFI entregado',
+  '#9E9E9E','#FAFAFA',
+  [
+    {label:'\ud83c\udfaf Listo',count:rfiListo,bg:'#1565C0',preset:'RFI_LISTO'},
+    {label:'\u26d4 Bloq.',count:rfiBloq,bg:'#C62828',preset:'RFI_BLOQ'}
+  ],'RFI_PEND')}
+${arrow}
+${mkStep('\ud83c\udfaf','Disponible',rfiDisp,'RFI entregado, esperando instalaci\u00f3n',
+  '#0D47A1','#E3F2FD',
+  [
+    {label:'\ud83d\udfe7 HW',count:rfiDispHW,bg:'#E65100'},
+    {label:'\ud83d\udfea IH',count:rfiDispIH,bg:'#6A1B9A'}
+  ],'RFI_DISP')}
+${arrow}
+${mkStep('\ud83d\udfe2','On Air',rfiOA,'Sitio implementado y en operaci\u00f3n',
+  '#2E7D32','#E8F5E9',
+  [
+    {label:'\ud83d\udfe7 HW',count:rfiOaHW,bg:'#E65100'},
+    {label:'\ud83d\udfea IH',count:rfiOaIH,bg:'#6A1B9A'}
+  ],'RFI_OA')}
+</div>
+</div></div>`;
+
+// --- Curva S: Plan vs Real (On Air) ---
+// Plan from imple_curva_s: W9-W31, planAcumulado
+const PLAN_TOTAL=273;
+const planWeeks=['S9','S10','S11','S12','S13','S14','S15','S16','S17','S18','S19','S20','S21','S22','S23','S24','S25','S26','S27','S28','S29','S30','S31'];
+const planAcum=[null,6,24,44,59,59,59,59,59,59,59,59,59,85,111,137,162,187,212,237,262,273,273];
+
+// Map weeks to Monday dates (ISO weeks 2026)
+function isoMonday(year,week){
+  const jan4=new Date(year,0,4);
+  const d=new Date(jan4.getTime());
+  d.setDate(jan4.getDate()-(jan4.getDay()||7)+1+(week-1)*7);
+  d.setHours(0,0,0,0);
+  return d;
+}
+const weekMondays=[];
+for(let w=9;w<=31;w++)weekMondays.push(isoMonday(2026,w));
+
+// Build Real (On Air) acumulado by week from _fechaINT
+const onAirSites=d.filter(r=>r._onAir&&r._fechaINT);
+const realAcum=weekMondays.map((mon,i)=>{
+  const endOfWeek=new Date(mon);endOfWeek.setDate(endOfWeek.getDate()+6);endOfWeek.setHours(23,59,59);
+  if(endOfWeek<TODAY){
+    return onAirSites.filter(r=>r._fechaINT<=endOfWeek).length;
+  }
+  // Current week
+  const startOfCurrentWeek=isoMonday(TODAY.getFullYear(),getISOWeek(TODAY));
+  if(mon.getTime()===startOfCurrentWeek.getTime()){
+    return onAirSites.filter(r=>r._fechaINT<=TODAY).length;
+  }
+  return null; // future
+});
+
+function getISOWeek(dt){
+  const d=new Date(Date.UTC(dt.getFullYear(),dt.getMonth(),dt.getDate()));
+  d.setUTCDate(d.getUTCDate()+4-(d.getUTCDay()||7));
+  const yearStart=new Date(Date.UTC(d.getUTCFullYear(),0,1));
+  return Math.ceil(((d-yearStart)/86400000+1)/7);
+}
+
+// Also count On Air sites without _fechaINT (use count directly)
+const onAir=d.filter(r=>r._onAir).length;
+const realTotal=onAir;
+
+// GAP
+const gapAcum=planAcum.map((p,i)=>{
+  if(p===null||realAcum[i]===null)return null;
+  return realAcum[i]-p;
+});
+
+// Current week index
+const curWeekNum=getISOWeek(TODAY);
+const curWeekIdx=curWeekNum>=9&&curWeekNum<=31?curWeekNum-9:-1;
+
+// KPIs
+const planNow=curWeekIdx>=0?planAcum[curWeekIdx]:null;
+const realNow=curWeekIdx>=0?realAcum[curWeekIdx]:null;
+const gapNow=planNow!==null&&realNow!==null?realNow-planNow:null;
+
+// Chart
+h+=`<div class="TS"><div class="TH"><h3>\ud83d\udcc9 Curva S \u2014 Plan vs Real (On Air)</h3><div style="font-size:11px;color:var(--tm)">Implementaciones acumuladas por semana \u00b7 2026</div></div>
+<div style="padding:16px"><div style="position:relative;height:340px"><canvas id="dashCurvaS"></canvas></div></div></div>`;
+
+// --- Detalle Semanal table ---
+h+=`<div class="TS"><div class="TH"><h3>\ud83d\udcc5 Detalle Semanal</h3></div>
+<div class="TW" style="overflow-x:auto"><table class="DT" style="min-width:900px"><thead><tr>
+<th style="min-width:120px;position:sticky;left:0;background:var(--c);z-index:2">IMPLE</th>`;
+planWeeks.forEach((w,i)=>{
+  const isCur=i===curWeekIdx;
+  h+=`<th style="text-align:center;min-width:40px;font-size:10px;font-family:'JetBrains Mono',monospace;${isCur?'background:#FFF8E1;font-weight:700':''}">${w}${isCur?' \u25cf':''}</th>`;
+});
+h+=`</tr></thead><tbody>`;
+
+// Plan semanal
+const planSem=[1,5,18,20,15,null,null,null,null,null,null,null,null,26,26,26,25,25,25,25,25,11,null];
+const realSem=weekMondays.map((mon,i)=>{
+  const endOfWeek=new Date(mon);endOfWeek.setDate(endOfWeek.getDate()+6);endOfWeek.setHours(23,59,59);
+  const startOfWeek=new Date(mon);
+  if(endOfWeek<TODAY){
+    return onAirSites.filter(r=>r._fechaINT>=startOfWeek&&r._fechaINT<=endOfWeek).length||null;
+  }
+  if(mon<=TODAY&&endOfWeek>=TODAY){
+    const c=onAirSites.filter(r=>r._fechaINT>=startOfWeek&&r._fechaINT<=TODAY).length;
+    return c||null;
+  }
+  return null;
+});
+
+const rows=[
+  {label:'Plan Semanal',data:planSem,cls:'color:#1565C0'},
+  {label:'Plan Acumulado',data:planAcum,cls:'color:#1565C0;background:#F8FBFF'},
+  {label:'Real Semanal',data:realSem,cls:'color:#2E7D32'},
+  {label:'Real Acumulado',data:realAcum,cls:'color:#2E7D32;background:#F6FBF6'},
+  {label:'GAP Acumulado',data:gapAcum,cls:'color:#DA291C'},
+];
+rows.forEach(row=>{
+  h+=`<tr>`;
+  h+=`<td style="font-weight:600;text-align:left;padding-left:12px;position:sticky;left:0;background:var(--c);z-index:1;${row.cls.split(';').filter(s=>s.includes('color')).join(';')}">${row.label}</td>`;
+  row.data.forEach((v,i)=>{
+    const isCur=i===curWeekIdx;
+    let style=row.cls+';text-align:center;font-family:JetBrains Mono,monospace;font-size:11px;';
+    if(isCur)style+='background:#FFF8E1;font-weight:700;';
+    if(v===null)style+='color:#D0D0D0;';
+    if(row.label==='GAP Acumulado'&&v!==null&&v>=0)style+='color:#2E7D32;';
+    h+=`<td style="${style}">${v!==null?v:''}</td>`;
+  });
+  h+=`</tr>`;
+});
+h+=`</tbody></table></div>`;
+
+// Reconciliation: explain difference between total On Air and what's shown in weekly detail
+const totalOnAir=d.filter(r=>r._onAir).length;
+const firstMonday=weekMondays[0];
+const lastSunday=new Date(weekMondays[weekMondays.length-1]);lastSunday.setDate(lastSunday.getDate()+6);lastSunday.setHours(23,59,59);
+const onAirSinFecha=d.filter(r=>r._onAir&&!r._fechaINT).length;
+const onAirAntes=d.filter(r=>r._onAir&&r._fechaINT&&r._fechaINT<firstMonday).length;
+const onAirDespues=d.filter(r=>r._onAir&&r._fechaINT&&r._fechaINT>lastSunday).length;
+const onAirEnPlan=totalOnAir-onAirSinFecha-onAirAntes-onAirDespues;
+const ultimo=realAcum.filter(v=>v!==null).slice(-1)[0]||0;
+
+if(onAirAntes||onAirSinFecha||onAirDespues){
+h+=`<div style="padding:10px 14px;background:#FFF8E1;border-top:1px solid var(--bd);font-size:11px;color:var(--td);line-height:1.6">
+<div style="font-weight:600;color:var(--t);margin-bottom:4px">\u26a0\ufe0f Reconciliaci\u00f3n On Air vs Detalle Semanal</div>
+Total <b style="color:var(--g)">On Air</b>: <b>${totalOnAir}</b> sitios \u00b7 Real Acumulado plan: <b>${ultimo}</b> \u00b7 Diferencia: <b style="color:var(--r)">${totalOnAir-ultimo}</b><br>
+La diferencia se compone de:
+${onAirAntes?` \u2022 <b>${onAirAntes}</b> integrados <b>antes</b> de ${firstMonday.toLocaleDateString('es-CL')} (semanas previas al plan)<br>`:''}
+${onAirDespues?` \u2022 <b>${onAirDespues}</b> integrados <b>despu\u00e9s</b> de ${lastSunday.toLocaleDateString('es-CL')} (post-plan)<br>`:''}
+${onAirSinFecha?` \u2022 <b>${onAirSinFecha}</b> con <b>FECHA INT vac\u00eda</b> en el Excel (no se pueden ubicar en una semana)`:''}
+</div>`;
+}
+h+=`</div>`;
+
+// --- Avance por Region ---
+const regMap={};
+d.forEach(r=>{
+  const reg=r._regionName||'Sin Regi\u00f3n';
+  if(!regMap[reg])regMap[reg]={t:0,fc:0,tssr:0,rfi:0,onAir:0};
+  regMap[reg].t++;
+  if(r._fcAprobado)regMap[reg].fc++;
+  if(r._tssrAprobado)regMap[reg].tssr++;
+  if(r._rfiOK)regMap[reg].rfi++;
+  if(r._onAir)regMap[reg].onAir++;
+});
+const regions=Object.entries(regMap).sort((a,b)=>b[1].t-a[1].t);
+
+h+=`<div class="TS"><div class="TH"><h3>\ud83d\uddfa Avance por Regi\u00f3n</h3></div>
+<div class="TW" style="max-height:400px"><table class="DT"><thead><tr>
+<th>Regi\u00f3n</th><th>Total</th><th>FC Apro</th><th>TSSR Apro</th><th>RFI</th><th>On Air</th><th>Avance</th>
+</tr></thead><tbody>`;
+regions.forEach(([reg,v])=>{
+  const pct=v.t?((v.onAir/v.t)*100).toFixed(1):'0';
+  h+=`<tr><td style="font-weight:600">${reg}</td><td>${v.t}</td>
+<td>${v.fc?'<span class="bg_ bg_g">'+v.fc+'</span>':'<span class="bg_ bg_x">0</span>'}</td>
+<td>${v.tssr?'<span class="bg_ bg_g">'+v.tssr+'</span>':'<span class="bg_ bg_x">0</span>'}</td>
+<td>${v.rfi?'<span class="bg_ bg_g">'+v.rfi+'</span>':'<span class="bg_ bg_x">0</span>'}</td>
+<td>${v.onAir?'<span class="bg_ bg_g">'+v.onAir+'</span>':'<span class="bg_ bg_x">0</span>'}</td>
+<td><div style="display:flex;align-items:center;gap:6px"><div style="flex:1;height:6px;background:#eee;border-radius:3px"><div style="height:100%;width:${pct}%;background:#2E7D32;border-radius:3px"></div></div><span style="font-size:10px;font-family:JetBrains Mono,monospace;min-width:36px">${pct}%</span></div></td></tr>`;
+});
+h+=`</tbody></table></div></div>`;
+
+document.getElementById('dashC').innerHTML=h;
+
+// Render Chart
+if(typeof Chart!=='undefined'){
+const ctx=document.getElementById('dashCurvaS');
+if(ctx){
+  if(window._dashChart)window._dashChart.destroy();
+  window._dashChart=new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:planWeeks,
+      datasets:[
+        {label:'Plan Acumulado',data:planAcum,borderColor:'#1565C0',backgroundColor:'rgba(21,101,192,.08)',borderWidth:2.5,pointRadius:0,pointHoverRadius:5,fill:true,tension:.3,spanGaps:false},
+        {label:'Real Acumulado (On Air)',data:realAcum,borderColor:'#2E7D32',backgroundColor:'rgba(46,125,50,.12)',borderWidth:3,pointRadius:4,pointBackgroundColor:'#2E7D32',pointBorderColor:'#fff',pointBorderWidth:2,fill:true,tension:.3,spanGaps:false}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{position:'top',align:'end',labels:{font:{family:"'DM Sans'",size:12,weight:'600'},usePointStyle:true,pointStyle:'rectRounded',padding:20}},
+        tooltip:{backgroundColor:'#212121',titleFont:{family:"'DM Sans'",size:13,weight:'600'},bodyFont:{family:"'JetBrains Mono'",size:12},cornerRadius:8,padding:12,
+          callbacks:{title:items=>items[0].label,label:item=>' '+item.dataset.label+': '+(item.raw!==null?item.raw:'\u2014')+' sitios'}}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{family:"'JetBrains Mono'",size:10},color:'#9E9E9E',maxRotation:0}},
+        y:{beginAtZero:true,max:300,grid:{color:'#F0F0F0'},ticks:{font:{family:"'JetBrains Mono'",size:11},color:'#9E9E9E',stepSize:50},
+          title:{display:true,text:'Sitios acumulados',font:{family:"'DM Sans'",size:12,weight:'600'},color:'#757575'}}
+      }
+    }
+  });
+}}
+}
+
+// ═══ MODAL DE SITIOS (Vista Ejecutiva) ═══
+const _VE_PRESETS={
+  FC_SIN:{title:'FC \u2014 Sin Gesti\u00f3n',color:'#9E9E9E',fn:r=>r._fcSinGestion},
+  FC_PROC:{title:'FC \u2014 En Proceso',color:'#E65100',fn:r=>r._fcLVES||r._fcRev||r._fcReqTSSR||r._fcAproRenta},
+  FC_LVES:{title:'FC \u2014 Levantamiento Estructural',color:'#1565C0',fn:r=>r._fcLVES},
+  FC_REV:{title:'FC \u2014 Revisi\u00f3n Operador',color:'#E6A800',fn:r=>r._fcRev},
+  FC_REQT:{title:'FC \u2014 Requiere TSSR',color:'#6A1B9A',fn:r=>r._fcReqTSSR},
+  FC_RENTA:{title:'FC \u2014 F. Aprobaci\u00f3n Renta',color:'#00838F',fn:r=>r._fcAproRenta},
+  FC_NOVIA:{title:'FC \u2014 No Viable',color:'#C62828',fn:r=>r._fcNoFactible||r._fcNoAplica||r._fcRefuerzo},
+  FC_NOFACT:{title:'FC \u2014 No Factible',color:'#C62828',fn:r=>r._fcNoFactible},
+  FC_NOAPL:{title:'FC \u2014 No Aplica',color:'#880E4F',fn:r=>r._fcNoAplica},
+  FC_REFZ:{title:'FC \u2014 Refuerzo',color:'#5D4037',fn:r=>r._fcRefuerzo},
+  FC_APRO:{title:'FC \u2014 Aprobado',color:'#2E7D32',fn:r=>r._fcAprobado},
+  TSSR_SIN:{title:'TSSR \u2014 Sin Enviar',color:'#9E9E9E',fn:r=>{const e=(r._estatusTSSR||'').toUpperCase();return !r._estatusTSSR||e==='NA'}},
+  TSSR_REV_ALL:{title:'TSSR \u2014 En Revisi\u00f3n (todos)',color:'#1565C0',fn:r=>{const e=(r._estatusTSSR||'').toUpperCase();return e.includes('REVISI')||e.includes('REQUIERE')||e==='VISITADO'||r._rfRech||r._eceRech||r._ooccRech||e.includes('RECHAZ')}},
+  TSSR_REV:{title:'TSSR \u2014 En Revisi\u00f3n',color:'#1565C0',fn:r=>(r._estatusTSSR||'').toUpperCase().includes('REVISI')},
+  TSSR_VIS:{title:'TSSR \u2014 Requiere Visita',color:'#F57F17',fn:r=>{const e=(r._estatusTSSR||'').toUpperCase();return e.includes('REQUIERE')||e==='VISITADO'}},
+  TSSR_RECH:{title:'TSSR \u2014 Rechazado',color:'#C62828',fn:r=>r._rfRech||r._eceRech||r._ooccRech||(r._estatusTSSR||'').toUpperCase().includes('RECHAZ')},
+  TSSR_APRO_ALL:{title:'TSSR \u2014 Aprobado (con y sin obs.)',color:'#2E7D32',fn:r=>(r._estatusTSSR||'').toUpperCase().startsWith('APROBADO')},
+  TSSR_APRO:{title:'TSSR \u2014 Aprobado',color:'#2E7D32',fn:r=>(r._estatusTSSR||'').toUpperCase()==='APROBADO'},
+  TSSR_OBS:{title:'TSSR \u2014 Aprobado con Obs.',color:'#1B8C42',fn:r=>(r._estatusTSSR||'').toUpperCase()==='APROBADO CON OBS'},
+  RFI_PEND:{title:'RFI \u2014 Pendiente',color:'#9E9E9E',fn:r=>!r._rfiOK},
+  RFI_LISTO:{title:'RFI \u2014 Listo (FC+TSSR OK)',color:'#1565C0',fn:r=>!r._rfiOK&&r._fcAprobado&&r._tssrAprobado},
+  RFI_BLOQ:{title:'RFI \u2014 Bloqueado',color:'#C62828',fn:r=>!r._rfiOK&&(!r._fcAprobado||!r._tssrAprobado)},
+  RFI_DISP:{title:'RFI \u2014 Disponible (RFI sin On Air)',color:'#0D47A1',fn:r=>r._rfiOK&&!r._onAir},
+  RFI_OA:{title:'RFI \u2014 On Air',color:'#2E7D32',fn:r=>r._onAir}
+};
+
+function showVeSites(key){
+  const p=_VE_PRESETS[key];if(!p)return;
+  const sites=FLT.filter(p.fn);
+  window._veSitesAll=sites;window._vePreset=p;
+  window._veSearch='';window._veSortCol=null;window._veSortDir=1;
+  const m=document.createElement('div');
+  m.id='veModal';m.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+  m.onclick=e=>{if(e.target===m)closeVeModal()};
+  m.innerHTML=`<div style="background:#fff;border-radius:12px;max-width:95vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,.3);border-top:4px solid ${p.color};width:1400px">
+<div style="padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap">
+<div style="flex:1;min-width:200px"><h3 style="margin:0;font-size:16px;color:${p.color}">${p.title}</h3>
+<div style="font-size:11px;color:var(--tm);margin-top:2px"><span id="veCnt">${sites.length}</span> de ${sites.length} sitios</div></div>
+<input type="text" id="veSearch" placeholder="\ud83d\udd0d Buscar ID, nombre, comuna, contratista..." oninput="_veRender()" style="padding:6px 12px;border:1px solid var(--bd);border-radius:6px;font-size:12px;width:280px"/>
+<div style="display:flex;gap:8px;align-items:center">
+<button onclick="exportVeSites()" style="background:var(--g);color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">\ud83d\udce5 Excel</button>
+<button onclick="closeVeModal()" style="background:none;border:none;font-size:28px;color:var(--tm);cursor:pointer;line-height:1;padding:0 6px">\u00d7</button>
+</div></div>
+<div style="overflow:auto;flex:1;padding:0">
+<table class="DT" style="width:100%"><thead style="position:sticky;top:0;background:#fafafa;z-index:1"><tr id="veHead"></tr></thead>
+<tbody id="veBody"></tbody></table></div></div>`;
+  document.body.appendChild(m);
+  document.addEventListener('keydown',_veEscHandler);
+  _veRender();
+}
+
+// Column definitions for VE modal: [key, label, getValue, renderCell]
+const _VE_COLS=[
+  {k:'_id',l:'ID',v:r=>r._id,r:r=>`<td style="font-weight:600">${esc(r._id)}</td>`},
+  {k:'_nombre',l:'Nombre',v:r=>r._nombre,r:r=>`<td>${esc(r._nombre)}</td>`},
+  {k:'_regionName',l:'Regi\u00f3n',v:r=>r._regionName,r:r=>`<td style="font-size:10px">${esc(r._regionName)}</td>`},
+  {k:'_comuna',l:'Comuna',v:r=>r['COMUNA']||'',r:r=>`<td style="font-size:10px">${esc(r['COMUNA']||'')}</td>`},
+  {k:'_clasif',l:'Clasif.',v:r=>r._clasif,r:r=>`<td style="font-size:10px">${esc(r._clasif)}</td>`},
+  {k:'_contratista',l:'Contrat.',v:r=>r._contratista,r:r=>`<td>${esc(r._contratista)}</td>`},
+  {k:'_prioTSSR',l:'N\u00b0Prio',v:r=>r._prioTSSR||'',r:r=>`<td style="text-align:center;font-size:10px">${r._prioTSSR?esc(r._prioTSSR):'\u2014'}</td>`},
+  {k:'_fcStatus',l:'FC',v:r=>r._fcStatus,r:r=>{const b=r._fcAprobado?'<span class="bg_ bg_g">\u2705 Apro</span>':r._fcLVES?'<span class="bg_ bg_b">\ud83d\udd0d LVES</span>':r._fcRev?'<span class="bg_ bg_y">\ud83d\udc41 Rev</span>':r._fcReqTSSR?'<span class="bg_ bg_p">\ud83d\udccb Req.TSSR</span>':r._fcNoFactible?'<span class="bg_ bg_r">\ud83d\udeab NoFact</span>':r._fcAproRenta?'<span class="bg_">\ud83c\udfe0 Renta</span>':r._fcNoAplica?'<span class="bg_">\u26d4 NoApl</span>':r._fcRefuerzo?'<span class="bg_">\ud83d\udee0 Ref</span>':'<span class="bg_ bg_x">\u2014</span>';return`<td>${b}</td>`}},
+  {k:'_estatusTSSR',l:'TSSR',v:r=>r._estatusTSSR||'',r:r=>{const e=(r._estatusTSSR||'').toUpperCase();let b='<span class="bg_ bg_x">\u2014</span>';if(r._rfRech||r._eceRech||r._ooccRech||e.includes('RECHAZ'))b='<span class="bg_ bg_r">\u274c Rech</span>';else if(e==='APROBADO')b='<span class="bg_ bg_g">\u2705 Apro</span>';else if(e==='APROBADO CON OBS')b='<span class="bg_ bg_g">\u2705 c/Obs</span>';else if(e.includes('REVISI'))b='<span class="bg_ bg_b">\ud83d\udd04 Rev</span>';else if(e.includes('REQUIERE')||e==='VISITADO')b='<span class="bg_ bg_y">\ud83d\udc41 Visita</span>';return`<td>${b}</td>`}},
+  {k:'_discOKCount',l:'Disc',v:r=>r._discOKCount,r:r=>`<td style="text-align:center;font-weight:700;color:${r._discOKCount===4?'var(--g)':r._discOKCount>0?'var(--y)':'var(--tm)'}">${r._discOKCount}/4</td>`},
+  {k:'_rfiStatus',l:'RFI',v:r=>r._onAir?3:r._rfiOK?2:1,r:r=>{const b=r._onAir?'<span class="bg_ bg_g">\ud83d\udfe2 On Air</span>':r._rfiOK?'<span class="bg_ bg_bl">\ud83c\udfaf RFI</span>':'<span class="bg_ bg_x">\u2014</span>';return`<td>${b}</td>`}},
+  {k:'_fechaSolFC',l:'F.Sol FC',v:r=>r._fechaSolFC?r._fechaSolFC.getTime():0,r:r=>`<td style="font-size:10px">${fD(r._fechaSolFC)}</td>`},
+  {k:'_fechaRespFC',l:'F.Apro FC',v:r=>r._fechaRespFC?r._fechaRespFC.getTime():0,r:r=>`<td style="font-size:10px">${fD(r._fechaRespFC)}</td>`}
+];
+
+function _veRender(){
+  const search=(document.getElementById('veSearch')?.value||'').toLowerCase();
+  window._veSearch=search;
+  const all=window._veSitesAll||[];
+  let rows=all;
+  if(search){
+    rows=rows.filter(r=>(r._id||'').toLowerCase().includes(search)||(r._nombre||'').toLowerCase().includes(search)||(r['COMUNA']||'').toLowerCase().includes(search)||(r._contratista||'').toLowerCase().includes(search)||(r._regionName||'').toLowerCase().includes(search)||(r._clasif||'').toLowerCase().includes(search)||(r._prioTSSR||'').toLowerCase().includes(search));
+  }
+  const sortCol=window._veSortCol,sortDir=window._veSortDir;
+  if(sortCol){
+    const col=_VE_COLS.find(c=>c.k===sortCol);
+    if(col){
+      rows=[...rows].sort((a,b)=>{
+        const va=col.v(a),vb=col.v(b);
+        if(va==null&&vb==null)return 0;
+        if(va==null)return 1;
+        if(vb==null)return -1;
+        if(typeof va==='number'&&typeof vb==='number')return(va-vb)*sortDir;
+        return String(va).localeCompare(String(vb))*sortDir;
+      });
+    }
+  }
+  window._veSitesFiltered=rows;
+  // Header with sort indicators
+  const head=document.getElementById('veHead');
+  if(head){
+    head.innerHTML=_VE_COLS.map(c=>{
+      const isSort=sortCol===c.k;
+      const indicator=isSort?(sortDir===1?' \u25b2':' \u25bc'):'';
+      return`<th onclick="_veSort('${c.k}')" style="cursor:pointer;user-select:none;white-space:nowrap;${isSort?'background:#FFE0B2;color:#E65100':''}" title="Click para ordenar">${c.l}${indicator}</th>`;
+    }).join('');
+  }
+  // Body
+  const body=document.getElementById('veBody');
+  if(body){
+    body.innerHTML=rows.length
+      ?rows.map(r=>`<tr>${_VE_COLS.map(c=>c.r(r)).join('')}</tr>`).join('')
+      :`<tr><td colspan="${_VE_COLS.length}" style="text-align:center;padding:40px;color:var(--tm)">${search?'Sin resultados para "'+esc(search)+'"':'No hay sitios en esta categor\u00eda'}</td></tr>`;
+  }
+  // Count
+  const cnt=document.getElementById('veCnt');
+  if(cnt)cnt.textContent=rows.length;
+}
+
+function _veSort(col){
+  if(window._veSortCol===col){window._veSortDir*=-1}
+  else{window._veSortCol=col;window._veSortDir=-1} // Default: desc (mayor a menor)
+  _veRender();
+}
+
+function closeVeModal(){const m=document.getElementById('veModal');if(m)m.remove();document.removeEventListener('keydown',_veEscHandler)}
+function _veEscHandler(e){if(e.key==='Escape')closeVeModal()}
+
+function exportVeSites(){
+  const sites=window._veSitesFiltered||window._veSitesAll||[];const p=window._vePreset||{title:'Sitios'};
+  const h=['ID','Nombre','Regi\u00f3n','Comuna','Clasif','Contratista','N\u00b0Prio','Estado FC','Estado TSSR','Disc OK','RFI','OnAir','F.Sol FC','F.Resp FC','F.Env Esp','F.RFI'];
+  const rows=[h,...sites.map(r=>[r._id,r._nombre,r._regionName,r['COMUNA']||'',r._clasif,r._contratista,r._prioTSSR||'',r._fcStatus,r._estatusTSSR||'',r._discOKCount+'/4',r._rfiOK?'S\u00ed':'No',r._onAir?'S\u00ed':'No',fD(r._fechaSolFC),fD(r._fechaRespFC),fD(r._fechaEnvEsp),fD(r._fechaRFI)])];
+  const ws=XLSX.utils.aoa_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Sitios');
+  XLSX.writeFile(wb,`${p.title.replace(/[^a-zA-Z0-9]/g,'_')}_${new Date().toISOString().split('T')[0]}.xlsx`);
+}
+
+// ═══ TSSR ═══
+function rTSSR(){
+const d=FLT,t=d.length;let h='';
+const tssrScope=d.filter(r=>r._fechaEnvEsp||r._anyDiscSent);
+
+// Initialize filter sets
+window._tssrFSt=window._tssrFSt||new Set();
+window._tssrFArea=window._tssrFArea||new Set();
+
+const eU=r=>(r._estatusTSSR||'').toUpperCase();
+const tssrStKey=r=>{const e=eU(r);if(r._rfRech||r._eceRech||r._ooccRech||e.includes('RECHAZ'))return'RECHAZADO';if(e==='APROBADO')return'APROBADO';if(e==='APROBADO CON OBS')return'APROBADO_OBS';if(e.includes('REVISI'))return'EN_REVISION';if(e.includes('REQUIERE')||e==='VISITADO')return'REQ_VISITA';return'SIN_ESTATUS'};
+const discPend=(r,a)=>(a==='IMPL'&&!r._implApro)||(a==='RF'&&!r._rfOK)||(a==='ECE'&&!r._eceRevOK)||(a==='OOCC'&&!r._ooccOK);
+
+// For each card row, count over the data filtered by the OTHER row's selections
+// Status cards: count on d filtered by active disciplines
+const dForStatus=window._tssrFArea.size?d.filter(r=>{for(const a of window._tssrFArea)if(discPend(r,a))return true;return false}):d;
+const tssrApro=dForStatus.filter(r=>tssrStKey(r)==='APROBADO').length;
+const tssrAproObs=dForStatus.filter(r=>tssrStKey(r)==='APROBADO_OBS').length;
+const tssrEnRev=dForStatus.filter(r=>tssrStKey(r)==='EN_REVISION').length;
+const tssrReqVis=dForStatus.filter(r=>tssrStKey(r)==='REQ_VISITA').length;
+const tssrRech=dForStatus.filter(r=>tssrStKey(r)==='RECHAZADO').length;
+const tssrSin=dForStatus.filter(r=>tssrStKey(r)==='SIN_ESTATUS').length;
+const tStatus=dForStatus.length;
+
+// Discipline cards: count on tssrScope filtered by active statuses
+const scopeForDisc=window._tssrFSt.size?tssrScope.filter(r=>window._tssrFSt.has(tssrStKey(r))):tssrScope;
+
+const isActive=k=>window._tssrFSt.has(k);
+const mkTssrCard=(label,count,color,key,hk)=>{
+  const sel=isActive(key);
+  return `<div class="DC" style="position:relative;border-left-color:${color};cursor:pointer;${sel?'box-shadow:0 0 0 2px '+color+';transform:translateY(-2px);background:color-mix(in srgb,'+color+' 9%,var(--c));':''}transition:all .2s" onclick="tgTssrCard('${key}',this)">
+${sel?'<div style="position:absolute;top:6px;right:8px;background:'+color+';color:#fff;font-size:8px;font-weight:700;padding:2px 7px;border-radius:8px;letter-spacing:.5px;line-height:1.4">\u2713 FILTRO</div>':''}
+<div class="dn">${label}${hk?' '+hlp(hk):''}</div>
+<div class="dr"><span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:${color}">${count}</span><span style="color:var(--tm)">${pct(count,tStatus)}</span></div>
+<div class="db"><div class="dbs" style="width:${tStatus?count/tStatus*100:0}%;background:${color}"></div></div>
+</div>`;
+};
+
+h+=`<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px">`;
+h+=mkTssrCard('\ud83c\udfc6 Aprobado',tssrApro,'var(--g)','APROBADO','tssr_final');
+h+=mkTssrCard('\u2705 Aprobado c/Obs',tssrAproObs,'#1B8C42','APROBADO_OBS','tssr_final');
+h+=mkTssrCard('\ud83d\udd04 En Revisi\u00f3n',tssrEnRev,'#1565C0','EN_REVISION','tssr_env');
+h+=mkTssrCard('\ud83d\udc41 Requiere Visita',tssrReqVis,'#F57F17','REQ_VISITA','');
+h+=mkTssrCard('\u274c Rechazado',tssrRech,'#C62828','RECHAZADO','');
+h+=mkTssrCard('\u2b1c Sin Estatus',tssrSin,'#9E9E9E','SIN_ESTATUS','');
+h+=`</div>`;
+
+const rfOK=scopeForDisc.filter(r=>r._rfOK).length;
+const eceOK=scopeForDisc.filter(r=>r._eceRevOK).length;
+const ooccOK=scopeForDisc.filter(r=>r._ooccOK).length;
+
+// Discipline cards — 4 specialties with timing
+const sLen=scopeForDisc.length;
+const implOKc=scopeForDisc.filter(r=>r._implApro).length;
+const prioT=dForStatus.filter(r=>r._t_prioToApro!==null).map(r=>r._t_prioToApro);
+const rfT=scopeForDisc.map(r=>r._t_rfWait).filter(v=>v!==null);
+const eceT=scopeForDisc.map(r=>r._t_eceWait).filter(v=>v!==null);
+const ooccT=scopeForDisc.map(r=>r._t_ooccWait).filter(v=>v!==null);
+
+h+=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">`;
+const rfRech=scopeForDisc.filter(r=>r._rfRech).length,eceRech=scopeForDisc.filter(r=>r._eceRech).length,ooccRech=scopeForDisc.filter(r=>r._ooccRech).length;
+h+=mkDiscCard4('🔧 IMPL','Revisión PMO',sLen,implOKc,sLen-implOKc,0,'#6A1B9A','tssr_ei','IMPL',avg(prioT),mx(prioT),'Prio→Apro');
+h+=mkDiscCard4('📡 RF',(window.RESP||{})['Fecha Apro RF']||'',sLen,rfOK,sLen-rfOK-rfRech,rfRech,'#1565C0','disc_rf','RF',avg(rfT),mx(rfT),'Revisión');
+h+=mkDiscCard4('⚡ ECE Rev',(window.RESP||{})['Fecha Apro ECE']||'',sLen,eceOK,sLen-eceOK-eceRech,eceRech,'#E65100','disc_ece','ECE',avg(eceT),mx(eceT),'Revisión');
+h+=mkDiscCard4('🏗 OOCC',(window.RESP||{})['Fecha Apro OOCC']||'',sLen,ooccOK,sLen-ooccOK-ooccRech,ooccRech,'#2E7D32','disc_oocc','OOCC',avg(ooccT),mx(ooccT),'Revisión');
+h+=`</div>`;
+
+// Ingeniero table
+// Active TSSR detail table with filters
+if(tssrScope.length){
+window._tssrAct=window._tssrFSt&&window._tssrFSt.size?d:tssrScope;
+const statuses=['APROBADO','RECHAZADO','PENDIENTE'];
+const areas=['IMPL','RF','ECE','OOCC'];
+
+const tblTitle=window._tssrFSt&&window._tssrFSt.size?'\ud83d\udccb Sitios TSSR (filtrados)':'\ud83d\udccb Sitios en Proceso TSSR';
+const tblCnt=window._tssrFSt&&window._tssrFSt.size?d.filter(r=>window._tssrFSt.has(tssrStatusKey(r))).length:tssrScope.length;
+h+=`<div class="TS"><div class="TH"><h3>${tblTitle} — <span id="tssrCnt">${tblCnt}</span></h3><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><input id="tssrQ" type="text" placeholder="\ud83d\udd0d Filtrar ID, nombre, regi\u00f3n, ing..." value="${(window._tssrQ||'').replace(/"/g,'&quot;')}" oninput="window._tssrQ=this.value;rTssrTB()" style="padding:5px 10px;border:1px solid var(--bd);border-radius:6px;font-size:11px;width:230px;background:var(--bg);color:var(--t);outline:none"><button class="btn-exp" onclick="copyTssrIds(this)" title="Copiar IDs visibles al portapapeles">\ud83d\udccb IDs</button><button class="btn-exp" onclick="expTssr()" title="Exportar Excel (subset visible)">📥</button></div></div>`;
+if(window._tssrFSt.size){
+const stMeta={APROBADO:['\ud83c\udfc6 Aprobado','#2E7D32'],APROBADO_OBS:['\u2705 Aprobado c/Obs','#1B8C42'],EN_REVISION:['\ud83d\udd04 En Revisi\u00f3n','#1565C0'],REQ_VISITA:['\ud83d\udc41 Requiere Visita','#F57F17'],RECHAZADO:['\u274c Rechazado','#C62828'],SIN_ESTATUS:['\u2b1c Sin Estatus','#9E9E9E']};
+h+=`<div style="padding:10px 14px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+<div style="font-size:10px;font-weight:600;color:var(--tm)">ESTADO:</div><div class="wm-chips">`;
+[...window._tssrFSt].forEach(k=>{const m=stMeta[k]||[k,'#666'];h+=`<div class="wm-chip sel" style="background:${m[1]};border-color:${m[1]}" onclick="tgTssrCard('${k}',this)" title="Quitar este filtro">${m[0]} \u2715</div>`});
+h+=`<div class="wm-chip" onclick="clrTssrSt()" style="font-size:9px" title="Quitar todos los filtros de estado">\u2715 todos</div></div></div>`;
+}
+h+=`<div style="padding:10px 14px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+<div style="font-size:10px;font-weight:600;color:var(--tm)">DISCIPLINA:</div>
+<div class="wm-chips" id="tssrFArea">`;
+areas.forEach(a=>{const ic=a==='IMPL'?'🔧':a==='RF'?'📡':a==='ECE'?'⚡':'🏗';h+=`<div class="wm-chip${window._tssrFArea.has(a)?' sel':''}" onclick="tgTssrF('area','${a}',this)">${ic} ${a}</div>`});
+h+=`<div class="wm-chip" onclick="clrTssrF()" style="font-size:9px">✕</div></div></div>
+<div id="tssrStats" style="padding:8px 14px 0;font-size:10px;color:var(--tm);font-family:'JetBrains Mono',monospace"></div>
+<div class="TW" style="max-height:450px"><table class="DT" id="tssrDT"><thead><tr>
+<th data-col="_id" onclick="sortTssr('_id')">ID</th><th data-col="_nombre" onclick="sortTssr('_nombre')">Nombre</th><th data-col="_regionName" onclick="sortTssr('_regionName')">Región</th><th data-col="_ingTSSR" onclick="sortTssr('_ingTSSR')">Ing.</th><th data-col="_fechaEnvEsp" onclick="sortTssr('_fechaEnvEsp')">F.Envío</th><th data-col="_diasEnv" onclick="sortTssr('_diasEnv')" title="D\u00edas h\u00e1biles desde F.Env\u00edo">Días</th><th data-col="_fcStatusSort" onclick="sortTssr('_fcStatusSort')">FC</th><th data-col="_implApro" onclick="sortTssr('_implApro')">IMPL</th><th data-col="_rfSort" onclick="sortTssr('_rfSort')">RF</th><th data-col="_eceSort" onclick="sortTssr('_eceSort')">ECE</th><th data-col="_ooccSort" onclick="sortTssr('_ooccSort')">OOCC</th><th data-col="_discOKCount" onclick="sortTssr('_discOKCount')">Disc</th><th data-col="_tssrSort" onclick="sortTssr('_tssrSort')">TSSR</th>
+</tr></thead><tbody id="tssrTB"></tbody></table></div></div>`;
+}
+document.getElementById('tssrC').innerHTML=h;
+if(window._tssrAct)rTssrTB();
+}
+
+// TSSR table filters state
+window._tssrFSt=window._tssrFSt||new Set();window._tssrFArea=new Set();window._tssrSortCol=null;window._tssrSortDir=1;
+function sortTssr(col){if(window._tssrSortCol===col){window._tssrSortDir*=-1}else{window._tssrSortCol=col;window._tssrSortDir=-1}rTssrTB()}
+function tgTssrF(_t,val,el){const s=window._tssrFArea;s.has(val)?s.delete(val):s.add(val);el.classList.toggle('sel');rTSSR()}
+function clrTssrF(){window._tssrFArea.clear();rTSSR()}
+function clrTssrSt(){window._tssrFSt.clear();rTSSR()}
+function tgTssrCard(key,el){const s=window._tssrFSt;if(s.has(key))s.delete(key);else s.add(key);rTSSR()}
+function tssrStatusKey(r){
+  const eu=(r._estatusTSSR||'').toUpperCase();
+  if(r._rfRech||r._eceRech||r._ooccRech||eu.includes('RECHAZ'))return'RECHAZADO';
+  if(eu==='APROBADO')return'APROBADO';
+  if(eu==='APROBADO CON OBS')return'APROBADO_OBS';
+  if(eu.includes('REVISI'))return'EN_REVISION';
+  if(eu.includes('REQUIERE')||eu==='VISITADO')return'REQ_VISITA';
+  return'SIN_ESTATUS';
+}
+function tssrVisible(){
+const act=window._tssrAct||[];const sf=window._tssrFSt,af=window._tssrFArea;
+const q=(window._tssrQ||'').trim().toLowerCase();
+act.forEach(r=>{if(r._diasEnv===undefined)r._diasEnv=dD(r._fechaEnvEsp,TODAY)});
+let filtered=act.filter(r=>{
+  if(sf.size){if(!sf.has(tssrStatusKey(r)))return!1}
+  if(af.size){
+    let discMatch=false;
+    for(const area of af){
+      if(area==='IMPL'&&!r._implApro)discMatch=true;
+      if(area==='RF'&&!r._rfOK)discMatch=true;
+      if(area==='ECE'&&!r._eceRevOK)discMatch=true;
+      if(area==='OOCC'&&!r._ooccOK)discMatch=true;
+    }
+    if(!discMatch)return!1;
+  }
+  if(q){const hit=[r._id,r._nombre,r._regionName,r._ingTSSR,r._contratista,r._comuna].some(v=>v&&String(v).toLowerCase().includes(q));if(!hit)return!1}
+  return!0});
+srtA(filtered,window._tssrSortCol,window._tssrSortDir);
+return filtered;
+}
+function copyTssrIds(btn){
+  const ids=(window._tssrVisible||[]).map(r=>r._id).filter(Boolean);
+  const reset=()=>{setTimeout(()=>{if(btn)btn.innerHTML='\ud83d\udccb IDs'},1600)};
+  if(!ids.length){if(btn){btn.textContent='\u26a0 0';reset()}return}
+  const txt=ids.join('\n');
+  const done=()=>{if(btn){btn.textContent='\u2705 '+ids.length;reset()}};
+  const fb=()=>{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(ta)};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done).catch(fb);else fb();
+}
+function rTssrTB(){
+const filtered=tssrVisible();
+window._tssrVisible=filtered;
+document.querySelectorAll('#tssrDT thead th').forEach(th=>th.classList.remove('srt-a','srt-d'));
+const _sc=window._tssrSortCol;
+if(_sc){const _th=document.querySelector('#tssrDT thead th[data-col="'+_sc+'"]');if(_th)_th.classList.add(window._tssrSortDir===1?'srt-a':'srt-d')}
+const st=document.getElementById('tssrStats');
+if(st){
+  const n=filtered.length,apro=filtered.filter(r=>r._tssrAprobado).length,rech=filtered.filter(r=>r._tssrRechazado).length,pend=n-apro-rech;
+  const dAvg=n?(filtered.reduce((a,r)=>a+(r._discOKCount||0),0)/n).toFixed(1):'0.0';
+  const ds=filtered.map(r=>r._diasEnv).filter(v=>v!=null);
+  const tAvg=ds.length?Math.round(ds.reduce((a,b)=>a+b,0)/ds.length):null;
+  const crit=filtered.filter(r=>!r._tssrAprobado&&r._diasEnv!=null&&r._diasEnv>=15).length;
+  st.innerHTML='\ud83d\udcca '+n+' sitios &nbsp;\u00b7&nbsp; \u2705 '+apro+' aprob &nbsp;\u00b7&nbsp; \u23f3 '+pend+' pend &nbsp;\u00b7&nbsp; \u274c '+rech+' rech &nbsp;\u00b7&nbsp; Disc \u00d8 '+dAvg+'/4'+(tAvg!=null?' &nbsp;\u00b7&nbsp; Env\u00edo \u00d8 '+tAvg+'d h\u00e1b':'')+(crit?' &nbsp;\u00b7&nbsp; <span style="color:#C62828;font-weight:700">\ud83d\udd25 '+crit+' pend &gt;15d h\u00e1b</span>':'');
+}
+const cnt=document.getElementById('tssrCnt');if(cnt)cnt.textContent=filtered.length;
+const tb=document.getElementById('tssrTB');if(!tb)return;
+tb.innerHTML=filtered.map(r=>`<tr><td style="font-weight:600">${esc(r._id)}</td><td>${esc(r._nombre)}</td><td>${esc(r._regionName)}</td>
+<td style="font-size:9px">${esc(r._ingTSSR)}</td><td>${fD(r._fechaEnvEsp)}</td>
+<td style="font-weight:600;font-family:'JetBrains Mono',monospace;color:${r._tssrAprobado?'var(--tm)':r._diasEnv>=15?'#C62828':r._diasEnv>=8?'#E65100':'var(--t)'}">${r._diasEnv==null?'\u2014':r._diasEnv+'d'}</td>
+<td>${bdg("fc",r._fcStatus)}</td>
+<td>${r._implApro?'<span class="bg_ bg_g">APROBADO</span>':'<span class="bg_ bg_o">PENDIENTE</span>'}</td>
+<td>${discBdg(r._fechaSolRF,r._fechaAproRF,r._estatusRF,r._fechaEnvEsp)}</td><td>${discBdg(r._fechaSolECE,r._fechaAproECE,r._estatusECE_d,r._fechaEnvEsp)}</td><td>${discBdg(r._fechaSolOOCC,r._fechaAproOOCC,r._estatusOOCC,r._fechaEnvEsp)}</td>
+<td style="font-weight:700;color:${r._discOKCount===4?'var(--g)':r._discOKCount>0?'var(--y)':'var(--tm)'}">${r._discOKCount}/4</td>
+<td>${r._tssrAprobado?'<span class="bg_ bg_g">APROBADO</span>':r._tssrRechazado?'<span class="bg_ bg_r">❌ RECHAZADO</span>':'<span class="bg_ bg_o">PENDIENTE</span>'}</td>
+</tr>`).join('')}
+
+// ═══ FC ═══
+function rFC(){
+const d=FLT,t=d.length;let h='';
+
+// Counts
+const fcApro=d.filter(r=>r._fcAprobado),fcLVES=d.filter(r=>r._fcLVES),fcRev=d.filter(r=>r._fcRev),fcReqT=d.filter(r=>r._fcReqTSSR),fcNoFact=d.filter(r=>r._fcNoFactible),fcAproRenta=d.filter(r=>r._fcAproRenta),fcNoApl=d.filter(r=>r._fcNoAplica),fcRef=d.filter(r=>r._fcRefuerzo),fcSin=d.filter(r=>r._fcSinGestion);
+
+// Timing per status
+const tApro=d.filter(r=>r._fcAprobado&&r._t_fcSolResp!==null).map(r=>r._t_fcSolResp);
+const tLVES=d.filter(r=>r._fcLVES&&r._t_fcSolResp!==null).map(r=>r._t_fcSolResp);
+const tRev=d.filter(r=>r._fcRev&&r._t_fcSolResp!==null).map(r=>r._t_fcSolResp);
+const tAll=d.filter(r=>r._t_fcSolResp!==null).map(r=>r._t_fcSolResp);
+
+window._fcFSt=window._fcFSt||new Set();
+
+// Status cards — clickable filters with own color
+h+=`<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:8px">`;
+h+=mkFCCard('\u2705 Aprobado',fcApro.length,t,'#2E7D32','APROBADO',avg(tApro),mx(tApro));
+h+=mkFCCard('\ud83d\udd0d Lev. Estructural',fcLVES.length,t,'#1565C0','LVES',avg(tLVES),mx(tLVES));
+h+=mkFCCard('\ud83d\udc41 Rev. Operador',fcRev.length,t,'#E6A800','REV',avg(tRev),mx(tRev));
+h+=mkFCCard('\ud83d\udccb Req. TSSR',fcReqT.length,t,'#6A1B9A','REQTSSR',null,null);
+h+=mkFCCard('\ud83c\udfe0 F. Apro. Renta',fcAproRenta.length,t,'#00838F','APRORENTA',null,null);
+h+=`</div>`;
+h+=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">`;
+h+=mkFCCard('\ud83d\udeab No Factible',fcNoFact.length,t,'#C62828','NOFACT',null,null);
+h+=mkFCCard('\u26d4 No Aplica',fcNoApl.length,t,'#880E4F','NOAPLICA',null,null);
+h+=mkFCCard('\ud83d\udee0 Refuerzo',fcRef.length,t,'#5D4037','REFUERZO',null,null);
+h+=mkFCCard('\u2b1c Sin Gesti\u00f3n',fcSin.length,t,'#8B929E','SIN',null,null);
+h+=`</div>`;
+
+// Filterable table
+window._fcAll=d;
+const tblTitle=window._fcFSt.size?'\ud83c\udfd7 FC (filtrados)':'\ud83c\udfd7 Detalle FC';
+const tblCnt=window._fcFSt.size?d.filter(r=>window._fcFSt.has(fcStatusKey(r))).length:d.length;
+h+=`<div class="TS"><div class="TH"><h3>${tblTitle} — <span id="fcCnt">${tblCnt}</span></h3><button class="btn-exp" onclick="expT('fcDT')">📥</button></div>
+<div class="TW" style="max-height:500px"><table class="DT" id="fcDT"><thead><tr>
+<th onclick="sortFc('_id')">ID</th><th onclick="sortFc('_nombre')">Nombre</th><th onclick="sortFc('_regionName')">Región</th><th onclick="sortFc('_clasif')">Clasif.</th>
+<th onclick="sortFc('_fcStatusSort')">Estado FC</th><th onclick="sortFc('_fechaSolFC')">F.Solicitud</th><th onclick="sortFc('_fechaRespFC')">F.Respuesta</th><th onclick="sortFc('_t_fcSolResp')">Días</th>
+<th onclick="sortFc('_comentario2')">Comentario</th>
+</tr></thead><tbody id="fcTB"></tbody></table></div></div>`;
+
+document.getElementById('fcC').innerHTML=h;
+rFcTB();
+}
+
+// FC card helper
+function mkFCCard(title,count,total,c,key,avgT,mxT){
+const sel=window._fcFSt&&window._fcFSt.has(key);
+const selStyle=sel?'box-shadow:0 0 0 2px '+c+';transform:translateY(-2px);':'';
+const tHtml=avgT!==null?`<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--bd)"><div class="disc-row"><span class="lbl">⏱ Sol→Resp</span></div><div style="display:flex;gap:10px;margin-top:2px"><span class="t-badge ${avgT>10?'t-r':avgT>5?'t-y':'t-g'}" style="font-size:10px">⌀ ${avgT}d</span><span class="t-badge t-x" style="font-size:10px">máx ${mxT}d</span></div></div>`:'';
+return`<div class="disc-card" data-fcst="${key}" style="border-top-color:${c};cursor:pointer;transition:all .2s;${selStyle}" onclick="tgFcCard('${key}',this)"><h4>${title}</h4><div class="disc-row"><span class="lbl">Sitios</span><span class="val" style="color:${c};font-size:18px"><b>${count}</b></span></div><div class="disc-row"><span class="lbl"></span><span class="val" style="color:var(--tm);font-size:10px">${pct(count,total)}</span></div><div class="pbar"><div class="pbar-f" style="width:${total?count/total*100:0}%;background:${c}"></div></div>${tHtml}</div>`}
+
+// FC table state
+window._fcFSt=window._fcFSt||new Set();window._fcSortCol=null;window._fcSortDir=1;
+function sortFc(col){if(window._fcSortCol===col){window._fcSortDir*=-1}else{window._fcSortCol=col;window._fcSortDir=-1}rFcTB()}
+function tgFcCard(key,el){const s=window._fcFSt;s.has(key)?s.delete(key):s.add(key);rFC()}
+
+function fcStatusKey(r){return r._fcAprobado?'APROBADO':r._fcLVES?'LVES':r._fcRev?'REV':r._fcReqTSSR?'REQTSSR':r._fcNoFactible?'NOFACT':r._fcAproRenta?'APRORENTA':r._fcNoAplica?'NOAPLICA':r._fcRefuerzo?'REFUERZO':'SIN'}
+
+function rFcTB(){
+const all=window._fcAll||[];const sf=window._fcFSt;
+let filtered=all.filter(r=>{
+  if(sf.size&&!sf.has(fcStatusKey(r)))return!1;
+  return!0});
+const sc=window._fcSortCol,sd=window._fcSortDir;
+srtA(filtered,sc,sd)
+const cnt=document.getElementById('fcCnt');if(cnt)cnt.textContent=filtered.length;
+const tb=document.getElementById('fcTB');if(!tb)return;
+tb.innerHTML=filtered.map(r=>`<tr><td style="font-weight:600">${esc(r._id)}</td><td>${esc(r._nombre)}</td><td>${esc(r._regionName)}</td><td style="font-size:9px">${esc(r._clasif)}</td>
+<td>${bdg('fc',r._fcStatus)}</td><td>${fD(r._fechaSolFC)}</td><td>${fD(r._fechaRespFC)}</td>
+<td>${r._t_fcSolResp!==null?`<span class="t-badge ${r._t_fcSolResp>10?'t-r':r._t_fcSolResp>5?'t-y':'t-g'}">${r._t_fcSolResp}d</span>`:''}</td>
+<td style="font-size:10px;max-width:250px;overflow:hidden;text-overflow:ellipsis">${esc(r._comentario2)}</td></tr>`).join('')}
+// ═══ RFI ═══
+function rRFI(){
+const d=FLT,t=d.length;let h='';
+
+// Classify each site for RFI
+d.forEach(r=>{
+  if(r._onAir){r._rfiClass='ONAIR'}
+  else if(r._rfiOK){r._rfiClass='DISPONIBLE'}
+  else if(r._fcAprobado&&r._tssrAprobado){r._rfiClass='LISTO'}
+  else{r._rfiClass='BLOQUEADO'}
+  const bl=[];
+  if(!r._rfiOK){
+    if(!r._fcAprobado)bl.push('Sin FC');
+    if(!r._tssrAprobado)bl.push('Sin TSSR');
+  }
+  r._rfiBlocker=bl.length?bl.join(', '):(r._rfiOK?'—':'Sin gestión');
+  r._rfiBlockCount=bl.length;
+});
+
+const entregados=d.filter(r=>r._rfiOK);
+const onAirC=d.filter(r=>r._onAir).length;
+const disponibles=d.filter(r=>r._rfiClass==='DISPONIBLE');
+const bloqueados=d.filter(r=>r._rfiClass==='BLOQUEADO').length;
+const dispHW=disponibles.filter(r=>isHW(r)).length;
+const dispIH=disponibles.filter(r=>r._contratista==='INHOUSE').length;
+
+window._rfiFSt=window._rfiFSt||new Set();
+window._rfiFBl=window._rfiFBl||new Set();
+
+// Status cards — clickable
+h+=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">`;
+h+=mkRFICard('\u2705 RFI Entregados',entregados.length,t,'#2E7D32','ENTREGADO',null);
+h+=mkRFICard('\ud83d\udfe2 On Air',onAirC,t,'#1B8C42','ONAIR',null);
+h+=mkRFICard('\ud83c\udfaf Disponibles (RFI\u2212OnAir)',disponibles.length,t,'#0D47A1','DISPONIBLE',{hw:dispHW,ih:dispIH});
+h+=mkRFICard('\u23f3 Bloqueados',bloqueados,t,'#C62828','BLOQUEADO',null);
+h+=`</div>`;
+
+// === Inconsistencias de Pipeline ===
+const incTssrSinFc=d.filter(r=>r._tssrAprobado&&!r._fcAprobado).length;
+const incRfiSinFc=d.filter(r=>r._rfiOK&&!r._fcAprobado).length;
+const incRfiSinTssr=d.filter(r=>r._rfiOK&&!r._tssrAprobado).length;
+const incOaSinFc=d.filter(r=>r._onAir&&!r._fcAprobado).length;
+const incOaSinTssr=d.filter(r=>r._onAir&&!r._tssrAprobado).length;
+const incOaSinRfi=d.filter(r=>r._onAir&&!r._rfiOK).length;
+const totalInc=incTssrSinFc+incRfiSinFc+incRfiSinTssr+incOaSinFc+incOaSinTssr+incOaSinRfi;
+
+window._rfiFInc=window._rfiFInc||new Set();
+const mkInc=(label,count,desc,key)=>{
+  const sel=window._rfiFInc.has(key);
+  const selStyle=sel?'box-shadow:0 0 0 2px #C62828;transform:translateY(-2px);':'';
+  return `<div style="flex:1;min-width:170px;padding:10px 14px;background:${count?'#FFEBEE':'#F1F8E9'};border-radius:8px;border-left:3px solid ${count?'#C62828':'#2E7D32'};cursor:${count?'pointer':'default'};transition:all .2s;${selStyle}" ${count?`onclick="tgRfiInc('${key}')"`:''}>
+<div style="display:flex;justify-content:space-between;align-items:baseline">
+<div style="font-size:11px;font-weight:700;color:${count?'#C62828':'#2E7D32'}">${count?'\u26a0\ufe0f':'\u2705'} ${label}</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:${count?'#C62828':'#2E7D32'}">${count}</div>
+</div>
+<div style="font-size:10px;color:var(--tm);margin-top:2px">${desc}</div>
+</div>`;
+};
+
+h+=`<div class="TS" style="margin-bottom:16px;border-top:3px solid ${totalInc?'#C62828':'#2E7D32'}">
+<div class="TH"><h3>${totalInc?'\u26a0\ufe0f':'\u2705'} Inconsistencias de Pipeline ${totalInc?'\u2014 <span style="color:#C62828">'+totalInc+' detectadas</span>':'\u2014 Sin desv\u00edos'}</h3>
+<span style="font-size:11px;color:var(--tm)">Click en una tarjeta para filtrar la tabla \u00b7 Saltos l\u00f3gicos en el flujo FC \u2192 TSSR \u2192 RFI \u2192 On Air</span></div>
+<div style="padding:14px 16px;display:flex;gap:10px;flex-wrap:wrap">
+${mkInc('TSSR sin FC',incTssrSinFc,'TSSR aprobado pero FC no aprobada','TSSR_NO_FC')}
+${mkInc('RFI sin FC',incRfiSinFc,'RFI entregado pero FC no aprobada','RFI_NO_FC')}
+${mkInc('RFI sin TSSR',incRfiSinTssr,'RFI entregado pero TSSR no aprobado','RFI_NO_TSSR')}
+${mkInc('On Air sin FC',incOaSinFc,'Sitio On Air sin FC aprobada','OA_NO_FC')}
+${mkInc('On Air sin TSSR',incOaSinTssr,'Sitio On Air sin TSSR aprobado','OA_NO_TSSR')}
+${mkInc('On Air sin RFI',incOaSinRfi,'Sitio On Air sin RFI entregado','OA_NO_RFI')}
+</div></div>`;
+
+// Filterable sortable table
+window._rfiAll=d;
+const tblTitle=(window._rfiFSt.size||window._rfiFBl.size)?'\ud83d\udcc4 RFI (filtrados)':'\ud83d\udcc4 Detalle RFI';
+h+=`<div class="TS"><div class="TH"><h3>${tblTitle} — <span id="rfiCnt">${d.length}</span></h3><button class="btn-exp" onclick="expT('rfiDT')">\ud83d\udce5</button></div>`;
+
+// Only show blocker chips when filtering for blocked sites or always
+h+=`<div style="padding:10px 14px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+<div style="font-size:10px;font-weight:600;color:var(--tm)">BLOQUEANTE:</div>
+<div class="wm-chips" id="rfiFBl">
+<div class="wm-chip${window._rfiFBl.has('FC')?' sel':''}" onclick="tgRfiBl('FC',this)">\ud83c\udfd7 Sin FC</div>
+<div class="wm-chip${window._rfiFBl.has('TSSR')?' sel':''}" onclick="tgRfiBl('TSSR',this)">\ud83d\udccb Sin TSSR</div>
+<div class="wm-chip" onclick="clrRfiBl()" style="font-size:9px">\u2715</div>
+</div></div>`;
+
+h+=`<div class="TW" style="max-height:500px"><table class="DT" id="rfiDT"><thead><tr>
+<th onclick="sortRfi('_id')">ID</th><th onclick="sortRfi('_nombre')">Nombre</th><th onclick="sortRfi('_regionName')">Región</th><th onclick="sortRfi('_clasif')">Clasif.</th><th onclick="sortRfi('_contratista')">Contrat.</th>
+<th onclick="sortRfi('_fcStatusSort')">FC</th><th onclick="sortRfi('_discOKCount')">Disc</th><th onclick="sortRfi('_tssrSort')">TSSR</th>
+<th onclick="sortRfi('_rfiClassSort')">RFI</th><th onclick="sortRfi('_fechaRFI')">F.RFI</th><th onclick="sortRfi('_rfiBlockCount')">Bloqueante</th>
+</tr></thead><tbody id="rfiTB"></tbody></table></div></div>`;
+
+document.getElementById('rfiC').innerHTML=h;
+rRfiTB();
+}
+
+// RFI card helper
+function mkRFICard(title,count,total,c,key,hwih){
+const sel=window._rfiFSt&&window._rfiFSt.has(key);
+const selStyle=sel?'box-shadow:0 0 0 2px '+c+';transform:translateY(-2px);':'';
+const hwIhHtml=hwih?`<div style="display:flex;gap:4px;margin-top:8px;justify-content:center"><span style="background:#E65100;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600">HW ${hwih.hw}</span><span style="background:#6A1B9A;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600">IH ${hwih.ih}</span></div>`:'';
+return`<div class="disc-card" data-rfist="${key}" style="border-top-color:${c};cursor:pointer;transition:all .2s;${selStyle}" onclick="tgRfiCard('${key}',this)"><h4>${title}</h4><div class="disc-row"><span class="lbl">Sitios</span><span class="val" style="color:${c};font-size:18px"><b>${count}</b></span></div><div class="disc-row"><span class="lbl"></span><span class="val" style="color:var(--tm);font-size:10px">${pct(count,total)}</span></div><div class="pbar"><div class="pbar-f" style="width:${total?count/total*100:0}%;background:${c}"></div></div>${hwIhHtml}</div>`}
+
+// RFI table state
+window._rfiFSt=window._rfiFSt||new Set();window._rfiFBl=window._rfiFBl||new Set();window._rfiSortCol=null;window._rfiSortDir=1;
+function sortRfi(col){if(window._rfiSortCol===col){window._rfiSortDir*=-1}else{window._rfiSortCol=col;window._rfiSortDir=-1}rRfiTB()}
+function tgRfiBl(val,el){window._rfiFBl.has(val)?window._rfiFBl.delete(val):window._rfiFBl.add(val);el.classList.toggle('sel');rRfiTB()}
+function clrRfiBl(){window._rfiFBl.clear();document.querySelectorAll('#rfiFBl .wm-chip').forEach(c=>c.classList.remove('sel'));rRfiTB()}
+function tgRfiCard(key,el){const s=window._rfiFSt;s.has(key)?s.delete(key):s.add(key);rRFI()}
+function tgRfiInc(key){const s=window._rfiFInc;s.has(key)?s.delete(key):s.add(key);rRFI()}
+
+function rRfiTB(){
+const all=window._rfiAll||[];const sf=window._rfiFSt,bf=window._rfiFBl,inf=window._rfiFInc||new Set();
+all.forEach(r=>{r._rfiClassSort={'ONAIR':3,'DISPONIBLE':2,'LISTO':1,'BLOQUEADO':0}[r._rfiClass]||0});
+let filtered=all.filter(r=>{
+  if(sf.size){
+    let ok=false;
+    if(sf.has('ENTREGADO')&&r._rfiOK)ok=true;
+    if(sf.has('ONAIR')&&r._onAir)ok=true;
+    if(sf.has('DISPONIBLE')&&r._rfiClass==='DISPONIBLE')ok=true;
+    if(sf.has('BLOQUEADO')&&r._rfiClass==='BLOQUEADO')ok=true;
+    if(!ok)return!1;
+  }
+  if(bf.size){let match=false;
+    if(bf.has('FC')&&!r._fcAprobado)match=true;
+    if(bf.has('TSSR')&&!r._tssrAprobado)match=true;
+    if(!match)return!1}
+  if(inf.size){
+    let ok=false;
+    if(inf.has('TSSR_NO_FC')&&r._tssrAprobado&&!r._fcAprobado)ok=true;
+    if(inf.has('RFI_NO_FC')&&r._rfiOK&&!r._fcAprobado)ok=true;
+    if(inf.has('RFI_NO_TSSR')&&r._rfiOK&&!r._tssrAprobado)ok=true;
+    if(inf.has('OA_NO_FC')&&r._onAir&&!r._fcAprobado)ok=true;
+    if(inf.has('OA_NO_TSSR')&&r._onAir&&!r._tssrAprobado)ok=true;
+    if(inf.has('OA_NO_RFI')&&r._onAir&&!r._rfiOK)ok=true;
+    if(!ok)return!1;
+  }
+  return!0});
+const sc=window._rfiSortCol,sd=window._rfiSortDir;
+srtA(filtered,sc,sd)
+const cnt=document.getElementById('rfiCnt');if(cnt)cnt.textContent=filtered.length;
+const tb=document.getElementById('rfiTB');if(!tb)return;
+tb.innerHTML=filtered.map(r=>`<tr><td style="font-weight:600">${esc(r._id)}</td><td>${esc(r._nombre)}</td><td>${esc(r._regionName)}</td><td style="font-size:9px">${esc(r._clasif)}</td><td>${esc(r._contratista)}</td>
+<td>${bdg('fc',r._fcStatus)}</td>
+<td style="font-weight:700;color:${r._discOKCount===4?'var(--g)':r._discOKCount>0?'var(--y)':'var(--tm)'}">${r._discOKCount}/4</td>
+<td>${r._tssrAprobado?'<span class="bg_ bg_g">APROBADO</span>':r._tssrRechazado?'<span class="bg_ bg_r">❌ RECHAZADO</span>':'<span class="bg_ bg_o">PENDIENTE</span>'}</td>
+<td>${r._onAir?'<span class="bg_ bg_g">🟢 ON AIR</span>':r._rfiOK?'<span class="bg_ bg_bl">🎯 DISPONIBLE</span>':r._rfiClass==='LISTO'?'<span class="bg_ bg_b">✅ LISTO</span>':'<span class="bg_ bg_o">⏳</span>'}</td>
+<td>${fD(r._fechaRFI)}</td>
+<td style="font-size:9px;color:${r._rfiOK?'var(--g)':r._rfiClass==='LISTO'?'var(--bl)':'var(--o)'}">${r._rfiOK?'—':r._rfiClass==='LISTO'?'✅ Listo':esc(r._rfiBlocker)}</td></tr>`).join('')}
+
+// ═══ IMPLEMENTACIÓN ═══
+function rImpl(){
+const d=FLT,t=d.length;let h='';
+const implScope=d.filter(r=>r._rfiOK||r._onAir);
+
+implScope.forEach(r=>{
+  r._implClass=r._onAir?'ONAIR':'PENDIENTE';
+});
+
+const oa=implScope.filter(r=>r._implClass==='ONAIR');
+const pend=implScope.filter(r=>r._implClass==='PENDIENTE');
+const oaHW=oa.filter(r=>isHW(r)).length;
+const oaIH=oa.filter(r=>r._contratista==='INHOUSE').length;
+const pendHW=pend.filter(r=>isHW(r)).length;
+const pendIH=pend.filter(r=>r._contratista==='INHOUSE').length;
+
+window._implFSt=window._implFSt||new Set();
+
+// Status cards — clickable with HW/IH badges
+h+=`<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px">`;
+h+=mkImplCard('\ud83d\udfe2 On Air',oa.length,implScope.length,'#2E7D32','ONAIR',{hw:oaHW,ih:oaIH});
+h+=mkImplCard('\u23f3 Pendiente',pend.length,implScope.length,'#E65100','PENDIENTE',{hw:pendHW,ih:pendIH});
+h+=`</div>`;
+
+// Inconsistencies detection
+const incon=[];
+d.forEach(r=>{
+  const issues=[];
+  if(r._onAir&&!r._fcAprobado)issues.push('On Air sin FC Aprobada');
+  if(r._onAir&&!r._tssrAprobado)issues.push('On Air sin TSSR Aprobado');
+  if(r._onAir&&!r._rfiOK)issues.push('On Air sin RFI Entregado');
+  if(r._rfiOK&&!r._tssrAprobado)issues.push('RFI Entregado sin TSSR Aprobado');
+  if(issues.length)incon.push({r,issues});
+});
+if(incon.length){
+h+=`<div class="TS" style="border-left:3px solid #C62828;margin-bottom:14px"><div class="TH"><h3 style="color:#C62828">\u26a0\ufe0f Inconsistencias \u2014 ${incon.length} sitios</h3></div>
+<div class="TW" style="max-height:300px"><table class="DT"><thead><tr>
+<th>ID</th><th>Nombre</th><th>Regi\u00f3n</th><th>FC</th><th>TSSR</th><th>RFI</th><th>EST.INT</th><th>Problema</th>
+</tr></thead><tbody>${incon.map(({r,issues})=>`<tr style="background:rgba(198,40,40,.04)">
+<td style="font-weight:600">${esc(r._id)}</td><td>${esc(r._nombre)}</td><td>${esc(r._regionName)}</td>
+<td>${r._fcAprobado?'<span class="bg_ bg_g">\u2705</span>':'<span class="bg_ bg_r">\u274c</span>'}</td>
+<td>${r._tssrAprobado?'<span class="bg_ bg_g">\u2705</span>':r._tssrRechazado?'<span class="bg_ bg_r">RECH</span>':'<span class="bg_ bg_o">PEND</span>'}</td>
+<td>${r._rfiOK?'<span class="bg_ bg_g">\u2705</span>':'<span class="bg_ bg_x">\u2014</span>'}</td>
+<td>${r._estatusINT?'<span class="bg_ bg_g">'+esc(r._estatusINT)+'</span>':'\u2014'}</td>
+<td style="font-size:9px;color:#C62828">${issues.join(' \u00b7 ')}</td>
+</tr>`).join('')}</tbody></table></div></div>`;
+}
+
+// Filterable sortable table
+const inconIds=new Set(incon.map(x=>x.r._id));
+window._implAll=implScope.filter(r=>!inconIds.has(r._id));
+const tblTitle=window._implFSt.size?'\ud83d\ude80 Implementaci\u00f3n (filtrados)':'\ud83d\ude80 Detalle Implementaci\u00f3n';
+h+=`<div class="TS"><div class="TH"><h3>${tblTitle} \u2014 <span id="implCnt">${implScope.length-incon.length}</span></h3><button class="btn-exp" onclick="expT('implDT')">\ud83d\udce5</button></div>
+<div class="TW" style="max-height:500px"><table class="DT" id="implDT"><thead><tr>
+<th onclick="sortImpl('_id')">ID</th><th onclick="sortImpl('_nombre')">Nombre</th><th onclick="sortImpl('_regionName')">Regi\u00f3n</th><th onclick="sortImpl('_clasif')">Clasif.</th><th onclick="sortImpl('_contratista')">Contrat.</th>
+<th onclick="sortImpl('_estatusImplFinal')">ESTATUS IMPLE</th>
+<th onclick="sortImpl('_fechaPlanImpl')">F.Plan</th><th onclick="sortImpl('_fechaRealImpl')">F.Real</th><th onclick="sortImpl('_estatusINT')">ESTATUS INT</th>
+</tr></thead><tbody id="implTB"></tbody></table></div></div>`;
+
+document.getElementById('implC').innerHTML=h;
+rImplTB();
+}
+
+// Impl card helper
+function mkImplCard(title,count,total,c,key,hwih){
+const sel=window._implFSt&&window._implFSt.has(key);
+const selStyle=sel?'box-shadow:0 0 0 2px '+c+';transform:translateY(-2px);':'';
+const hwIhHtml=hwih?`<div style="display:flex;gap:4px;margin-top:8px;justify-content:center"><span style="background:#E65100;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600">HW ${hwih.hw}</span><span style="background:#6A1B9A;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600">IH ${hwih.ih}</span></div>`:'';
+return`<div class="disc-card" data-implst="${key}" style="border-top-color:${c};cursor:pointer;transition:all .2s;${selStyle}" onclick="tgImplCard('${key}',this)"><h4>${title}</h4><div class="disc-row"><span class="lbl">Sitios</span><span class="val" style="color:${c};font-size:18px"><b>${count}</b></span></div><div class="disc-row"><span class="lbl"></span><span class="val" style="color:var(--tm);font-size:10px">${pct(count,total)}</span></div><div class="pbar"><div class="pbar-f" style="width:${total?count/total*100:0}%;background:${c}"></div></div>${hwIhHtml}</div>`}
+
+// Impl table state
+window._implFSt=window._implFSt||new Set();window._implSortCol=null;window._implSortDir=1;
+function sortImpl(col){if(window._implSortCol===col){window._implSortDir*=-1}else{window._implSortCol=col;window._implSortDir=-1}rImplTB()}
+function tgImplCard(key,el){const s=window._implFSt;s.has(key)?s.delete(key):s.add(key);rImpl()}
+
+function rImplTB(){
+const all=window._implAll||[];const sf=window._implFSt;
+all.forEach(r=>{r._implClassSort=r._implClass==='ONAIR'?1:0});
+let filtered=all.filter(r=>{
+  if(sf.size&&!sf.has(r._implClass))return!1;
+  return!0});
+const sc=window._implSortCol,sd=window._implSortDir;
+srtA(filtered,sc,sd)
+const cnt=document.getElementById('implCnt');if(cnt)cnt.textContent=filtered.length;
+const tb=document.getElementById('implTB');if(!tb)return;
+tb.innerHTML=filtered.map(r=>{
+const stBdg=r._estatusINT?`<span class="bg_ bg_g">\ud83d\udfe2 ${esc(r._estatusINT)}</span>`:'\u2014';
+return`<tr><td style="font-weight:600">${esc(r._id)}</td><td>${esc(r._nombre)}</td><td>${esc(r._regionName)}</td><td style="font-size:9px">${esc(r._clasif)}</td><td>${esc(r._contratista)}</td>
+<td>${r._estatusImplFinal?bdg('impl',r._estatusImplFinal):'\u2014'}</td>
+<td>${fD(r._fechaPlanImpl)}</td><td>${fD(r._fechaRealImpl)}</td>
+<td>${stBdg}</td></tr>`}).join('')}
+
+// ═══ ÁREAS ═══
+
+// ═══ ASBUILT ═══
+function rAsbuilt(){
+const d=FLT,t=d.length;let h='';
+const scope=d.filter(r=>r._asbScope);
+const sLen=scope.length;
+const recibidos=d.filter(r=>r._asbRecepcion).length;
+const envEsp=d.filter(r=>r._asbEnvEsp).length;
+const aprobados=scope.filter(r=>r._asbAprobado).length;
+const enRev=scope.filter(r=>r._asbEnRevision).length;
+
+// KPI cards
+h+=`<div class="DG">`;
+h+=mkDC('📥 Recepción Asbuilt',recibidos,t,'#00838F','');
+h+=mkDC('📤 Env. Especialidades',envEsp,t,'var(--bl)','');
+h+=mkDC('⏳ En Revisión',enRev,t,'#F57F17','');
+h+=mkDC('🏆 Asbuilt Aprobado',aprobados,t,'var(--g)','');
+h+=`</div>`;
+
+// Discipline cards
+const implOK=scope.filter(r=>r._asbImplOK).length;
+const rfOK2=scope.filter(r=>r._asbRFOK).length;
+const eceOK2=scope.filter(r=>r._asbECEOK).length;
+const ooccOK2=scope.filter(r=>r._asbOOCCOK).length;
+const implRech=scope.filter(r=>r._asbImplRech).length;
+const rfRech2=scope.filter(r=>r._asbRFRech).length;
+const eceRech2=scope.filter(r=>r._asbECERech).length;
+const ooccRech2=scope.filter(r=>r._asbOOCCRech).length;
+
+const implT=scope.filter(r=>r._asbFechaImpl).map(r=>dD(r._asbEnvEsp||r._asbRecepcion,r._asbImplOK?r._asbFechaImpl:TODAY)).filter(v=>v!==null);
+const rfT2=scope.filter(r=>r._asbFechaRF||r._asbRFPend).map(r=>dD(r._asbEnvEsp||r._asbRecepcion,r._asbRFOK?r._asbFechaRF:TODAY)).filter(v=>v!==null);
+const eceT2=scope.filter(r=>r._asbFechaECE||r._asbECEPend).map(r=>dD(r._asbEnvEsp||r._asbRecepcion,r._asbECEOK?r._asbFechaECE:TODAY)).filter(v=>v!==null);
+const ooccT2=scope.filter(r=>r._asbFechaOOCC||r._asbOOCCPend).map(r=>dD(r._asbEnvEsp||r._asbRecepcion,r._asbOOCCOK?r._asbFechaOOCC:TODAY)).filter(v=>v!==null);
+
+h+=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">`;
+h+=mkDiscCard4('\ud83d\udd27 IMPL','',sLen,implOK,sLen-implOK-implRech,implRech,'#6A1B9A','','ASB_IMPL',avg(implT),mx(implT),'Revisión');
+h+=mkDiscCard4('\ud83d\udce1 RF','',sLen,rfOK2,sLen-rfOK2-rfRech2,rfRech2,'#1565C0','','ASB_RF',avg(rfT2),mx(rfT2),'Revisión');
+h+=mkDiscCard4('\u26a1 ECE','',sLen,eceOK2,sLen-eceOK2-eceRech2,eceRech2,'#E65100','','ASB_ECE',avg(eceT2),mx(eceT2),'Revisión');
+h+=mkDiscCard4('\ud83c\udfd7 OOCC','',sLen,ooccOK2,sLen-ooccOK2-ooccRech2,ooccRech2,'#2E7D32','','ASB_OOCC',avg(ooccT2),mx(ooccT2),'Revisión');
+h+=`</div>`;
+
+if(scope.length){
+window._asbAct=scope;
+h+=`<div class="TS"><div class="TH"><h3>\ud83d\udccb Sitios en Proceso Asbuilt — <span id="asbCnt">${scope.length}</span></h3><button class="btn-exp" onclick="expAsb()">📥</button></div>
+<div style="padding:10px 14px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+<div style="font-size:10px;font-weight:600;color:var(--tm)">ESTATUS:</div>
+<div class="wm-chips" id="asbFSt">
+<div class="wm-chip" onclick="tgAsbF('st','APROBADO',this)">\ud83c\udfc6 APROBADO</div>
+<div class="wm-chip" onclick="tgAsbF('st','PENDIENTE',this)">\u23f3 PENDIENTE</div>
+<div class="wm-chip" onclick="tgAsbF('st','RECHAZADO',this)">\u274c RECHAZADO</div>
+<div class="wm-chip" onclick="clrAsbF('st')" style="font-size:9px">\u2715</div></div>
+<div style="font-size:10px;font-weight:600;color:var(--tm)">DISCIPLINA:</div>
+<div class="wm-chips" id="asbFArea">
+<div class="wm-chip" onclick="tgAsbF('area','ASB_IMPL',this)">\ud83d\udd27 IMPL</div>
+<div class="wm-chip" onclick="tgAsbF('area','ASB_RF',this)">\ud83d\udce1 RF</div>
+<div class="wm-chip" onclick="tgAsbF('area','ASB_ECE',this)">\u26a1 ECE</div>
+<div class="wm-chip" onclick="tgAsbF('area','ASB_OOCC',this)">\ud83c\udfd7 OOCC</div>
+<div class="wm-chip" onclick="clrAsbF('area')" style="font-size:9px">\u2715</div></div></div>
+<div class="TW" style="max-height:450px"><table class="DT" id="asbDT"><thead><tr>
+<th onclick="sortAsb('_id')">ID</th><th onclick="sortAsb('_nombre')">Nombre</th><th onclick="sortAsb('_regionName')">Región</th><th onclick="sortAsb('_asbRecepcion')">Recepción</th><th onclick="sortAsb('_asbEnvEsp')">Env.Esp</th><th onclick="sortAsb('_asbImplOK')">IMPL</th><th onclick="sortAsb('_asbRFOK')">RF</th><th onclick="sortAsb('_asbECEOK')">ECE</th><th onclick="sortAsb('_asbOOCCOK')">OOCC</th><th onclick="sortAsb('_asbDiscOK')">Disc</th><th onclick="sortAsb('_asbEstatus')">Estatus</th>
+</tr></thead><tbody id="asbTB"></tbody></table></div></div>`;
+}
+document.getElementById('asbC').innerHTML=h;
+if(window._asbAct)rAsbTB();
+}
+
+window._asbFSt=new Set();window._asbFArea=new Set();window._asbSortCol=null;window._asbSortDir=1;
+function sortAsb(col){if(window._asbSortCol===col){window._asbSortDir*=-1}else{window._asbSortCol=col;window._asbSortDir=-1}rAsbTB()}
+function tgAsbF(type,val,el){const s=type==='st'?window._asbFSt:window._asbFArea;s.has(val)?s.delete(val):s.add(val);el.classList.toggle('sel');rAsbTB()}
+function clrAsbF(type){if(type==='st'){window._asbFSt.clear();document.querySelectorAll('#asbFSt .wm-chip').forEach(c=>c.classList.remove('sel'))}else{window._asbFArea.clear();document.querySelectorAll('#asbFArea .wm-chip').forEach(c=>c.classList.remove('sel'))}rAsbTB()}
+function rAsbTB(){
+const act=window._asbAct||[];const sf=window._asbFSt,af=window._asbFArea;
+let filtered=act.filter(r=>{
+  if(sf.size){const st=r._asbAprobado?'APROBADO':r._asbEstatus.includes('RECHAZ')?'RECHAZADO':'PENDIENTE';if(!sf.has(st))return!1}
+  if(af.size){
+    let m=false;
+    for(const area of af){
+      if(area==='ASB_IMPL'&&!r._asbImplOK)m=true;
+      if(area==='ASB_RF'&&!r._asbRFOK)m=true;
+      if(area==='ASB_ECE'&&!r._asbECEOK)m=true;
+      if(area==='ASB_OOCC'&&!r._asbOOCCOK)m=true;
+    }
+    if(!m)return!1;
+  }
+  return!0});
+const sc=window._asbSortCol,sd=window._asbSortDir;
+if(sc)filtered.sort((a,b)=>{let va=a[sc],vb=b[sc];if(va instanceof Date&&vb instanceof Date)return(va-vb)*sd;if(typeof va==='boolean')return((va?1:0)-(vb?1:0))*sd;if(typeof va==='number')return(va-vb)*sd;return String(va||'').localeCompare(String(vb||''))*sd});
+const badge=(ok,pend,rech)=>ok?'<span class="badge-h bg_g">\u2705</span>':rech?'<span class="badge-h bg_r">\u274c</span>':pend?'<span class="badge-h bg_o">\u23f3</span>':'<span class="badge-h bg_x">\u2014</span>';
+document.getElementById('asbTB').innerHTML=filtered.map(r=>`<tr>
+<td style="font-weight:600">${esc(r._id)}</td><td>${esc(r._nombre)}</td><td>${esc(r._regionName)}</td>
+<td>${fD(r._asbRecepcion)}</td><td>${fD(r._asbEnvEsp)}</td>
+<td>${badge(r._asbImplOK,r._asbImplPend,r._asbImplRech)}</td>
+<td>${badge(r._asbRFOK,r._asbRFPend,r._asbRFRech)}</td>
+<td>${badge(r._asbECEOK,r._asbECEPend,r._asbECERech)}</td>
+<td>${badge(r._asbOOCCOK,r._asbOOCCPend,r._asbOOCCRech)}</td>
+<td style="font-family:'JetBrains Mono',monospace;font-weight:600;color:${r._asbDiscOK===4?'var(--g)':r._asbDiscOK>0?'var(--o)':'var(--tm)'}">${r._asbDiscOK}/4</td>
+<td><span class="badge-h ${r._asbAprobado?'bg_g':r._asbEnRevision?'bg_o':'bg_x'}">${r._asbAprobado?'APROBADO':r._asbEnRevision?'EN REVISIÓN':r._asbEstatus||'\u2014'}</span></td>
+</tr>`).join('');
+document.getElementById('asbCnt').textContent=filtered.length;
+}
+
+function expAsb(){
+const act=window._asbAct||[];
+const rows=[['ID','Nombre','Región','Clasificación','Recepción','Env.Especialidades','IMPL','RF','ECE','OOCC','Disc OK','Estatus Asbuilt']];
+act.forEach(r=>{rows.push([r._id,r._nombre,r._regionName,r._clasif,fD(r._asbRecepcion),fD(r._asbEnvEsp),
+  r._asbImplOK?'Aprobado':r._asbImplPend?'Pendiente':r._asbImplRech?'Rechazado':'-',
+  r._asbRFOK?'Aprobado':r._asbRFPend?'Pendiente':r._asbRFRech?'Rechazado':'-',
+  r._asbECEOK?'Aprobado':r._asbECEPend?'Pendiente':r._asbECERech?'Rechazado':'-',
+  r._asbOOCCOK?'Aprobado':r._asbOOCCPend?'Pendiente':r._asbOOCCRech?'Rechazado':'-',
+  r._asbDiscOK+'/4',r._asbEstatus||'-'])});
+const ws=XLSX.utils.aoa_to_sheet(rows);const wb2=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb2,ws,'Asbuilt');XLSX.writeFile(wb2,'Asbuilt_E5G_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+// \u2550\u2550\u2550 PRIORIDAD \u2550\u2550\u2550
+function rPrio(){
+const stgo=FLT.filter(r=>r._regionName==='Metropolitana');
+const resto=FLT.filter(r=>r._regionName!=='Metropolitana');
+let h='';
+
+window._prioFcF=window._prioFcF||new Set();
+window._prioTssrF=window._prioTssrF||new Set();
+window._prioImplF=window._prioImplF||new Set();
+window._prioNumF=window._prioNumF||new Set();
+
+const prioMeta=v=>v==='RECHAZ'?{icon:'\u274c',color:'#C62828',label:'RECHAZ',desc:'Rechazado'}:v==='FC'?{icon:'\ud83c\udfd7',color:'#1565C0',label:'FC',desc:'Pendiente FC'}:v==='_SIN_'?{icon:'\u2b1c',color:'#9E9E9E',label:'Sin Prio',desc:'Sin prioridad asignada'}:v.startsWith('1')?{icon:'\ud83e\udd47',color:'#2E7D32',label:v,desc:'Prioridad Alta'}:v.startsWith('2')?{icon:'\ud83e\udd48',color:'#E6A800',label:v,desc:'Prioridad Media'}:v.startsWith('3')?{icon:'\ud83e\udd49',color:'#E65100',label:v,desc:'Prioridad Baja'}:v.toUpperCase().includes('RENTA')?{icon:'\ud83c\udfe0',color:'#00838F',label:v,desc:'Pdte. F. Renta'}:{icon:'\ud83d\udccc',color:'#9E9E9E',label:v,desc:'Otra categor\u00eda'};
+
+const prioRank=v=>/^1-/.test(v)?100+parseInt(v.match(/W(\d+)/)?.[1]||0):/^2-/.test(v)?200+parseInt(v.match(/W(\d+)/)?.[1]||0):/^3-/.test(v)?300+parseInt(v.match(/W(\d+)/)?.[1]||0):v==='FC'?900:v==='RECHAZ'?950:v==='_SIN_'?1000:999;
+
+// ═══ SECCIÓN 1: SUMMARY HEADER ═══
+const totalPrio=FLT.filter(r=>r._prioTSSR&&r._prioTSSR!=='RECHAZ').length;
+const totalRechaz=FLT.filter(r=>r._prioTSSR==='RECHAZ').length;
+const totalSinPrio=FLT.filter(r=>!r._prioTSSR).length;
+
+h+=`<div class="TS" style="margin-bottom:14px;overflow:hidden;border-top:3px solid #DA291C">
+<div style="padding:14px 20px;display:flex;align-items:center;gap:14px;background:linear-gradient(90deg,#fafafa,#fff)">
+<div style="font-size:26px">\u2b50</div>
+<div style="flex:1">
+<div style="font-size:16px;font-weight:700">Centro de Prioridades</div>
+<div style="font-size:11px;color:var(--td)">Sitios clasificados por urgencia de TSSR</div>
+</div>
+<div style="display:flex;gap:8px">
+<div style="text-align:center;padding:8px 16px;background:#E8F5E9;border-radius:6px"><div style="font-size:9px;color:var(--tm);text-transform:uppercase">Con Prio</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--g)">${totalPrio}</div></div>
+<div style="text-align:center;padding:8px 16px;background:#FFEBEE;border-radius:6px"><div style="font-size:9px;color:var(--tm);text-transform:uppercase">Rechaz</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#C62828">${totalRechaz}</div></div>
+<div style="text-align:center;padding:8px 16px;background:#F5F5F5;border-radius:6px"><div style="font-size:9px;color:var(--tm);text-transform:uppercase">Sin Prio</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--tm)">${totalSinPrio}</div></div>
+<div style="text-align:center;padding:8px 16px;background:#fafafa;border-radius:6px;border:1px solid var(--bd)"><div style="font-size:9px;color:var(--tm);text-transform:uppercase">Total</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--t)">${FLT.length}</div></div>
+</div></div></div>`;
+
+// ═══ SECCIÓN 2: CARDS POR PRIORIDAD (clickeables) ═══
+const prioGroups={};
+FLT.forEach(r=>{const k=r._prioTSSR||'_SIN_';(prioGroups[k]=prioGroups[k]||[]).push(r)});
+const prioKeys=Object.keys(prioGroups).sort((a,b)=>prioRank(a)-prioRank(b));
+
+const mkPrioCard=(k,arr)=>{
+  const m=prioMeta(k);
+  const fc=arr.filter(r=>r._fcAprobado).length;
+  const ts=arr.filter(r=>r._tssrAprobado).length;
+  const rfi=arr.filter(r=>r._rfiOK).length;
+  const oa=arr.filter(r=>r._onAir).length;
+  const sel=window._prioNumF.has(k);
+  return `<div onclick="tgPrioF('num','${k}',this)" style="cursor:pointer;background:#fff;border:1px solid var(--bd);border-top:4px solid ${m.color};border-radius:8px;padding:12px;transition:all .2s;${sel?'box-shadow:0 0 0 2px '+m.color+';transform:translateY(-2px)':''}" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.12)'" onmouseout="this.style.boxShadow='${sel?'0 0 0 2px '+m.color:''}'">
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+<div><span style="font-size:14px;font-weight:700;color:${m.color}">${m.icon} ${m.label}</span>
+<span style="font-size:9px;color:var(--tm);margin-left:4px">${m.desc}</span></div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:${m.color}">${arr.length}</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px;font-size:10px">
+<div style="text-align:center;padding:4px;background:#E8F5E9;border-radius:4px"><div style="color:var(--tm);font-size:8px;text-transform:uppercase">FC</div><b style="color:var(--g)">${fc}</b></div>
+<div style="text-align:center;padding:4px;background:#F3E5F5;border-radius:4px"><div style="color:var(--tm);font-size:8px;text-transform:uppercase">TSSR</div><b style="color:#6A1B9A">${ts}</b></div>
+<div style="text-align:center;padding:4px;background:#E3F2FD;border-radius:4px"><div style="color:var(--tm);font-size:8px;text-transform:uppercase">RFI</div><b style="color:#0D47A1">${rfi}</b></div>
+<div style="text-align:center;padding:4px;background:#E8F5E9;border-radius:4px"><div style="color:var(--tm);font-size:8px;text-transform:uppercase">O.AIR</div><b style="color:var(--g)">${oa}</b></div>
+</div></div>`;
+};
+
+h+=`<div class="TS" style="margin-bottom:14px"><div class="TH"><h3>\ud83c\udfaf Por Prioridad <span style="font-size:11px;color:var(--tm);font-weight:400">\u2014 click para filtrar</span></h3></div>
+<div style="padding:12px 14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+${prioKeys.filter(k=>k!=='_SIN_').map(k=>mkPrioCard(k,prioGroups[k])).join('')}
+${prioGroups['_SIN_']?mkPrioCard('_SIN_',prioGroups['_SIN_']):''}
+</div></div>`;
+
+// ═══ SECCIÓN 3: GEOGRÁFICO (compacto) ═══
+const geoMini=(arr,label,color)=>{
+  const fc=arr.filter(r=>r._fcAprobado).length;
+  const ts=arr.filter(r=>r._tssrAprobado).length;
+  const rfi=arr.filter(r=>r._rfiOK).length;
+  const oa=arr.filter(r=>r._onAir).length;
+  return `<div style="display:flex;align-items:center;gap:14px;padding:10px 16px;border-left:4px solid ${color};background:#fafafa;border-radius:6px;flex:1;min-width:0">
+<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${label}</div>
+<div style="font-size:10px;color:var(--tm)">${arr.length} sitios</div></div>
+<div style="display:flex;gap:6px">
+<div style="text-align:center;padding:4px 10px;background:#E8F5E9;border-radius:4px"><div style="font-size:8px;color:var(--tm);text-transform:uppercase">FC</div><b style="color:var(--g);font-size:14px">${fc}</b></div>
+<div style="text-align:center;padding:4px 10px;background:#F3E5F5;border-radius:4px"><div style="font-size:8px;color:var(--tm);text-transform:uppercase">TSSR</div><b style="color:#6A1B9A;font-size:14px">${ts}</b></div>
+<div style="text-align:center;padding:4px 10px;background:#E3F2FD;border-radius:4px"><div style="font-size:8px;color:var(--tm);text-transform:uppercase">RFI</div><b style="color:#0D47A1;font-size:14px">${rfi}</b></div>
+<div style="text-align:center;padding:4px 10px;background:#E8F5E9;border-radius:4px"><div style="font-size:8px;color:var(--tm);text-transform:uppercase">O.AIR</div><b style="color:var(--g);font-size:14px">${oa}</b></div>
+</div></div>`;
+};
+
+h+=`<div class="TS" style="margin-bottom:14px"><div class="TH"><h3>\ud83d\uddfa Distribuci\u00f3n Geogr\u00e1fica</h3></div>
+<div style="padding:10px 14px;display:flex;gap:10px;flex-wrap:wrap">
+${geoMini(stgo,'\ud83c\udfe2 Santiago (Metropolitana)','#DA291C')}
+${geoMini(resto,'\ud83c\udf04 Resto del Pa\u00eds','#1565C0')}
+</div></div>`;
+
+if(!FLT.length){document.getElementById('prioC').innerHTML=h+'<div style="text-align:center;padding:40px;color:var(--tm)">Sin sitios con los filtros actuales</div>';return}
+
+// ═══ SECCIÓN 4: FILTROS ADICIONALES (colapsable, sin N°Prio porque ya está arriba) ═══
+const chipCls=(set,val)=>set.has(val)?'wm-chip sel':'wm-chip';
+const activeCount=window._prioFcF.size+window._prioTssrF.size+window._prioImplF.size+window._prioNumF.size;
+
+h+=`<div class="TS" style="margin-bottom:14px"><div class="TH" style="cursor:pointer" onclick="document.getElementById('prioFilters').style.display=document.getElementById('prioFilters').style.display==='none'?'flex':'none';this.querySelector('.fchev').textContent=document.getElementById('prioFilters').style.display==='none'?'\u25b8':'\u25be'">
+<h3>\ud83d\udd0e Filtros Adicionales ${activeCount?`<span style="background:var(--r);color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;margin-left:6px">${activeCount} activos</span>`:''}</h3>
+<span class="fchev" style="font-size:14px;color:var(--tm)">\u25be</span></div>
+<div id="prioFilters" style="padding:10px 14px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--bd)">
+<div style="display:flex;align-items:center;gap:6px"><div style="font-size:10px;font-weight:600;color:var(--tm)">FC:</div>
+<div class="wm-chips" id="prioFFc">
+<div class="${chipCls(window._prioFcF,'APROBADO')}" onclick="tgPrioF('fc','APROBADO',this)">\u2705 Apro</div>
+<div class="${chipCls(window._prioFcF,'LVES')}" onclick="tgPrioF('fc','LVES',this)">\ud83d\udd0d LVES</div>
+<div class="${chipCls(window._prioFcF,'REV')}" onclick="tgPrioF('fc','REV',this)">\ud83d\udc41 Rev.Op</div>
+<div class="${chipCls(window._prioFcF,'REQTSSR')}" onclick="tgPrioF('fc','REQTSSR',this)">\ud83d\udccb Req.TSSR</div>
+<div class="${chipCls(window._prioFcF,'SIN')}" onclick="tgPrioF('fc','SIN',this)">\u2b1c Sin Gest</div>
+<div class="wm-chip" onclick="clrPrioF('fc')" style="font-size:9px">\u2715</div>
+</div></div>
+<div style="display:flex;align-items:center;gap:6px"><div style="font-size:10px;font-weight:600;color:var(--tm)">TSSR:</div>
+<div class="wm-chips" id="prioFTssr">
+<div class="${chipCls(window._prioTssrF,'APROBADO')}" onclick="tgPrioF('tssr','APROBADO',this)">\u2705 Apro</div>
+<div class="${chipCls(window._prioTssrF,'REVISION')}" onclick="tgPrioF('tssr','REVISION',this)">\ud83d\udd04 Rev</div>
+<div class="${chipCls(window._prioTssrF,'PEND')}" onclick="tgPrioF('tssr','PEND',this)">\u23f3 Pend</div>
+<div class="${chipCls(window._prioTssrF,'RECHAZ')}" onclick="tgPrioF('tssr','RECHAZ',this)">\u274c Rech</div>
+<div class="wm-chip" onclick="clrPrioF('tssr')" style="font-size:9px">\u2715</div>
+</div></div>
+<div style="display:flex;align-items:center;gap:6px"><div style="font-size:10px;font-weight:600;color:var(--tm)">IMPL:</div>
+<div class="wm-chips" id="prioFImpl">
+<div class="${chipCls(window._prioImplF,'ONAIR')}" onclick="tgPrioF('impl','ONAIR',this)">\ud83d\udfe2 On Air</div>
+<div class="${chipCls(window._prioImplF,'RFI')}" onclick="tgPrioF('impl','RFI',this)">\ud83c\udfaf RFI</div>
+<div class="${chipCls(window._prioImplF,'PEND')}" onclick="tgPrioF('impl','PEND',this)">\u23f3 Pend</div>
+<div class="${chipCls(window._prioImplF,'SIN')}" onclick="tgPrioF('impl','SIN',this)">\u2b1c S/E</div>
+<div class="wm-chip" onclick="clrPrioF('impl')" style="font-size:9px">\u2715</div>
+</div></div>
+${activeCount?`<button onclick="clrPrioF('fc');clrPrioF('tssr');clrPrioF('impl');clrPrioF('num')" style="background:#C62828;color:#fff;border:none;padding:4px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600">Limpiar todo</button>`:''}
+</div></div>`;
+
+// ═══ SECCIÓN 5: TABLAS ═══
+h+=mkPrioTable('santiago','\ud83c\udfe2 Santiago (Metropolitana)','#DA291C',stgo.length,'prioCntStgo','prioTBStgo','prioDTStgo',false);
+h+=mkPrioTable('resto','\ud83c\udf04 Resto del Pa\u00eds','#1565C0',resto.length,'prioCntResto','prioTBResto','prioDTResto',true);
+
+document.getElementById('prioC').innerHTML=h;
+window._prioStgo=stgo;
+window._prioResto=resto;
+rPrioTB();
+}
+
+
+function mkPrioTable(key,title,color,count,cntId,tbId,dtId,showRegion){
+  const regCol=showRegion?'<th onclick="sortPrio(\\\'_regionName\\\')">Regi\u00f3n</th>':'';
+  const cId='prioWrap_'+key;
+  window._prioExpanded=window._prioExpanded||{};
+  const expanded=!!window._prioExpanded[key];
+  return `<div class="TS" style="margin:0 0 14px 0;border-top:3px solid ${color}">
+<div class="TH" style="cursor:pointer" onclick="window._prioExpanded['${key}']=!window._prioExpanded['${key}'];document.getElementById('${cId}').style.display=window._prioExpanded['${key}']?'block':'none';this.querySelector('.pchev').textContent=window._prioExpanded['${key}']?'\u25be':'\u25b8'">
+<h3><span class="pchev" style="display:inline-block;width:14px;font-size:14px;color:${color}">${expanded?'\u25be':'\u25b8'}</span> ${title} \u2014 <span id="${cntId}">${count}</span></h3>
+<button class="btn-exp" onclick="event.stopPropagation();expT('${dtId}')">\ud83d\udce5</button></div>
+<div id="${cId}" style="display:${expanded?'block':'none'}">
+<div class="TW" style="max-height:500px"><table class="DT compact" id="${dtId}"><thead><tr>
+<th onclick="sortPrio('_id')" style="text-align:left">ID</th>
+<th onclick="sortPrio('_nombre')" style="text-align:left">Sitio</th>
+${regCol}
+<th style="text-align:left">Comuna</th>
+<th onclick="sortPrio('_clasif')" style="text-align:left">Clasif</th>
+<th onclick="sortPrio('_propietario')" style="text-align:left">Prop.</th>
+<th onclick="sortPrio('_contratista')" style="text-align:center">Contr.</th>
+<th onclick="sortPrio('_prioTSSR')" style="text-align:center">Prio</th>
+<th onclick="sortPrio('_fcStatus')" style="text-align:center">FC</th>
+<th style="text-align:center">F.Sol</th>
+<th style="text-align:center">F.Apro</th>
+<th onclick="sortPrio('_estatusTSSR')" style="text-align:center">TSSR</th>
+<th onclick="sortPrio('_discOKCount')" style="text-align:center">Disc</th>
+<th style="text-align:center">F.Env</th>
+<th onclick="sortPrio('_rfiActual')" style="text-align:center">RFI</th>
+<th onclick="sortPrio('_estatusINT')" style="text-align:center">Impl.</th>
+</tr></thead><tbody id="${tbId}"></tbody></table></div></div></div>`;
+}
+
+window._prioSortCol=null;window._prioSortDir=1;
+function sortPrio(col){if(window._prioSortCol===col){window._prioSortDir*=-1}else{window._prioSortCol=col;window._prioSortDir=-1}rPrioTB()}
+function tgPrioF(type,val){const s=type==='fc'?window._prioFcF:type==='tssr'?window._prioTssrF:type==='impl'?window._prioImplF:window._prioNumF;s.has(val)?s.delete(val):s.add(val);rPrio()}
+function clrPrioF(type){const m={fc:window._prioFcF,tssr:window._prioTssrF,impl:window._prioImplF,num:window._prioNumF};m[type].clear();rPrio()}
+
+function filterPrio(arr){
+const fcF=window._prioFcF,tssrF=window._prioTssrF,implF=window._prioImplF,numF=window._prioNumF;
+return arr.filter(r=>{
+  if(fcF.size){
+    const k=r._fcAprobado?'APROBADO':r._fcLVES?'LVES':r._fcRev?'REV':r._fcReqTSSR?'REQTSSR':'SIN';
+    if(!fcF.has(k))return!1;
+  }
+  if(tssrF.size){
+    const eu=(r._estatusTSSR||'').toUpperCase();
+    let k='PEND';
+    if(eu.includes('RECHAZ'))k='RECHAZ';
+    else if(eu.startsWith('APROBADO'))k='APROBADO';
+    else if(eu.includes('REVISI'))k='REVISION';
+    if(!tssrF.has(k))return!1;
+  }
+  if(implF.size){
+    let k='SIN';
+    if(r._onAir)k='ONAIR';
+    else if(r._rfiOK)k='RFI';
+    else if(r._rfiPend||r._estatusINT)k='PEND';
+    if(!implF.has(k))return!1;
+  }
+  if(numF.size){
+    const k=r._prioTSSR||'_SIN_';
+    if(!numF.has(k))return!1;
+  }
+  return!0;
+});
+}
+
+function rPrioTB(){
+const fcBdg=r=>{
+  if(r._fcAprobado)return'<span class="bg_ bg_g">\u2705 Aprobado</span>';
+  if(r._fcLVES)return'<span class="bg_ bg_b">\ud83d\udd0d LVES</span>';
+  if(r._fcRev)return'<span class="bg_ bg_y">\ud83d\udc41 Rev.Op</span>';
+  if(r._fcReqTSSR)return'<span class="bg_" style="background:#6A1B9A;color:#fff">\ud83d\udccb Req.TSSR</span>';
+  return'<span class="bg_ bg_x">\u2b1c Sin Gesti\u00f3n</span>';
+};
+const tssrBdg=r=>{
+  const eu=(r._estatusTSSR||'').toUpperCase();
+  if(eu.includes('RECHAZ'))return'<span class="bg_ bg_r">\u274c Rechazado</span>';
+  if(eu.startsWith('APROBADO'))return'<span class="bg_ bg_g">\u2705 '+esc(r._estatusTSSR)+'</span>';
+  if(eu.includes('REVISI'))return'<span class="bg_ bg_o">\ud83d\udd04 '+esc(r._estatusTSSR)+'</span>';
+  if(r._estatusTSSR)return'<span class="bg_ bg_y">'+esc(r._estatusTSSR)+'</span>';
+  return'<span class="bg_ bg_x">\u2014</span>';
+};
+const rfiBdg=r=>{
+  if(r._onAir)return'<span class="bg_ bg_g">\u2705 Entregado</span>';
+  if(r._rfiOK)return'<span class="bg_ bg_b">\ud83c\udfaf RFI</span>';
+  if(r._rfiPend)return'<span class="bg_ bg_o">\u23f3 Pendiente</span>';
+  return'<span class="bg_ bg_x">\u2014</span>';
+};
+const implBdg=r=>{
+  const eu=(r._estatusINT||'').toUpperCase();
+  if(eu==='ON AIR')return'<span class="bg_ bg_g">\ud83d\udfe2 On Air</span>';
+  if(eu.includes('INSTAL'))return'<span class="bg_ bg_b">\ud83d\udd27 '+esc(r._estatusINT)+'</span>';
+  if(eu.includes('PEND'))return'<span class="bg_ bg_o">\u23f3 '+esc(r._estatusINT)+'</span>';
+  if(r._estatusImplFinal)return'<span class="bg_ bg_y">'+esc(r._estatusImplFinal)+'</span>';
+  return'<span class="bg_ bg_x">\u2014</span>';
+};
+
+const renderRow=(r,showReg)=>`<tr>
+<td style="font-weight:600;text-align:left;white-space:nowrap">${esc(r._id)}</td>
+<td class="wrap" style="text-align:left">${esc(r._nombre)}</td>
+${showReg?`<td class="wrap" style="text-align:left;color:var(--td);max-width:90px">${esc(r._regionName)}</td>`:''}
+<td class="wrap" style="text-align:left;color:var(--td);max-width:110px">${esc(r['COMUNA']||'')}</td>
+<td class="wrap" style="text-align:left;color:var(--td);max-width:100px">${esc(r._clasif)}</td>
+<td class="wrap" style="text-align:left;max-width:120px">${esc(r._propietario)}</td>
+<td style="text-align:center;color:var(--td)">${esc(r._contratista)}</td>
+<td style="text-align:center">${r._prioTSSR?(r._prioTSSR==='RECHAZ'?'<span class="bg_ bg_r">\u274c '+esc(r._prioTSSR)+'</span>':r._prioTSSR==='FC'?'<span class="bg_ bg_b">\ud83c\udfd7 '+esc(r._prioTSSR)+'</span>':r._prioTSSR.startsWith('1')?'<span class="bg_ bg_g">\ud83e\udd47 '+esc(r._prioTSSR)+'</span>':r._prioTSSR.startsWith('2')?'<span class="bg_ bg_y">\ud83e\udd48 '+esc(r._prioTSSR)+'</span>':r._prioTSSR.startsWith('3')?'<span class="bg_ bg_o">\ud83e\udd49 '+esc(r._prioTSSR)+'</span>':'<span class="bg_ bg_x">'+esc(r._prioTSSR)+'</span>'):'<span style="color:var(--tm)">\u2014</span>'}</td>
+<td style="text-align:center">${fcBdg(r)}</td>
+<td style="text-align:center;color:var(--td);font-size:9px">${fD(r._fechaSolFC)}</td>
+<td style="text-align:center;color:var(--td);font-size:9px">${fD(r._fechaRespFC)}</td>
+<td style="text-align:center">${tssrBdg(r)}</td>
+<td style="text-align:center"><div style="font-weight:700;color:${r._discOKCount===4?'var(--g)':r._discOKCount>0?'var(--y)':'var(--tm)'};line-height:1;margin-bottom:3px">${r._discOKCount}/4</div><div style="display:flex;gap:2px;justify-content:center" title="IMPL \u00b7 RF \u00b7 ECE \u00b7 OOCC">${[['I',r._implApro,false],['R',r._rfOK,r._rfRech],['E',r._eceRevOK,r._eceRech],['O',r._ooccOK,r._ooccRech]].map(([l,ok,rech])=>`<span style="display:inline-block;width:14px;height:14px;line-height:14px;border-radius:50%;font-weight:700;text-align:center;font-size:8px;${rech?'background:#C62828;color:#fff':ok?'background:#2E7D32;color:#fff':'background:#E0E0E0;color:#666'}" title="${l==='I'?'IMPL':l==='R'?'RF':l==='E'?'ECE':'OOCC'}: ${rech?'Rechazado':ok?'Aprobado':'Pendiente'}">${l}</span>`).join('')}</div></td>
+<td style="text-align:center;color:var(--td);font-size:9px">${fD(r._fechaEnvEsp)}</td>
+<td style="text-align:center">${rfiBdg(r)}</td>
+<td style="text-align:center">${implBdg(r)}</td>
+</tr>`;
+
+// Santiago
+const stgoFil=filterPrio(window._prioStgo||[]);
+srtA(stgoFil,window._prioSortCol,window._prioSortDir);
+const stgoCnt=document.getElementById('prioCntStgo');if(stgoCnt)stgoCnt.textContent=stgoFil.length;
+const stgoTb=document.getElementById('prioTBStgo');if(stgoTb)stgoTb.innerHTML=stgoFil.map(r=>renderRow(r,false)).join('');
+
+// Resto
+const restoFil=filterPrio(window._prioResto||[]);
+srtA(restoFil,window._prioSortCol,window._prioSortDir);
+const restoCnt=document.getElementById('prioCntResto');if(restoCnt)restoCnt.textContent=restoFil.length;
+const restoTb=document.getElementById('prioTBResto');if(restoTb)restoTb.innerHTML=restoFil.map(r=>renderRow(r,true)).join('');
+}
+
+
+// \u2550\u2550\u2550 TABLA \u2550\u2550\u2550
+function rTabla(){
+window._bulkIds=window._bulkIds||new Set();
+const bulkActive=window._bulkIds.size>0;
+let rows=FLT;
+let notFound=[];
+if(bulkActive){
+  const allIds=new Set(DATA.map(r=>String(r._id).toUpperCase()));
+  rows=FLT.filter(r=>window._bulkIds.has(String(r._id).toUpperCase()));
+  notFound=[...window._bulkIds].filter(id=>!allIds.has(id));
+}
+let h=`<div class="TS" style="margin-bottom:12px"><div class="TH"><h3>\ud83d\udccb Pegado masivo de ID</h3>${bulkActive?`<button class="btn-exp" style="background:#C62828" onclick="clearBulkIds()">\u2715 Limpiar (${window._bulkIds.size})</button>`:''}</div>
+<div style="padding:12px 14px">
+<div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+<textarea id="bulkIdInput" placeholder="Pega aqu\u00ed los IDs (uno por l\u00ednea, o separados por coma, espacio o tab)\u2026&#10;Ej:&#10;STG001&#10;STG002&#10;VAL_010" style="flex:1;min-width:280px;min-height:70px;padding:8px 10px;border:1px solid var(--bd);border-radius:6px;font-size:12px;font-family:'JetBrains Mono',monospace;resize:vertical">${bulkActive?[...window._bulkIds].join('\n'):''}</textarea>
+<div style="display:flex;flex-direction:column;gap:6px">
+<button onclick="applyBulkIds()" style="background:var(--bl);color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap">\ud83d\udd0d Filtrar por IDs</button>
+${bulkActive?`<button onclick="clearBulkIds()" style="background:#f5f5f5;color:#C62828;border:1px solid var(--bd);padding:8px 16px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">\u2715 Limpiar</button>`:''}
+</div></div>
+${bulkActive?`<div style="margin-top:10px;font-size:12px;display:flex;gap:16px;flex-wrap:wrap">
+<span style="color:var(--g)">\u2705 <b>${rows.length}</b> encontrados</span>
+${notFound.length?`<span style="color:var(--r)">\u274c <b>${notFound.length}</b> no existen: <span style="font-family:monospace;font-size:10px">${notFound.slice(0,20).join(', ')}${notFound.length>20?' \u2026':''}</span></span>`:''}
+${rows.length<FLT.length?`<span style="color:var(--tm)">(de ${FLT.length} con filtros activos)</span>`:''}
+</div>`:'<div style="margin-top:8px;font-size:11px;color:var(--tm);font-style:italic">Pega una lista de IDs desde Excel y se filtra la tabla. Respeta los filtros generales activos.</div>'}
+</div></div>`;
+
+h+=`<div class="TS"><div class="TH"><h3>\ud83d\udcc4 Tabla Completa \u2014 ${rows.length}${bulkActive?' (filtrado por IDs)':''}</h3><button class="btn-exp" onclick="exportAll()">\ud83d\udce5 Excel</button></div>
+<div class="TW" style="max-height:600px"><table class="DT"><thead><tr>
+<th>ID</th><th>Nombre</th><th>Regi\u00f3n</th><th>Comuna</th><th>Clasif.</th><th>Propietario</th><th>FC</th><th>ECE</th><th>Prio</th><th>Ing.TSSR</th><th>EstatIMPL</th><th>RF</th><th>ECE Rev</th><th>OOCC</th><th>TSSR</th><th>RFI</th><th>Impl</th><th>Pipeline</th><th>INT</th>
+</tr></thead><tbody>`;
+rows.forEach(r=>{h+=`<tr><td style="font-weight:600">${esc(r._id)}</td><td>${esc(r._nombre)}</td><td>${esc(r._regionName)}</td>
+<td style="font-size:9px">${esc(r['COMUNA']||'')}</td>
+<td style="font-size:9px">${esc(r._clasif)}</td><td style="font-size:9px">${esc(r._propietario)}</td>
+<td>${bdg('fc',r._fcStatus)}</td><td>${bdg('ece',r._ece)}</td>
+<td>${r._isPrio?r._prioTSSR:'\u2014'}</td><td style="font-size:9px">${esc(r._ingTSSR)}</td><td>${r._implApro?'<span class="bg_ bg_g">APRO</span>':'\u2014'}</td>
+<td>${discBdg(r._fechaSolRF,r._fechaAproRF,r._estatusRF,r._fechaEnvEsp)}</td><td>${discBdg(r._fechaSolECE,r._fechaAproECE,r._estatusECE_d,r._fechaEnvEsp)}</td><td>${discBdg(r._fechaSolOOCC,r._fechaAproOOCC,r._estatusOOCC,r._fechaEnvEsp)}</td>
+<td>${r._tssrAprobado?'<span class="bg_ bg_g">APRO</span>':r._tssrRechazado?'<span class="bg_ bg_r">RECH</span>':'<span class="bg_ bg_o">PEND</span>'}</td>
+<td>${r._rfiOK?'<span class="bg_ bg_g">\u2705</span>':'<span class="bg_ bg_x">PEND</span>'}</td>
+<td>${r._estatusImplFinal?bdg('impl',r._estatusImplFinal):'\u2014'}</td>
+<td><span class="bg_" style="background:${r._stageColor}22;color:${r._stageColor};font-size:8px">${r._stage}</span></td>
+<td style="font-size:9px">${esc(r._estatusINT)}</td></tr>`});
+h+=`</tbody></table></div></div>`;document.getElementById('tablaC').innerHTML=h;
+}
+
+function applyBulkIds(){
+  const txt=document.getElementById('bulkIdInput').value;
+  const ids=txt.split(/[\s,;\n\r\t]+/).map(s=>s.trim().toUpperCase()).filter(Boolean);
+  window._bulkIds=new Set(ids);
+  rTabla();
+}
+function clearBulkIds(){window._bulkIds=new Set();rTabla()}
+
+// ═══ HELPERS ═══
+function mkDC(label,v,t,c,hk){return`<div class="DC" style="border-left-color:${c}"><div class="dn">${label}${hk?' '+hlp(hk):''}</div><div class="dr"><span style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:${c}">${v}</span><span style="color:var(--tm)">${pct(v,t)}</span></div><div class="db"><div class="dbs" style="width:${t?v/t*100:0}%;background:${c}"></div></div></div>`}
+function mkDiscCard4(title,resp,sent,ok,pend,rech,c,hk,area,avgT,mxT,tLabel){const tHtml=avgT!==null?`<div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--bd)"><div class="disc-row"><span class="lbl">⏱ ${tLabel||'Días'}</span></div><div style="display:flex;gap:10px;margin-top:2px"><span class="t-badge ${avgT>10?'t-r':avgT>5?'t-y':'t-g'}" style="font-size:10px">⌀ ${avgT}d</span><span class="t-badge t-x" style="font-size:10px">máx ${mxT}d</span></div></div>`:'';const rechHtml=`<div class="disc-row"><span class="lbl">Rechazados</span><span class="val" style="color:${rech?'var(--r)':'var(--tm)'}"><b>${rech}</b></span></div>`;const sel=window._tssrFArea&&window._tssrFArea.has(area);const selStyle=sel?'box-shadow:0 0 0 2px '+c+';transform:translateY(-2px);':'';return`<div class="disc-card" data-area="${area}" style="border-top-color:${c};cursor:pointer;transition:all .2s;${selStyle}" onclick="tgDiscCard('${area}',this)"><h4>${title}${hk?' '+hlp(hk):''} <span style="font-size:9px;color:var(--tm);font-weight:400">${resp}</span></h4><div class="disc-row"><span class="lbl">Enviados</span><span class="val" style="color:${c}">${sent}</span></div><div class="disc-row"><span class="lbl">Aprobados</span><span class="val" style="color:var(--g)">${ok}</span></div>${rechHtml}<div class="disc-row"><span class="lbl">Pendientes</span><span class="val" style="color:${pend?'var(--o)':'var(--tm)'}"><b>${pend}</b></span></div><div class="pbar"><div class="pbar-f" style="width:${sent?ok/sent*100:0}%;background:var(--g)"></div></div>${tHtml}</div>`}
+function tgDiscCard(area,el){const s=window._tssrFArea;s.has(area)?s.delete(area):s.add(area);rTSSR()}
+
+function bdg(type,val){if(!val||val==='-'||val==='00:00:00'||val==='Sin Gestión')return'<span class="bg_ bg_x">—</span>';const v=String(val).trim(),u=v.toUpperCase();
+if(type==='fc'){if(u==='APROBADO')return`<span class="bg_ bg_g">\u2705 APROBADO</span>`;if(v.includes('Lev'))return`<span class="bg_ bg_b">\ud83d\udd0d LVES</span>`;if(v.includes('Rev'))return`<span class="bg_ bg_y">\ud83d\udc41 REV.OP</span>`;if(u.includes('REQUIERE'))return`<span class="bg_ bg_p">\ud83d\udccb REQ.TSSR</span>`;if(u==='NO FACTIBLE')return`<span class="bg_ bg_r">\ud83d\udeab NO FACT</span>`;if(u.includes('APROBACI')&&u.includes('RENTA'))return`<span class="bg_ bg_cy" style="background:#E0F7FA;color:#00838F">\ud83c\udfe0 F.APRO.RENTA</span>`;if(u==='NO APLICA')return`<span class="bg_" style="background:#FCE4EC;color:#880E4F">\u26d4 NO APLICA</span>`;if(u.includes('REFUERZO'))return`<span class="bg_" style="background:#EFEBE9;color:#5D4037">\ud83d\udee0 REFUERZO</span>`;return`<span class="bg_ bg_x">${v.substring(0,12)}</span>`}
+if(type==='ece'){if(u==='OK')return`<span class="bg_ bg_g">✅</span>`;if(u.includes('RECT'))return`<span class="bg_ bg_o">⚡</span>`;if(u.includes('PCC'))return`<span class="bg_ bg_r">🔧</span>`;return`<span class="bg_ bg_x">${v.substring(0,12)}</span>`}
+if(type==='impl')return`<span class="bg_ bg_p">${v.substring(0,18)}</span>`;
+return`<span class="bg_ bg_x">${v.substring(0,15)}</span>`}
+
+function discBdg(sol,apro,estatus,envio){const eu=(estatus||'').toUpperCase();if(eu.includes('RECHAZ'))return`<span class="bg_ bg_r">❌ RECHAZADO</span>`;if(eu.startsWith('APROBADO')){const lbl=eu.includes('OBS')?'✅ APRO c/OBS':'✅ APROBADO';return`<span class="bg_ bg_g">${lbl}</span>`}if(apro)return`<span class="bg_ bg_g">✅ APROBADO</span>`;if(sol){const d=dD(sol,TODAY);if(eu.includes('OBSERV'))return`<span class="bg_ bg_y">🟡 OBS ${d}d</span>`;if(eu.includes('PENDIENTE'))return`<span class="bg_ bg_o">⏳ PEND ${d}d</span>`;return`<span class="bg_ ${d>5?'bg_r':d>2?'bg_y':'bg_b'}">⏳ ${d}d</span>`}if(envio){const d=dD(envio,TODAY);return`<span class="bg_ bg_o">⏳ PEND ${d}d</span>`}return'<span class="bg_ bg_x">—</span>'}
+
+// === Generic Excel writer ===
+function _writeXLSX(rows,colWidths,sheetName,fileName){
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  if(colWidths)ws['!cols']=colWidths.map(w=>({wch:w}));
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,sheetName||'Data');
+  XLSX.writeFile(wb,fileName||('Export_'+new Date().toISOString().split('T')[0]+'.xlsx'));
+}
+
+// === FC ===
+function expT(id){
+  if(id==='fcDT')return expFc();
+  if(id==='rfiDT')return expRfi();
+  if(id==='implDT')return expImpl();
+  if(id==='prioDTStgo')return expPrio('santiago');
+  if(id==='prioDTResto')return expPrio('resto');
+  // Fallback
+  const t=document.getElementById(id);if(!t)return;
+  _writeXLSX(XLSX.utils.sheet_to_json(XLSX.utils.table_to_sheet(t),{header:1}),null,'Data','Export_'+new Date().toISOString().split('T')[0]+'.xlsx');
+}
+
+function expFc(){
+  const all=window._fcAll||[];const sf=window._fcFSt;
+  const rows=all.filter(r=>!sf.size||sf.has(fcStatusKey(r)));
+  srtA(rows,window._fcSortCol,window._fcSortDir);
+  const h=['ID','Nombre','Región','Clasificación','Propietario','Contratista','Estado FC','F.Solicitud','F.Respuesta','Días Sol→Resp','Comentario'];
+  const data=[h,...rows.map(r=>[r._id,r._nombre,r._regionName,r._clasif,r._propietario,r._contratista,r._fcStatus,fD(r._fechaSolFC),fD(r._fechaRespFC),r._t_fcSolResp!==null?r._t_fcSolResp:'',r._comentario2||''])];
+  _writeXLSX(data,[10,30,14,28,16,12,18,12,12,8,40],'FC','FC_'+new Date().toISOString().split('T')[0]+'.xlsx');
+}
+
+// === TSSR === (uses unified tssrStatusKey + disc filters)
+function expTssr(){
+  const rows=tssrVisible();
+  const discSt=(sol,apro,est,env)=>{const eu=(est||'').toUpperCase();if(eu.includes('RECHAZ'))return'RECHAZADO';if(eu.startsWith('APROBADO'))return eu.includes('OBS')?'APRO c/OBS':'APROBADO';if(apro)return'APROBADO';if(sol){const d=dD(sol,TODAY);if(eu.includes('OBSERV'))return'OBS '+d+'d';if(eu.includes('PENDIENTE'))return'PEND '+d+'d';return d+'d'}if(env)return'PEND '+dD(env,TODAY)+'d';return''};
+  const h=['ID','Nombre','Región','Ingeniero','F.Envío Esp','Días Env','FC','IMPL','RF','ECE','OOCC','Disc','ESTATUS TSSR'];
+  const data=[h,...rows.map(r=>[r._id,r._nombre,r._regionName,r._ingTSSR||'',fD(r._fechaEnvEsp),
+    r._diasEnv==null?'':r._diasEnv,
+    r._fcAprobado?'APROBADO':r._fcStatus||'PENDIENTE',
+    r._implApro?'APROBADO':'PENDIENTE',
+    discSt(r._fechaSolRF,r._fechaAproRF,r._estatusRF,r._fechaEnvEsp),
+    discSt(r._fechaSolECE,r._fechaAproECE,r._estatusECE_d,r._fechaEnvEsp),
+    discSt(r._fechaSolOOCC,r._fechaAproOOCC,r._estatusOOCC,r._fechaEnvEsp),
+    r._discOKCount+'/4',
+    r._estatusTSSR||''
+  ])];
+  _writeXLSX(data,[10,30,16,18,12,8,14,12,14,14,14,6,18],'TSSR','TSSR_'+new Date().toISOString().split('T')[0]+'.xlsx');
+}
+
+// === RFI ===
+function expRfi(){
+  const all=window._rfiAll||[];const sf=window._rfiFSt,bf=window._rfiFBl,inf=window._rfiFInc||new Set();
+  let rows=all.filter(r=>{
+    if(sf.size){let ok=false;if(sf.has('ENTREGADO')&&r._rfiOK)ok=true;if(sf.has('ONAIR')&&r._onAir)ok=true;if(sf.has('DISPONIBLE')&&r._rfiClass==='DISPONIBLE')ok=true;if(sf.has('BLOQUEADO')&&r._rfiClass==='BLOQUEADO')ok=true;if(!ok)return!1}
+    if(bf.size){let m=false;if(bf.has('FC')&&!r._fcAprobado)m=true;if(bf.has('TSSR')&&!r._tssrAprobado)m=true;if(!m)return!1}
+    if(inf.size){let ok=false;if(inf.has('TSSR_NO_FC')&&r._tssrAprobado&&!r._fcAprobado)ok=true;if(inf.has('RFI_NO_FC')&&r._rfiOK&&!r._fcAprobado)ok=true;if(inf.has('RFI_NO_TSSR')&&r._rfiOK&&!r._tssrAprobado)ok=true;if(inf.has('OA_NO_FC')&&r._onAir&&!r._fcAprobado)ok=true;if(inf.has('OA_NO_TSSR')&&r._onAir&&!r._tssrAprobado)ok=true;if(inf.has('OA_NO_RFI')&&r._onAir&&!r._rfiOK)ok=true;if(!ok)return!1}
+    return!0});
+  srtA(rows,window._rfiSortCol,window._rfiSortDir);
+  const tssrSt=r=>{const e=(r._estatusTSSR||'').toUpperCase();if(r._rfRech||r._eceRech||r._ooccRech||e.includes('RECHAZ'))return'RECHAZADO';if(e.startsWith('APROBADO'))return r._estatusTSSR;if(e.includes('REVISI'))return'EN REVISIÓN';if(e.includes('REQUIERE')||e==='VISITADO')return'REQUIERE VISITA';return r._estatusTSSR||''};
+  const rfiSt=r=>r._onAir?'ON AIR':r._rfiOK?'DISPONIBLE':r._rfiClass==='LISTO'?'LISTO PARA RFI':'BLOQUEADO';
+  const h=['ID','Nombre','Región','Clasificación','Contratista','Estado FC','Disc','ESTATUS TSSR','Estado RFI','F.RFI','Bloqueante'];
+  const data=[h,...rows.map(r=>[r._id,r._nombre,r._regionName,r._clasif,r._contratista,r._fcStatus,r._discOKCount+'/4',tssrSt(r),rfiSt(r),fD(r._fechaRFI),r._rfiBlocker||''])];
+  _writeXLSX(data,[10,30,14,28,12,18,6,18,18,12,20],'RFI','RFI_'+new Date().toISOString().split('T')[0]+'.xlsx');
+}
+
+// === Implementación ===
+function expImpl(){
+  const all=window._implAll||[];const sf=window._implFSt;
+  const rows=all.filter(r=>!sf.size||sf.has(r._implClass));
+  srtA(rows,window._implSortCol,window._implSortDir);
+  const h=['ID','Nombre','Región','Clasificación','Contratista','Estatus Imple Final','F.Plan Impl','F.Real Impl','Estatus INT'];
+  const data=[h,...rows.map(r=>[r._id,r._nombre,r._regionName,r._clasif,r._contratista,r._estatusImplFinal||'',fD(r._fechaPlanImpl),fD(r._fechaRealImpl),r._estatusINT||''])];
+  _writeXLSX(data,[10,30,14,28,12,22,12,12,18],'Implementacion','Implementacion_'+new Date().toISOString().split('T')[0]+'.xlsx');
+}
+
+// === Prioridad ===
+function expPrio(which){
+  const arr=which==='santiago'?(window._prioStgo||[]):(window._prioResto||[]);
+  const rows=filterPrio(arr);
+  srtA(rows,window._prioSortCol,window._prioSortDir);
+  const tssrSt=r=>{const e=(r._estatusTSSR||'').toUpperCase();if(r._rfRech||r._eceRech||r._ooccRech||e.includes('RECHAZ'))return'RECHAZADO';if(e.startsWith('APROBADO'))return r._estatusTSSR;if(e.includes('REVISI'))return'EN REVISIÓN';if(e.includes('REQUIERE')||e==='VISITADO')return'REQUIERE VISITA';return r._estatusTSSR||''};
+  const rfiSt=r=>r._onAir?'ON AIR':r._rfiOK?'DISPONIBLE':r._rfiClass==='LISTO'?'LISTO':'BLOQUEADO';
+  const implSt=r=>r._estatusINT||r._estatusImplFinal||'';
+  const h=which==='resto'
+    ?['ID','Nombre','Región','Comuna','Clasificación','Propietario','Contratista','N°Prio','Estado FC','F.Sol FC','F.Resp FC','ESTATUS TSSR','Disc','F.Env Esp','RFI','Implementación']
+    :['ID','Nombre','Comuna','Clasificación','Propietario','Contratista','N°Prio','Estado FC','F.Sol FC','F.Resp FC','ESTATUS TSSR','Disc','F.Env Esp','RFI','Implementación'];
+  const data=[h,...rows.map(r=>{
+    const base=[r._id,r._nombre];
+    if(which==='resto')base.push(r._regionName);
+    return[...base,r['COMUNA']||'',r._clasif,r._propietario,r._contratista,r._prioTSSR||'',r._fcStatus,fD(r._fechaSolFC),fD(r._fechaRespFC),tssrSt(r),r._discOKCount+'/4',fD(r._fechaEnvEsp),rfiSt(r),implSt(r)];
+  })];
+  const name=which==='santiago'?'Prioridad_Santiago':'Prioridad_Resto';
+  _writeXLSX(data,null,name,name+'_'+new Date().toISOString().split('T')[0]+'.xlsx');
+}
+function exportAll(){const h=['ID','Nombre','Región','Comuna','Clasif','Propietario','FC','ECE','PrioTSSR','Ing.TSSR','EstatusIMPL','EstatusRF','EstatusECE','EstatusOOCC','ESTATUS_TSSR','RFI','ImplFinal','Pipeline','EstatusINT'];
+const rows=[h,...FLT.map(r=>[r._id,r._nombre,r._regionName,r['COMUNA']||'',r._clasif,r._propietario,r._fcStatus,r._ece,r._prioTSSR,r._ingTSSR,r._estatusIMPL,r._estatusRF,r._estatusECE_d,r._estatusOOCC,r._estatusTSSR,r._rfiActual,r._estatusImplFinal,r._stage,r._estatusINT])];
+const ws=XLSX.utils.aoa_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'E5G');XLSX.writeFile(wb,`Expansiones5G_${new Date().toISOString().split('T')[0]}.xlsx`)}
+
+// ═══ CONFIGURACIÓN DE INTEGRACIONES ═══
+// Las URLs y credenciales no van en el código: se guardan en localStorage de este navegador (botón ⚙️ del header).
+const CFG_KEY='e5g_sync_cfg';
+let SYNC={apiUrl:'',apiKey:'',wahaUrl:'',wahaKey:'',wahaSession:'default',pbUrl:'',pbEmail:'',pbPass:''};
+try{Object.assign(SYNC,JSON.parse(localStorage.getItem(CFG_KEY))||{})}catch(e){}
+function saveSyncCfg(){localStorage.setItem(CFG_KEY,JSON.stringify(SYNC))}
+const hasAPI=()=>!!(SYNC.apiUrl&&SYNC.apiKey);
+const hasWAHA=()=>!!(SYNC.wahaUrl&&SYNC.wahaKey);
+const hasPB=()=>!!(SYNC.pbUrl&&SYNC.pbEmail&&SYNC.pbPass);
+const TRACKER_API={get url(){return SYNC.apiUrl}};
+const WAHA={get url(){return SYNC.wahaUrl},get key(){return SYNC.wahaKey},get session(){return SYNC.wahaSession||'default'}};
+const PB={get url(){return SYNC.pbUrl},get email(){return SYNC.pbEmail},get pass(){return SYNC.pbPass}};
+function wahaHeaders(){return{'Content-Type':'application/json','X-Api-Key':WAHA.key}}
+function apiHeaders(extra){return{'Content-Type':'application/json','X-Api-Key':SYNC.apiKey,...(extra||{})}}
+
+// ═══ MODAL CONFIG ═══
+function openCfg(){
+const f=(label,key,type)=>`<div style="margin-bottom:8px"><label style="font-size:9px;font-weight:600;color:var(--tm);text-transform:uppercase;letter-spacing:.5px">${label}</label><input class="wm-input" style="width:100%;margin-top:2px" type="${type||'text'}" id="cfg_${key}" value="${esc(SYNC[key]||'')}"></div>`;
+const h=`<div class="wm-overlay" onclick="if(event.target===this)closeCfg()"><div class="wm" style="max-width:520px"><div class="wm-hdr" style="background:linear-gradient(135deg,#37474F,#263238)"><h2>⚙️ Configuración de integraciones</h2><button class="wm-close" onclick="closeCfg()">✕</button></div><div class="wm-body">
+<div style="font-size:11px;color:var(--td);margin-bottom:14px;line-height:1.5">Se guarda solo en este navegador (localStorage), nunca en el archivo. Deja en blanco lo que no uses: el tracker funciona completo sin integraciones.</div>
+<div class="wm-section"><h4>☁️ API Tracker (sync + reportes programados)</h4>${f('URL','apiUrl')}${f('API Key','apiKey','password')}</div>
+<div class="wm-section"><h4>📲 WAHA (WhatsApp)</h4>${f('URL','wahaUrl')}${f('API Key','wahaKey','password')}${f('Sesión','wahaSession')}</div>
+<div class="wm-section"><h4>🗄 PocketBase (historial de cambios)</h4>${f('URL','pbUrl')}${f('Usuario','pbEmail')}${f('Contraseña','pbPass','password')}</div>
+<div class="wm-actions"><button class="wm-btn wm-btn-cancel" onclick="closeCfg()">Cancelar</button><button class="wm-btn wm-btn-send" style="background:#37474F" onclick="saveCfgModal()">💾 Guardar</button></div>
+</div></div></div>`;
+const d=document.createElement('div');d.id='cfgM';d.innerHTML=h;document.body.appendChild(d)}
+function closeCfg(){const m=document.getElementById('cfgM');if(m)m.remove()}
+function saveCfgModal(){['apiUrl','apiKey','wahaUrl','wahaKey','wahaSession','pbUrl','pbEmail','pbPass'].forEach(k=>{const el=document.getElementById('cfg_'+k);if(el)SYNC[k]=el.value.trim()});saveSyncCfg();closeCfg();if(DATA.length){syncToVPS(document.getElementById('fInfo').textContent.split(' — ')[0]);setTimeout(()=>syncToPB('config'),500)}}
+function syncToVPS(fname){
+  const sb=document.getElementById('syncBadge');
+  if(!hasAPI()){sb.style.display='';sb.textContent='☁️ Sync off';sb.style.background='rgba(255,255,255,.1)';sb.style.cursor='pointer';sb.title='Click para configurar integraciones';sb.onclick=openCfg;return}
+  sb.style.display='';sb.textContent='⏳ Sincronizando…';sb.style.background='rgba(255,255,255,.1)';
+  const slim=DATA.map(r=>({
+    id:r._id,nm:r._nombre,rg:r._regionName,cl:r._clasif,
+    fcOK:r._fcAprobado,fcLV:r._fcLVES,fcRv:r._fcRev,fcSG:r._fcSinGestion,
+    tOK:r._tssrAprobado,tRech:r._tssrRechazado,
+    iOK:r._implApro,
+    rfOK:r._rfOK,rfP:r._rfPend,rfS:!!r._fechaSolRF,
+    eOK:r._eceRevOK,eP:r._ecePendD,eS:!!r._fechaSolECE,
+    oOK:r._ooccOK,oP:r._ooccPend,oS:!!r._fechaSolOOCC,
+    rfi:r._rfiOK,
+    onAir:r._onAir,
+    stg:r._stage
+  }));
+  fetch(TRACKER_API.url+'/api/tracker',{method:'POST',headers:apiHeaders(),
+    body:JSON.stringify({filename:fname,data:slim})
+  }).then(r=>r.json()).then(d=>{
+    if(d.ok){sb.textContent='☁️ Sync OK';sb.style.background='rgba(46,125,50,.4)';console.log('✅ VPS sync: '+d.count+' sitios')}
+    else{sb.textContent='⚠️ Sync error';sb.style.background='rgba(198,40,40,.4)'}
+  }).catch(e=>{sb.textContent='⚠️ Sin sync';sb.style.background='rgba(198,40,40,.3)'});
+}
+// ═══ POCKETBASE SYNC ═══
+async function syncToPB(fname){
+  if(!hasPB())return;
+  const pb=document.getElementById('syncBadge');
+  try{
+    pb.textContent='🔄 Sync PB…';pb.style.background='rgba(106,27,154,.4)';
+    // Auth
+    const auth=await fetch(PB.url+'/api/collections/_superusers/auth-with-password',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({identity:PB.email,password:PB.pass})
+    });
+    const tk=(await auth.json()).token;
+    const H={'Authorization':'Bearer '+tk,'Content-Type':'application/json'};
+
+    // Fetch existing
+    let existing={},pg=1;
+    while(true){
+      const r=await fetch(PB.url+'/api/collections/e5g_sitios/records?perPage=200&page='+pg,{headers:H});
+      const d=await r.json();
+      (d.items||[]).forEach(rec=>{existing[rec.id_sitio]=rec});
+      if(Object.keys(existing).length>=d.totalItems)break;
+      pg++;
+    }
+
+    const RM={'1':'Tarapacá','2':'Antofagasta','3':'Atacama','4':'Coquimbo','5':'Valparaíso',
+      '6':"O'Higgins",'7':'Maule','8':'Biobío','9':'Araucanía','10':'Los Lagos',
+      '11':'Aysén','12':'Magallanes','13':'Metropolitana','14':'Los Ríos',
+      '15':'Arica y Parinacota','16':'Ñuble'};
+    function pbDate(v){if(!v||!(v instanceof Date)||isNaN(v)||v.getFullYear()<2000)return '';return v.toISOString().slice(0,10)+' 12:00:00.000Z'}
+    function pbStr(v){const s=String(v||'').trim();return(s==='-'||s==='00:00:00'||s==='NaN'||s==='None')?'':s}
+
+    // Map DATA[] to PB records
+    const dateFields=new Set(['fc_fecha_solicitud','fc_fecha_respuesta','tssr_fecha_envio_esp',
+      'impl_fecha_apro','rf_fecha_sol','rf_fecha_apro','ece_fecha_sol','ece_fecha_apro',
+      'oocc_fecha_sol','oocc_fecha_apro','rfi_fecha','impl_fecha_plan','impl_fecha_real','fecha_int']);
+    const trackFields=['contratista','propietario','clasificacion','comuna','nombre','region','comentario',
+      'fc_estado','tssr_estatus','impl_estatus','rf_estatus','ece_estatus',
+      'oocc_estatus','rfi_estado','impl_final_estatus','estatus_int',
+      'tssr_fecha_envio_esp','impl_fecha_apro','rf_fecha_sol','rf_fecha_apro',
+      'ece_fecha_sol','ece_fecha_apro','oocc_fecha_sol','oocc_fecha_apro',
+      'fc_fecha_solicitud','fc_fecha_respuesta','rfi_fecha','impl_fecha_plan',
+      'impl_fecha_real','fecha_int','tssr_ingeniero','tssr_prioridad'];
+
+    function buildRec(r){
+      const reg=r._region||'';
+      return{
+        id_sitio:r._id,nombre:r._nombre,
+        region:RM[reg]||(reg.length>3?reg:'R'+reg),
+        comuna:pbStr(r['COMUNA']),clasificacion:pbStr(r._clasif),
+        propietario:pbStr(r._propietario),contratista:pbStr(r._contratista),
+        lat:parseFloat(r['LATITUD'])||0,lon:parseFloat(r['LONGITUD'])||0,
+        fc_estado:pbStr(r._fcRaw),
+        fc_fecha_solicitud:pbDate(r._fechaSolFC),fc_fecha_respuesta:pbDate(r._fechaRespFC),
+        tssr_prioridad:pbStr(r._prioTSSR),tssr_ingeniero:pbStr(r._ingTSSR),
+        tssr_fecha_envio_esp:pbDate(r._fechaEnvEsp),tssr_estatus:pbStr(r._estatusTSSR),
+        impl_estatus:pbStr(r._estatusIMPL),impl_fecha_apro:pbDate(r._fechaAproIMPL),
+        rf_estatus:pbStr(r._estatusRF),rf_fecha_sol:pbDate(r._fechaSolRF),rf_fecha_apro:pbDate(r._fechaAproRF),
+        ece_estatus:pbStr(r._estatusECE_d),ece_fecha_sol:pbDate(r._fechaSolECE),ece_fecha_apro:pbDate(r._fechaAproECE),
+        oocc_estatus:pbStr(r._estatusOOCC),oocc_fecha_sol:pbDate(r._fechaSolOOCC),oocc_fecha_apro:pbDate(r._fechaAproOOCC),
+        rfi_estado:pbStr(r._rfiActual),rfi_fecha:pbDate(r._fechaRFI),
+        impl_final_estatus:pbStr(r._estatusImplFinal),
+        impl_fecha_plan:pbDate(r._fechaPlanImpl),impl_fecha_real:pbDate(r._fechaRealImpl),
+        estatus_int:pbStr(r._estatusINT),fecha_int:pbDate(r._fechaINT),
+        comentario:pbStr(r._comentario2),activo:true
+      }
+    }
+
+    let created=0,updated=0,changes=[];
+    // Build all operations
+    const ops=[];
+    for(const r of DATA){
+      const rec=buildRec(r);
+      const ex=existing[r._id];
+      if(!ex){
+        ops.push({type:'create',rec});
+      }else{
+        const diff={};
+        trackFields.forEach(f=>{
+          const nv=(rec[f]||'').replace(' 12:00:00.000Z','');
+          const ov=(ex[f]||'').replace(' 12:00:00.000Z','').replace('T00:00:00','').slice(0,10);
+          if(nv!==ov){
+            diff[f]=rec[f];
+            changes.push({sitio:ex.id,id_sitio:r._id,campo:f,valor_anterior:ex[f]||'',valor_nuevo:rec[f]||'',usuario:'Excel: '+fname});
+          }
+        });
+        if(Object.keys(diff).length){ops.push({type:'update',id:ex.id,diff})}
+      }
+    }
+
+    // Execute in parallel batches of 10
+    pb.textContent=`🔄 Sync PB ${ops.length}…`;
+    const BATCH=10;
+    for(let i=0;i<ops.length;i+=BATCH){
+      const batch=ops.slice(i,i+BATCH);
+      await Promise.all(batch.map(op=>{
+        if(op.type==='create'){
+          return fetch(PB.url+'/api/collections/e5g_sitios/records',{method:'POST',headers:H,body:JSON.stringify(op.rec)}).then(()=>created++);
+        }else{
+          return fetch(PB.url+'/api/collections/e5g_sitios/records/'+op.id,{method:'PATCH',headers:H,body:JSON.stringify(op.diff)}).then(()=>updated++);
+        }
+      }));
+      if(i%50===0){pb.textContent=`🔄 Sync PB ${i}/${ops.length}…`}
+    }
+
+    // Log changes in parallel batches
+    pb.textContent=`📝 Log ${changes.length}…`;
+    for(let i=0;i<changes.length;i+=BATCH){
+      const batch=changes.slice(i,i+BATCH);
+      await Promise.all(batch.map(ch=>
+        fetch(PB.url+'/api/collections/e5g_historial/records',{method:'POST',headers:H,body:JSON.stringify(ch)})
+      ));
+    }
+
+    pb.textContent=`☁️ PB: ${created}↑ ${updated}✎ ${changes.length}Δ`;
+    pb.style.background='rgba(46,125,50,.4)';
+    console.log(`✅ PB sync: ${created} nuevos, ${updated} actualizados, ${changes.length} cambios`);
+  }catch(e){
+    console.error('PB sync error:',e);
+    pb.textContent='⚠️ PB error';
+    pb.style.background='rgba(198,40,40,.3)';
+  }
+}
+
+// ═══ WAHA ═══
+let wahaRT='resumen';
+let _autoCfg={contacts:[]};
+let _cfgLoaded=false;
+let _prevData=null;
+
+function openWaha(){if(!DATA.length){alert('Carga un Excel primero');return}
+let h=`<div class="wm-overlay" onclick="if(event.target===this)closeWaha()"><div class="wm" style="max-width:620px"><div class="wm-hdr"><h2>📲 WhatsApp</h2><button class="wm-close" onclick="closeWaha()">✕</button></div><div class="wm-body">
+<div class="wm-section"><div style="display:flex;justify-content:space-between;align-items:center"><h4>📱 Destinatarios programados</h4><div style="display:flex;gap:4px"><button class="wm-chip" onclick="fetchGroups()" style="font-size:10px">👥 Mis Grupos</button><button class="wm-chip" onclick="testW()" style="font-size:10px">🔧 Test WAHA</button></div></div>
+<div id="wContactList" style="margin:8px 0"></div>
+<div style="border:1px dashed var(--bd);border-radius:8px;padding:10px;margin-top:8px">
+<div style="font-size:10px;font-weight:600;color:var(--tm);margin-bottom:6px">➕ AGREGAR CONTACTO</div>
+<div style="display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap">
+<div style="flex:1;min-width:100px"><label style="font-size:9px;font-weight:600;color:var(--tm)">NOMBRE</label><input class="wm-input" id="wcName" placeholder="Ej: PMO Team" style="font-size:11px"></div>
+<div style="flex:1;min-width:150px"><label style="font-size:9px;font-weight:600;color:var(--tm)">NÚMERO / GRUPO</label><input class="wm-input" id="wcId" placeholder="56912345678 o ID@g.us" style="font-size:11px"></div>
+<button class="wm-chip" onclick="addContact()" style="background:var(--bl);color:#fff;border-color:var(--bl);height:30px">+ Agregar</button>
+</div></div>
+<div id="grpPickerZone"></div>
+</div>
+<div class="wm-section" style="border-top:2px solid var(--bd);padding-top:12px;margin-top:12px"><h4>✉️ Envío manual</h4>
+<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><span style="font-size:10px;font-weight:600;color:var(--tm)">TIPO:</span><div class="wm-chips" id="wahaTypes">
+<div class="wm-chip sel" onclick="setWT('resumen',this)">📊 Resumen</div><div class="wm-chip" onclick="setWT('pipeline',this)">🔄 Pipeline</div><div class="wm-chip" onclick="setWT('tssr',this)">📋 TSSR</div><div class="wm-chip" onclick="setWT('blockers',this)">⚠️ Blockers</div></div></div>
+<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><span style="font-size:10px;font-weight:600;color:var(--tm)">A:</span><select class="wm-input" id="wahaTo" style="font-size:11px;flex:1"><option value="">— seleccionar —</option></select></div>
+<div class="wm-preview"><div class="wm-bubble" id="wahaP"></div></div>
+</div>
+<div id="wahaS" class="wm-status"></div><div class="wm-actions"><button class="wm-btn wm-btn-copy" onclick="copyW()">📋 Copiar</button><button class="wm-btn wm-btn-cancel" onclick="closeWaha()">Cancelar</button><button class="wm-btn wm-btn-send" id="wahaSB" onclick="sendW()">📲 Enviar</button></div>
+</div></div></div>`;
+const d=document.createElement('div');d.id='wahaM';d.innerHTML=h;document.body.appendChild(d);
+loadCfg().then(()=>{rContactList();rSendSelect()});loadPrev().then(()=>uWP())}
+function closeWaha(){const m=document.getElementById('wahaM');if(m)m.remove()}
+function setWT(t,el){wahaRT=t;document.querySelectorAll('#wahaTypes .wm-chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');uWP()}
+
+// ── Config load/save ──
+async function loadCfg(){
+if(!hasAPI()){_cfgLoaded=true;return}
+try{const r=await fetch(TRACKER_API.url+'/api/config',{headers:apiHeaders()});
+if(!r.ok)throw new Error(r.status);const cfg=await r.json();
+if(cfg&&cfg.contacts)_autoCfg=cfg;_cfgLoaded=true}catch(e){
+const st=document.getElementById('wahaS');if(st)sWS('⚠️ VPS sin conexión','err')}}
+
+async function loadPrev(){
+if(!hasAPI()){_prevData=null;return}
+try{const r=await fetch(TRACKER_API.url+'/api/tracker/previous',{headers:apiHeaders()});
+if(!r.ok){_prevData=null;return}
+const d=await r.json();_prevData=d.data||null;
+}catch(e){_prevData=null}}
+
+async function saveCfg(silent){
+if(!hasAPI())return false;
+const st=document.getElementById('acSaveStatus');
+if(!silent&&st){st.textContent='💾 Guardando…';st.style.color='var(--bl)'}
+try{const r=await fetch(TRACKER_API.url+'/api/config',{method:'POST',
+  headers:apiHeaders(),
+  body:JSON.stringify(_autoCfg)});
+const d=await r.json();
+if(d.ok){_autoCfg=d.config;if(!silent&&st){st.textContent='✅ Guardado';st.style.color='var(--g)'}return true}
+else{if(!silent&&st){st.textContent='❌ Error';st.style.color='var(--r)'}return false}
+}catch(e){if(!silent&&st){st.textContent='❌ Sin conexión';st.style.color='var(--r)'}return false}}
+
+// ── Contact list render ──
+function rContactList(){
+const el=document.getElementById('wContactList');if(!el)return;
+const cc=_autoCfg.contacts||[];
+if(!cc.length){el.innerHTML='<div style="color:var(--tm);font-size:11px;padding:8px;text-align:center;background:var(--bg);border-radius:8px">No hay contactos configurados</div>';return}
+const DAYS=['D','L','M','X','J','V','S'];
+const TYPES=[['resumen','📊'],['pipeline','🔄'],['tssr','📋'],['blockers','⚠️']];
+el.innerHTML=cc.map((c,i)=>{
+const isG=c.type==='group';
+const ic=isG?'👥':'📱';
+const nm=c.name||c.id.split('@')[0];
+const days=c.days||[1,2,3,4,5];
+const rt=c.reportType||'resumen';
+const en=c.enabled!==false;
+return`<div style="border:1px solid ${en?'var(--bl)':'var(--bd)'};border-radius:10px;padding:10px;margin-bottom:8px;background:${en?'rgba(33,150,243,.03)':'var(--bg)'};transition:all .2s" id="wcc_${i}">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+<span style="font-size:16px">${ic}</span>
+<div style="flex:1;min-width:0"><div style="font-weight:700;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(nm)}</div><div style="font-size:9px;color:var(--tm)">${esc(c.id)}</div></div>
+<button onclick="tgContactEnabled(${i})" style="border:none;background:${en?'var(--g)':'var(--bd)'};color:#fff;border-radius:12px;padding:2px 10px;font-size:10px;cursor:pointer">${en?'✅ Activo':'⏸ Pausado'}</button>
+<span onclick="rmContact(${i})" style="cursor:pointer;opacity:.4;font-size:14px" title="Eliminar">✕</span>
+</div>
+<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:10px">
+<div style="display:flex;align-items:center;gap:4px"><span style="font-weight:600;color:var(--tm)">TIPO:</span>${TYPES.map(([k,e])=>`<span onclick="setContactType(${i},'${k}')" style="cursor:pointer;padding:1px 6px;border-radius:4px;border:1px solid ${rt===k?'var(--bl)':'var(--bd)'};background:${rt===k?'#E3F2FD':'transparent'};font-size:10px">${e}</span>`).join('')}</div>
+<div style="display:flex;align-items:center;gap:2px"><span style="font-weight:600;color:var(--tm)">DÍAS:</span>${DAYS.map((d,di)=>`<span onclick="tgContactDay(${i},${di})" style="cursor:pointer;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;font-size:9px;font-weight:600;border:1px solid ${days.includes(di)?'var(--bl)':'var(--bd)'};background:${days.includes(di)?'var(--bl)':'transparent'};color:${days.includes(di)?'#fff':'var(--tm)'}">${d}</span>`).join('')}</div>
+<div style="display:flex;align-items:center;gap:3px"><span style="font-weight:600;color:var(--tm)">HORA:</span><input type="time" value="${c.hour||'08:30'}" onchange="setContactHour(${i},this.value)" style="border:1px solid var(--bd);border-radius:4px;padding:1px 4px;font-size:10px;width:70px"></div>
+<button onclick="sendToContact(${i})" style="border:none;background:#E65100;color:#fff;border-radius:4px;padding:2px 8px;font-size:9px;cursor:pointer">🧪 Enviar</button>
+</div>
+</div>`}).join('');
+}
+
+// ── Contact actions ──
+function addContact(){
+let id=document.getElementById('wcId').value.trim();
+const name=document.getElementById('wcName').value.trim();
+if(!id)return;
+if(/^\d+$/.test(id))id+='@c.us';
+if(!id.includes('@'))id+='@c.us';
+if(!_autoCfg.contacts)_autoCfg.contacts=[];
+if(_autoCfg.contacts.some(c=>c.id===id)){sWS('Ya existe ese contacto','err');return}
+_autoCfg.contacts.push({id,name:name||'',type:id.includes('@g.us')?'group':'user',
+  enabled:true,days:[1,2,3,4,5],hour:'08:30',reportType:'resumen'});
+document.getElementById('wcId').value='';document.getElementById('wcName').value='';
+saveCfg(true).then(()=>{rContactList();rSendSelect()})}
+
+function rmContact(i){
+if(!_autoCfg.contacts)return;_autoCfg.contacts.splice(i,1);
+saveCfg(true).then(()=>{rContactList();rSendSelect()})}
+
+function tgContactEnabled(i){
+const c=_autoCfg.contacts[i];if(!c)return;
+c.enabled=!c.enabled;saveCfg(true).then(()=>rContactList())}
+
+function setContactType(i,t){
+const c=_autoCfg.contacts[i];if(!c)return;
+c.reportType=t;saveCfg(true).then(()=>rContactList())}
+
+function tgContactDay(i,d){
+const c=_autoCfg.contacts[i];if(!c)return;
+if(!c.days)c.days=[];
+const idx=c.days.indexOf(d);if(idx>=0)c.days.splice(idx,1);else c.days.push(d);
+c.days.sort();saveCfg(true).then(()=>rContactList())}
+
+function setContactHour(i,v){
+const c=_autoCfg.contacts[i];if(!c)return;
+c.hour=v;saveCfg(true)}
+
+async function sendToContact(i){
+if(!hasWAHA()){sWS('⚠️ Configura WAHA en ⚙️','err');return}
+const c=_autoCfg.contacts[i];if(!c)return;
+const oldRT=wahaRT;wahaRT=c.reportType||'resumen';const msg=genMsg();wahaRT=oldRT;
+sWS(`📤 Enviando a ${esc(c.name||c.id)}…`,'sending');
+try{const r=await fetch(WAHA.url+'/api/sendText',{method:'POST',headers:wahaHeaders(),
+  body:JSON.stringify({session:WAHA.session,chatId:c.id,text:msg})});
+const d=await r.json();
+if(d.key)sWS(`✅ Enviado a ${esc(c.name||c.id)}`,'ok');
+else sWS('❌ '+JSON.stringify(d).substring(0,60),'err');
+}catch(e){sWS('❌ '+e.message,'err')}}
+
+// ── Send select dropdown ──
+function rSendSelect(){
+const sel=document.getElementById('wahaTo');if(!sel)return;
+const cc=_autoCfg.contacts||[];
+sel.innerHTML='<option value="">— seleccionar —</option>'+cc.map(c=>{
+const ic=c.type==='group'?'👥':'📱';
+return`<option value="${c.id}">${ic} ${esc(c.name||c.id.split('@')[0])}</option>`;}).join('')+
+'<option value="_custom">✏️ Otro número…</option>';
+sel.onchange=function(){if(this.value==='_custom'){
+this.outerHTML='<input class="wm-input" id="wahaTo" placeholder="56912345678 o ID@g.us" style="font-size:11px;flex:1">'}}}
+
+// ── Groups picker ──
+async function fetchGroups(){
+if(!hasWAHA()){sWS('⚠️ Configura WAHA en ⚙️','err');return}
+sWS('👥 Cargando grupos…','sending');
+try{
+const r=await fetch(WAHA.url+'/api/'+WAHA.session+'/chats',{headers:wahaHeaders()});
+if(!r.ok){sWS('❌ Error '+r.status,'err');return}
+const data=await r.json();
+const groups=Object.values(data).map(g=>({id:String(g.id||''),name:String(g.subject||g.id||'').split('@')[0]}));
+if(!groups.length){sWS('No se encontraron grupos','err');return}
+const zone=document.getElementById('grpPickerZone');if(!zone)return;
+const existing=(_autoCfg.contacts||[]).map(c=>c.id);
+const newG=groups.filter(g=>!existing.includes(g.id));
+if(!newG.length){sWS('✅ Todos los grupos ya agregados','ok');return}
+zone.innerHTML=`<div style="border:1px solid var(--bl);border-radius:8px;padding:8px;margin-top:8px;max-height:200px;overflow:auto">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:10px;font-weight:600;color:var(--bl)">Click para agregar:</span><span onclick="document.getElementById('grpPickerZone').innerHTML=''" style="cursor:pointer;font-size:11px;color:var(--tm)">✕ Cerrar</span></div>
+${newG.map((g,i)=>`<div onclick="addGroup(${i})" data-gid="${esc(g.id)}" data-gname="${esc(g.name||'')}" style="display:flex;align-items:center;gap:6px;padding:6px 8px;font-size:11px;cursor:pointer;border-radius:6px;transition:background .15s" onmouseover="this.style.background='#E3F2FD'" onmouseout="this.style.background=''" id="gp_${i}">👥 <strong>${esc(g.name)}</strong> <span style="font-size:9px;color:var(--tm)">${g.id.substring(0,24)}…</span></div>`).join('')}
+</div>`;
+sWS(`👥 ${newG.length} grupos disponibles`,'ok');
+}catch(e){sWS('❌ '+e.message,'err')}}
+
+function addGroup(i){const el=document.querySelector(`[onclick='addGroup(${i})']`);if(!el)return;const id=el.dataset.gid,name=el.dataset.gname;
+if(!_autoCfg.contacts)_autoCfg.contacts=[];
+if(_autoCfg.contacts.some(c=>c.id===id))return;
+_autoCfg.contacts.push({id,name,type:'group',enabled:true,days:[1,2,3,4,5],hour:'08:30',reportType:'resumen'});
+saveCfg(true).then(()=>{rContactList();rSendSelect()});
+// Remove from picker
+const zone=document.getElementById('grpPickerZone');
+if(zone){const items=zone.querySelectorAll('[id^=gp_]');
+let remaining=0;items.forEach(el=>{if(el.textContent.includes(name)){el.style.opacity='.3';el.style.pointerEvents='none';el.innerHTML='✅ '+el.innerHTML}else remaining++});
+if(!remaining)setTimeout(()=>{zone.innerHTML=''},500)}
+sWS(`✅ ${name} agregado`,'ok')}
+function genMsg(){const d=FLT,t=d.length,today=new Date().toISOString().slice(0,10);
+const p=k=>d.filter(k).length;
+const bar=(v,tot)=>{const n=10,f=Math.round(v/Math.max(tot,1)*n);return '\u2593'.repeat(f)+'\u2591'.repeat(n-f)};
+const pc=(v,tot)=>tot?(v/tot*100).toFixed(1)+'%':'0%';
+// Delta
+const pv=_prevData?Object.fromEntries(_prevData.map(r=>[r.id,r])):null;
+const pp=pv?(k=>_prevData.filter(k).length):null;
+const D=(n,o)=>{if(o==null)return'';const x=n-o;return x>0?' \u25b2'+x:x<0?' \u25bc'+Math.abs(x):''};
+// Site status for change detection
+function curSt(r){
+if(r._onAir)return'On Air';
+if(r._rfiOK)return'RFI OK';if(r._tssrAprobado)return'TSSR OK';if(r._tssrRechazado)return'TSSR Rech';
+if(r._fcAprobado)return'FC OK';if(r._fcLVES)return'FC LVES';if(r._fcRev)return'FC Rev';
+return'Pendiente'}
+function prvSt(r){
+if(!r)return'?';if(r.onAir)return'On Air';
+if(r.rfi)return'RFI OK';if(r.tOK)return'TSSR OK';if(r.tRech)return'TSSR Rech';
+if(r.fcOK)return'FC OK';if(r.fcLV)return'FC LVES';if(r.fcRv)return'FC Rev';
+return'Pendiente'}
+function getChanges(){
+if(!pv)return[];const ch=[];
+d.forEach(r=>{const o=pv[r.id];if(!o)return;const ns=curSt(r),os=prvSt(o);
+if(ns!==os)ch.push({id:r._id,from:os,to:ns})});return ch}
+function changeLine(ch){
+if(!ch.length)return'';
+let m=`\n\n\ud83d\udccc *Cambios detectados (${ch.length}):*`;
+ch.slice(0,15).forEach(c=>{m+=`\n\ud83d\udd04 ${c.id} \u2014 ${c.from}\u2192${c.to}`});
+if(ch.length>15)m+=`\n    ...y ${ch.length-15} m\u00e1s`;return m}
+
+if(wahaRT==='resumen'){
+const fcOK=p(r=>r._fcAprobado),fcLVES=p(r=>r._fcLVES),fcRev=p(r=>r._fcRev),fcSin=p(r=>r._fcSinGestion);
+const tssrOK=p(r=>r._tssrAprobado),tssrRech=p(r=>r._tssrRechazado),tssrEnRev=p(r=>r._tssrEnRev),tssrGen=p(r=>r._fechaEnvEsp);
+const implOK=p(r=>r._implApro),rfOK=p(r=>r._rfOK),rfP=p(r=>r._rfPend),eceOK=p(r=>r._eceRevOK),eceP=p(r=>r._ecePendD),ooccOK=p(r=>r._ooccOK),ooccP=p(r=>r._ooccPend);
+const rfiOK=p(r=>r._rfiOK),listosRFI=p(r=>r._fcAprobado&&r._tssrAprobado&&!r._rfiOK);
+const onAir=p(r=>r._onAir),pendImpl=p(r=>r._rfiOK&&!r._onAir);
+const pendFC=p(r=>!r._fcAprobado&&!r._onAir);
+const pendTSSR=p(r=>!r._tssrAprobado&&!r._onAir);
+const pendRFI=p(r=>!r._rfiOK&&!r._onAir);
+// Prev
+const _fcOK=pp?pp(r=>r.fcOK):null,_tssrOK=pp?pp(r=>r.tOK):null,_rfiOK2=pp?pp(r=>r.rfi):null,_onAir=pp?pp(r=>r.onAir):null;
+const _fcLV=pp?pp(r=>r.fcLV):null,_fcRv=pp?pp(r=>r.fcRv):null,_fcSG=pp?pp(r=>r.fcSG):null;
+
+const _rfOK=pp?pp(r=>r.rfOK):null,_rfP=pp?pp(r=>r.rfP):null;
+const _eceOK=pp?pp(r=>r.eOK):null,_eceP=pp?pp(r=>r.eP):null;
+const _ooccOK=pp?pp(r=>r.oOK):null,_ooccP=pp?pp(r=>r.oP):null;
+const ch=getChanges();
+return`*\ud83d\udcca PMO Expansiones 5G SE \u2014 ${today}*
+\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501
+Vigentes: *${t}*
+\ud83d\udfe2 On Air: *${onAir}*${D(onAir,_onAir)} (${pc(onAir,t)})
+
+\ud83c\udfd7 *FC*  ${fcOK}${D(fcOK,_fcOK)}/${t}  (${pc(fcOK,t)})
+    ${bar(fcOK,t)}
+    \u2705 ${fcOK} apro \u00b7 \ud83d\udd0d ${fcLVES}${D(fcLVES,_fcLV)} LVES \u00b7 \ud83d\udc41 ${fcRev}${D(fcRev,_fcRv)} rev.op \u00b7 \u2b1c ${fcSin}${D(fcSin,_fcSG)} sin gesti\u00f3n
+
+\ud83d\udccb *TSSR*  Generados: ${tssrGen}/${t} (${pc(tssrGen,t)})
+    ${bar(tssrGen,t)}
+    \ud83c\udfc6 ${tssrOK} apro \u00b7 \u274c ${tssrRech} rech \u00b7 \u23f3 ${tssrEnRev} en rev
+    \ud83d\udd27 IMPL: ${implOK} apro
+    \ud83d\udce1 RF: ${rfOK}${D(rfOK,_rfOK)} apro \u00b7 ${rfP}${D(rfP,_rfP)} pend
+    \u26a1 ECE: ${eceOK}${D(eceOK,_eceOK)} apro \u00b7 ${eceP}${D(eceP,_eceP)} pend
+    \ud83c\udfd7 OOCC: ${ooccOK}${D(ooccOK,_ooccOK)} apro \u00b7 ${ooccP}${D(ooccP,_ooccP)} pend
+
+\ud83d\udcc4 *RFI*  ${rfiOK}${D(rfiOK,_rfiOK2)}/${t}  (${pc(rfiOK,t)})
+    ${bar(rfiOK,t)}
+    \u2705 ${rfiOK} entregados
+    \ud83d\udfe2 ${onAir} On Air \u00b7 \ud83d\udfe1 ${rfiOK-onAir} Disponibles
+
+\u26a0\ufe0f *Atenci\u00f3n:*
+    \ud83c\udfd7 ${pendFC} sin FC aprobada
+    \ud83d\udccb ${pendTSSR} sin TSSR aprobado
+    \ud83d\udcc4 ${pendRFI} sin RFI entregado
+
+\ud83d\ude80 *Implementaci\u00f3n*  ${onAir+pendImpl}/${t} (${pc(onAir+pendImpl,t)})
+    ${bar(onAir+pendImpl,t)}
+    \ud83d\udfe2 ${onAir} On Air \u00b7 \u23f3 ${pendImpl} Pendiente
+    ${t-onAir-pendImpl} sin RFI${changeLine(ch)}
+
+_PMO Tracker \u2014 Claro Chile_`}
+
+if(wahaRT==='tssr'){
+const implOK=p(r=>r._implApro),rfS=p(r=>r._fechaSolRF),rfOK=p(r=>r._rfOK),rfP=p(r=>r._rfPend);
+const eceS=p(r=>r._fechaSolECE),eceOK=p(r=>r._eceRevOK),eceP=p(r=>r._ecePendD);
+const ooccS=p(r=>r._fechaSolOOCC),ooccOK=p(r=>r._ooccOK),ooccP=p(r=>r._ooccPend);
+const tssrOK=p(r=>r._tssrAprobado),tssrRech2=p(r=>r._tssrRechazado);
+const _rfOK=pp?pp(r=>r.rfOK):null,_rfP=pp?pp(r=>r.rfP):null;
+const _eceOK=pp?pp(r=>r.eOK):null,_eceP=pp?pp(r=>r.eP):null;
+const _ooccOK=pp?pp(r=>r.oOK):null,_ooccP=pp?pp(r=>r.oP):null;
+const ch=getChanges().filter(c=>c.from.includes('TSSR')||c.to.includes('TSSR')||c.from.includes('FC')||c.to.includes('FC'));
+return`*\ud83d\udccb TSSR Expansiones 5G \u2014 ${today}*
+\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501
+
+\ud83d\udd27 *IMPL* (Rev. PMO)
+    \u2705 ${implOK} aprobados
+
+\ud83d\udce1 *RF*  *${rfOK}*/${rfS}
+    ${bar(rfOK,rfS||1)}
+    \u2705 ${rfOK}${D(rfOK,_rfOK)} apro \u00b7 \u23f3 ${rfP}${D(rfP,_rfP)} pend
+
+\u26a1 *ECE Rev*  *${eceOK}*/${eceS}
+    ${bar(eceOK,eceS||1)}
+    \u2705 ${eceOK}${D(eceOK,_eceOK)} apro \u00b7 \u23f3 ${eceP}${D(eceP,_eceP)} pend
+
+\ud83c\udfd7 *OOCC*  *${ooccOK}*/${ooccS}
+    ${bar(ooccOK,ooccS||1)}
+    \u2705 ${ooccOK}${D(ooccOK,_ooccOK)} apro \u00b7 \u23f3 ${ooccP}${D(ooccP,_ooccP)} pend
+
+\ud83c\udfc6 *TSSR Final:* *${tssrOK}* aprobados \u00b7 \u274c ${tssrRech2} rechazados${changeLine(ch)}
+
+_PMO Tracker \u2014 Claro Chile_`}
+
+if(wahaRT==='pipeline'){
+const fcOK=p(r=>r._fcAprobado),tssrOK=p(r=>r._tssrAprobado),rfiOK=p(r=>r._rfiOK);
+const onAir=p(r=>r._onAir);
+const _fcOK=pp?pp(r=>r.fcOK):null,_tssrOK=pp?pp(r=>r.tOK):null,_rfiOK2=pp?pp(r=>r.rfi):null,_onAir=pp?pp(r=>r.onAir):null;
+return`*\ud83d\udd04 Pipeline E5G \u2014 ${today}*
+\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501
+FC Aprobada: *${fcOK}*${D(fcOK,_fcOK)} (${pc(fcOK,t)})
+TSSR Aprobado: *${tssrOK}*${D(tssrOK,_tssrOK)} (${pc(tssrOK,t)})
+RFI Entregado: *${rfiOK}*${D(rfiOK,_rfiOK2)} (${pc(rfiOK,t)})
+On Air: *${onAir}*${D(onAir,_onAir)} (${pc(onAir,t)})
+
+_PMO Tracker \u2014 Claro Chile_`}
+
+if(wahaRT==='blockers'){
+const noFC=p(r=>!r._fcAprobado&&!r._onAir);
+const noTSSR=p(r=>!r._tssrAprobado&&!r._onAir);
+const noRFI=p(r=>!r._rfiOK&&!r._onAir);
+const rfP=p(r=>r._rfPend),eceP=p(r=>r._ecePendD),ooccP=p(r=>r._ooccPend);
+return`*\u26a0\ufe0f Blockers E5G \u2014 ${today}*
+\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501
+
+\ud83c\udfd7 Sin FC Aprobada: *${noFC}*
+\ud83d\udccb Sin TSSR Aprobado: *${noTSSR}*
+\ud83d\udcc4 Sin RFI: *${noRFI}*
+
+*Disciplinas pendientes:*
+    \ud83d\udce1 RF: ${rfP} \u00b7 \u26a1 ECE: ${eceP} \u00b7 \ud83c\udfd7 OOCC: ${ooccP}
+
+_PMO Tracker \u2014 Claro Chile_`}
+
+return'Selecciona tipo'}
+
+function uWP(){const el=document.getElementById('wahaP');if(el)el.textContent=genMsg()}
+function copyW(){navigator.clipboard.writeText(genMsg()).then(()=>sWS('📋 Copiado','ok')).catch(()=>{const ta=document.createElement('textarea');ta.value=genMsg();document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();sWS('📋 Copiado','ok')})}
+function sWS(m,t){const el=document.getElementById('wahaS');if(!el)return;el.className='wm-status '+t;el.textContent=m;if(t==='ok')setTimeout(()=>{el.style.display='none'},4000)}
+async function testW(){if(!hasWAHA()){sWS('⚠️ Configura WAHA en ⚙️','err');return}sWS('🔧 Probando…','sending');try{const r=await fetch(WAHA.url+'/api/sessions',{headers:wahaHeaders()});const d=await r.json();if(Array.isArray(d)&&d.length){const s=d[0];sWS(`✅ ${s.status} — ${s.me?.pushName||''}`,s.status==='WORKING'?'ok':'err')}else sWS('⚠️ Sin sesiones','err')}catch(e){sWS('❌ '+e.message,'err')}}
+async function sendW(){if(!hasWAHA()){sWS('⚠️ Configura WAHA en ⚙️ Config (header)','err');return}
+const el=document.getElementById('wahaTo');let chatId=el?el.value.trim():'';
+if(!chatId||chatId==='_custom'){sWS('⚠️ Selecciona destinatario','err');return}
+if(/^\d+$/.test(chatId))chatId+='@c.us';if(!chatId.includes('@'))chatId+='@c.us';
+const btn=document.getElementById('wahaSB');btn.disabled=true;btn.textContent='Enviando…';sWS('📤 Enviando…','sending');
+try{const r=await fetch(WAHA.url+'/api/sendText',{method:'POST',headers:wahaHeaders(),body:JSON.stringify({session:WAHA.session,chatId,text:genMsg()})});
+const d=await r.json();if(d.key){sWS(`✅ Enviado — ${d.key.id}`,'ok')}
+else sWS('⚠️ '+JSON.stringify(d).substring(0,80),'err')}catch(e){sWS('❌ '+e.message,'err')}finally{btn.disabled=false;btn.textContent='📲 Enviar'}}
+
+</script>
+</body>
+</html>
